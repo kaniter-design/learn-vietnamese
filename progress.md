@@ -15,7 +15,7 @@
 | **Requirements** | ✅ Consolidated | `docs/product-requirements.md`, `docs/curriculum-4week.md` |
 | **P4: UI Design** | ✅ Complete | `design-tokens.css`, `docs/component-library.md`, `docs/accessibility-audit.md`, `docs/responsive-plan.md` |
 | **P5: Backend Integration** | ✅ Complete | `app.py`, `database.py`, `schemas.py`, `requirements.txt` (FastAPI + SQLite + Gemini API) |
-| **P6: Version 3.0 Upgrades** | 🔄 อยู่ระหว่างทำ | ดูรายละเอียดด้านล่าง (ต่อคำประโยค SVO, ระบบตรวจการออกเสียงภาษาเวียดนาม) |
+| **P6: Version 3.0 Upgrades** | ✅ Complete | Word Banks + Speech Recognition + UX/UI Every Dimension |
 | **P7: Handoff** | ⏳ | ยังไม่ได้เริ่ม |
 
 ---
@@ -58,7 +58,7 @@ learn_vietnamese/
 | Feature | สถานะ | รายละเอียด |
 |---------|--------|------------|
 | Dashboard + 4-week path | ✅ Done | screen-dashboard, week dots, day navigation |
-| Word cards (vocab) | ✅ Done | 270+ words, all 4 weeks in data.js |
+| Word cards (vocab) | ✅ Done | ~291 คำศัพท์, 28 วันเต็ม (21 คำใหม่เพิ่มใน 🍜 Roleplay สั่งเฝอ + 🗺️ เดินทาง + 🚕 Taxi/Grab) |
 | Quiz engine | ✅ Done | Multiple choice from current day's vocab |
 | Spelling drill | ✅ Done | Listen → type, tone validation |
 | Tone practice | ✅ Done | All 6 tones w/ minimal pairs + sound chart, stats sync |
@@ -80,6 +80,17 @@ learn_vietnamese/
   - HTML: #view-speaking screen with target word, mic button, waveform, result card, stats
   - JS: webkitSpeechRecognition vi-VN, String Similarity Matcher (Levenshtein), 10-vocab pool per day
   - Integration: switchScreen handler, keyboard 's' shortcut, roadmap button, bottom nav tab
+- [x] **เนื้อหาครบ 28 วัน** — เพิ่ม 6 วันหายไป: W2D7 Review, W3D6 🍜 สั่งเฝอ (7 คำ), W3D7 Review, W4D5 🗺️ เดินทาง (7 คำ), W4D6 🚕 Taxi/Grab (7 คำ), W4D7 🎉 Final Review
+  - เพิ่มคำศัพท์ใหม่อีก 21 คำ รวมเป็น ~291 คำ
+  - IPA, วรรณยุกต์, ความหมาย, emoji, tips ครบทุกคำ
+- [x] **UX/UI Enhancements Every Dimension** — ✨ 7 Phases of comprehensive polish
+  - **Phase 1:** Design System — Glass hierarchy (.glass-1/2/3), Glow system (.glow-emerald/gold/rose/blue/cyan/amber), Gradient text/borders, Hover lift
+  - **Phase 2:** Animations — Page enter transitions (scale+fade), Stagger children, Card slide-in, Node complete animation, Progress shimmer
+  - **Phase 3:** Bottom Nav — Animated active indicator (gradient underline glow), Scale-on-press feedback, Active background tint
+  - **Phase 4:** Cards/Buttons/Progress — Unified hover-lift on .rpg-card/.hud-card, Button press scale (0.97), Progress fill shimmer animation
+  - **Phase 5:** Roadmap Nodes — Hover scale (1.15), Complete bounce animation, Milestone glow badge, Offset alternating layout
+  - **Phase 6:** Toast/Drawer/Empty/Loading — Toast slide-up with spring, Rich icons per type, Drawer spring cubic-bezier, Empty state styling, Skeleton shimmer
+  - **Phase 7:** Accessibility — Focus-visible outlines (#10b981), Reduced-motion media query (disables all animations), Touch target minimums (44px), Smooth scroll
 
 ---
 
