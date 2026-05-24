@@ -209,6 +209,12 @@ const CURRICULUM = {
             { word: 'cần', ipa: '/kən/', tones: '↘️', meaning: 'ต้องการ', emoji: '✅', tips: 'Tôi cần... = ฉันต้องการ...' },
             { word: 'được không', ipa: '/ɗɨək xəːŋ/', tones: '⬇️➡️', meaning: 'ได้ไหม', emoji: '🤔', tips: 'เติมท้ายประโยค = ได้ไหม' }
           ]
+        },
+        // Day 7: Weekly review (no new words)
+        {
+          id: 7,
+          title: 'ทบทวนสัปดาห์ 2',
+          words: []
         }
       ]
     },
@@ -282,6 +288,26 @@ const CURRICULUM = {
             { word: 'cà phê đá', ipa: '/kaː fɛ ɗa/', tones: '↘️➡️↗️', meaning: 'กาแฟเย็น', emoji: '🧊', tips: 'đá = น้ำแข็ง' },
             { word: 'cà phê nóng', ipa: '/kaː fɛ nɔŋ/', tones: '↘️➡️↗️', meaning: 'กาแฟร้อน', emoji: '🔥', tips: 'nóng = ร้อน' }
           ]
+        },
+        // Day 6: Roleplay ordering pho (7 words)
+        {
+          id: 6,
+          title: '🍜 Roleplay: สั่งเฝอ',
+          words: [
+            { word: 'tô phở', ipa: '/to fɤː/', tones: '➡️↗️', meaning: 'ชามเฝอ', emoji: '🍜', tips: 'Một tô phở bò = เฝอเนื้อหนึ่งชาม' },
+            { word: 'nước mắm', ipa: '/nɨək mam/', tones: '↗️↗️', meaning: 'น้ำปลา', emoji: '🧂', tips: 'Nước mắm คือน้ำปลาเวียดนาม' },
+            { word: 'giá đỗ', ipa: '/za ɗo/', tones: '↗️⬇️', meaning: 'ถั่วงอก', emoji: '🌱', tips: 'ใส่ในเฝอเพื่อความกรุบกรอบ' },
+            { word: 'rau thơm', ipa: '/raw tʰɤm/', tones: '➡️➡️', meaning: 'ผักสด/สมุนไพร', emoji: '🌿', tips: 'รวมผักต่างๆ ที่ใส่ในเฝอ' },
+            { word: 'chín', ipa: '/tʃin/', tones: '↗️', meaning: 'สุก', emoji: '🍖', tips: 'Thịt chín = เนื้อสุก' },
+            { word: 'tái', ipa: '/taj/', tones: '↗️', meaning: 'ดิบ (ลวก)', emoji: '🥩', tips: 'Phở tái = เฝอเนื้อดิบลวก' },
+            { word: 'nước dùng', ipa: '/nɨək zuŋ/', tones: '↗️↘️', meaning: 'น้ำซุป', emoji: '🥣', tips: 'Nước dùng phở = น้ำซุปเฝอหอมๆ' }
+          ]
+        },
+        // Day 7: Weekly review (no new words)
+        {
+          id: 7,
+          title: 'ทบทวนสัปดาห์ 3',
+          words: []
         }
       ]
     },
@@ -340,6 +366,40 @@ const CURRICULUM = {
             { word: 'đến đây', ipa: '/ɗɛn dəj/', tones: '↗️➡️', meaning: 'มาที่นี่', emoji: '📍', tips: 'đến đây = มา(ที่)นี่' },
             { word: 'đón', ipa: '/ɗɔn/', tones: '↗️', meaning: 'รับ (คน)', emoji: '🚗', tips: 'đón tôi = มารับฉัน' }
           ]
+        },
+        // Day 5: Roleplay travel (7 words)
+        {
+          id: 5,
+          title: '🗺️ Roleplay: เดินทาง',
+          words: [
+            { word: 'ghé thăm', ipa: '/gɛ tʰam/', tones: '↗️➡️', meaning: 'แวะเยี่ยม', emoji: '🚶', tips: 'Ghé thăm Hội An = แวะเที่ยวฮอยอัน' },
+            { word: 'bản đồ', ipa: '/ban ɗo/', tones: '❓↘️', meaning: 'แผนที่', emoji: '🗺️', tips: 'Xem bản đồ = ดูแผนที่' },
+            { word: 'lạc đường', ipa: '/lak ɗɨəŋ/', tones: '⬇️↘️', meaning: 'หลงทาง', emoji: '😵', tips: 'Tôi bị lạc đường = ผมหลงทาง' },
+            { word: 'vé', ipa: '/vɛ/', tones: '↗️', meaning: 'ตั๋ว', emoji: '🎫', tips: 'Mua vé = ซื้อตั๋ว' },
+            { word: 'ga', ipa: '/ga/', tones: '➡️', meaning: 'สถานีรถไฟ', emoji: '🚉', tips: 'Ga Hà Nội = สถานีฮานอย' },
+            { word: 'bến xe', ipa: '/ben sɛ/', tones: '↗️➡️', meaning: 'สถานีขนส่ง', emoji: '🚌', tips: 'Bến xe miền Đông = สถานีขนส่งตะวันออก' },
+            { word: 'địa chỉ', ipa: '/ɗia tʃi/', tones: '⬇️❓', meaning: 'ที่อยู่', emoji: '📍', tips: 'Cho tôi địa chỉ = ขอที่อยู่หน่อย' }
+          ]
+        },
+        // Day 6: Roleplay taxi (7 words)
+        {
+          id: 6,
+          title: '🚕 Roleplay: Taxi/Grab',
+          words: [
+            { word: 'bắt taxi', ipa: '/bat tak si/', tones: '↗️➡️➡️', meaning: 'เรียกแท็กซี่', emoji: '🚕', tips: 'Bắt taxi ở đâu? = เรียกแท็กซี่ที่ไหน' },
+            { word: 'lên xe', ipa: '/lɛn sɛ/', tones: '➡️➡️', meaning: 'ขึ้นรถ', emoji: '🚗', tips: 'Lên xe đi! = ขึ้นรถเลย!' },
+            { word: 'xuống xe', ipa: '/suoŋ sɛ/', tones: '↗️➡️', meaning: 'ลงรถ', emoji: '🚶', tips: 'Xuống xe ở đây = ลงรถตรงนี้' },
+            { word: 'chờ', ipa: '/tʃɤː/', tones: '↘️', meaning: 'รอ', emoji: '⏳', tips: 'Chờ một chút = รอสักครู่' },
+            { word: 'nhanh lên', ipa: '/ɲaɲ lɛn/', tones: '➡️➡️', meaning: 'เร็วๆ', emoji: '⚡', tips: 'Làm nhanh lên! = ทำให้เร็ว!' },
+            { word: 'tài xế', ipa: '/taj sɛ/', tones: '↘️↗️', meaning: 'คนขับ', emoji: '🧑‍✈️', tips: 'Anh tài xế ơi! = พี่คนขับ!' },
+            { word: 'kẹt xe', ipa: '/kɛt sɛ/', tones: '⬇️➡️', meaning: 'รถติด', emoji: '🚙', tips: 'Kẹt xe quá! = รถติดมาก!' }
+          ]
+        },
+        // Day 7: Final review (no new words)
+        {
+          id: 7,
+          title: '🎉 ทบทวนสุดท้าย',
+          words: []
         }
       ]
     }

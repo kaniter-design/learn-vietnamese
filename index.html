@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>ฮานอย ซูไววอล — Hanoi Survival</title>
+  <meta name="theme-color" content="#10b981">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.css" rel="stylesheet" type="text/css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1074,9 +1078,14 @@
                 <button class="btn-vn flex-1 text-xs py-2.5 bg-emerald-500/10 border-emerald-500/30" onclick="rateSRSCard(3)">✅ จำได้</button>
               </div>
             </div>
-            <div id="srs-empty" class="text-center py-6 text-gray-500 text-sm hidden">✅ จำคำศัพท์ครบทุกคำแล้ววันนี้!</div>
+            <div id="srs-empty" class="text-center py-6 text-gray-500 text-sm hidden">
+            <div class="text-3xl mb-2">🎉</div>
+            <div class="text-white font-bold text-sm mb-1">ทบทวนครบทุกคำแล้ววันนี้!</div>
+            <div class="text-xs text-gray-500">ไม่มีคำศัพท์ใหม่ให้ทบทวนตอนนี้</div>
+          </div>
             <div id="srs-progress" class="flex items-center justify-between mt-3 text-xs text-gray-500">
               <span>ที่เหลือ: <strong class="text-white" id="srs-remaining">0</strong></span>
+              <span>🔄 ทบทวน: <strong class="text-cyan-400" id="srs-review-count">0</strong></span>
               <span>วันนี้: <strong class="text-emerald-400" id="srs-done-today">0</strong></span>
               <button class="btn-vn text-xs py-1.5 px-3" onclick="loadSRSQueue()">🔄 โหลดใหม่</button>
             </div>
@@ -1130,6 +1139,32 @@
             <div id="prog-leitner" class="grid grid-cols-5 gap-1.5"></div>
           </div>
           <button class="btn-vn w-full mt-3 text-sm" onclick="updateProgressUI()">🔄 อัปเดต</button>
+
+        <!-- 🔄 SRS Review Schedule Card -->
+        <div class="rpg-card p-4" id="srs-review-card">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 flex items-center justify-center text-lg border border-cyan-500/20">🔄</div>
+            <div>
+              <h2 class="text-white font-bold text-sm">ทบทวนวันนี้</h2>
+              <p class="text-gray-500 text-[0.6rem]" id="srs-review-subtitle">ทบทวนคำศัพท์เก่า</p>
+            </div>
+          </div>
+          <div class="text-xs text-gray-400 leading-relaxed">
+            <div class="flex items-center justify-between py-2 border-b border-white/5">
+              <span>🗓️ วันนี้ต้องทบทวน</span>
+              <span class="text-cyan-400 font-bold" id="srs-review-days-count">0 วัน</span>
+            </div>
+            <div class="flex items-center justify-between py-2 border-b border-white/5">
+              <span>📖 คำศัพท์เก่าที่ต้องทวน</span>
+              <span class="text-emerald-400 font-bold" id="srs-review-words-count">0 คำ</span>
+            </div>
+            <div class="flex items-center justify-between py-2">
+              <span>🎯 Leitner Box</span>
+              <span class="text-amber-400 font-bold" id="srs-leitner-count">0 คำ</span>
+            </div>
+            <button class="btn-vn w-full mt-2 text-xs py-2" onclick="switchScreen('flashcards')">🃏 ไปทบทวนด้วย Flashcard</button>
+          </div>
+        </div>
         </div>
       </div>
 
@@ -1250,6 +1285,58 @@
         </div>
       </div>
 
+    <!-- SCREEN: Listening Comprehension (10 dialogues) -->
+    <div id="view-listening" class="screen flex-col px-4 py-4 space-y-3" style="display:none;">
+      <!-- Header -->
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-2xl">🎧</span>
+        <div>
+          <h2 class="text-white font-bold text-lg">ฝึกฟัง (Listening)</h2>
+          <p class="text-xs text-gray-400">ฟังบทสนทนาแล้วตอบคำถาม</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between">
+        <span id="listening-progress" class="text-xs text-gray-400">1/10</span>
+        <span id="listening-difficulty" class="text-xs bg-white/5 px-2 py-0.5 rounded-full text-gray-400">ง่าย</span>
+      </div>
+      <div class="rpg-card rounded-xl p-4">
+        <div class="flex items-center justify-between mb-3">
+          <h3 id="listening-title" class="text-white font-bold text-base">🍜 ร้านเฝอ</h3>
+          <button id="listening-play-btn" class="btn-vn w-12 h-12 rounded-full flex items-center justify-center text-xl !p-0" onclick="playListeningDialogue()">▶️</button>
+        </div>
+        <div class="h-1.5 bg-white/10 rounded-full overflow-hidden mb-2">
+          <div id="listening-dialogue-progress" class="h-full bg-gradient-to-r from-neon-emerald to-neon-green rounded-full transition-all duration-500" style="width:0%"></div>
+        </div>
+        <div class="flex justify-between text-[10px] text-gray-500">
+          <span id="listening-dialogue-status">0/5 ประโยค</span>
+          <button class="text-neon-emerald hover:underline" onclick="toggleListeningTranscript()">📝 ดูบทสนทนา</button>
+        </div>
+      </div>
+      <div id="listening-transcript" class="rpg-card rounded-xl p-4 space-y-2" style="display:none;">
+        <div class="text-xs text-gray-400 font-bold mb-1">📝 บทสนทนา:</div>
+        <div id="listening-transcript-content" class="text-sm text-gray-300 space-y-1"></div>
+        <div id="listening-translation" class="text-xs text-gray-500 mt-2 pt-2 border-t border-white/5"></div>
+      </div>
+      <div id="listening-question-card" class="rpg-card rounded-xl p-4">
+        <div class="text-xs text-gray-500 mb-2">คำถามที่ <span id="listening-q-num">1</span>/<span id="listening-q-total">4</span></div>
+        <p id="listening-question" class="text-white font-medium text-sm mb-3">พนักงานพูดว่าอะไร?</p>
+        <div id="listening-options" class="space-y-2"></div>
+        <div id="listening-feedback" class="mt-3 text-sm font-medium" style="display:none;"></div>
+      </div>
+      <div id="listening-results" class="rpg-card rounded-xl p-4 text-center" style="display:none;">
+        <div class="text-5xl mb-2" id="listening-result-emoji">🎉</div>
+        <div class="text-white font-bold text-lg">ทำได้ <span id="listening-score">3</span>/<span id="listening-total">4</span></div>
+        <div class="text-xs text-gray-400 mt-1 mb-4" id="listening-result-msg">เก่งมาก! 👏</div>
+        <div class="flex gap-2 justify-center">
+          <button class="btn-vn text-xs" onclick="retryListeningDialogue()">🔄 ลองอีกครั้ง</button>
+          <button class="btn-vn text-xs" onclick="nextListeningDialogue()">➡️ บทสนทนาถัดไป</button>
+        </div>
+      </div>
+      <div id="listening-global-stats" class="flex gap-2 text-[10px] text-gray-500 justify-center pb-2">
+        <span>✅ <span id="listening-correct">0</span>/<span id="listening-attempted">0</span> ถูก</span>
+        <span>🔥 <span id="listening-streak">0</span> ด่านติด</span>
+      </div>
+    </div>
     </div><!-- /screen-container -->
 
     <!-- ===== BOTTOM SHEET MODAL DRAWER ===== -->
@@ -1261,7 +1348,7 @@
     </div>
 
     <!-- ===== BOTTOM NAVIGATION ===== -->
-    <footer class="bg-gray-950/90 border-t border-white/5 p-1.5 grid grid-cols-4 gap-1 z-40">
+    <footer class="bg-gray-950/90 border-t border-white/5 p-1.5 grid grid-cols-5 gap-1 z-40">
       <button class="bottom-nav-btn active" onclick="switchScreen('roadmap')">
         <span class="nav-icon">🗺️</span>แผนที่
       </button>
@@ -1270,6 +1357,9 @@
       </button>
       <button class="bottom-nav-btn" onclick="switchScreen('flashcards')">
         <span class="nav-icon">🃏</span>ทบทวนศัพท์
+      </button>
+      <button class="bottom-nav-btn" onclick="switchScreen('listening')">
+        <span class="nav-icon">🎧</span>ฝึกฟัง
       </button>
       <button class="bottom-nav-btn" onclick="switchScreen('speaking')">
         <span class="nav-icon">🎤</span>ฝึกออกเสียง
@@ -1477,6 +1567,7 @@
       if (screenId === 'tones') renderToneStats();
       if (screenId === 'roadmap') renderNodeMap();
       if (screenId === 'speaking') startSpeechPractice();
+      if (screenId === 'listening') showListeningScreen();
       if (screenId === 'wordbank') { if (wbCurrentSentence) renderWordBank(); else startWordBank(); }
     }
 
@@ -1606,7 +1697,14 @@
     }
     function loadLocalSRS() {
       srsQueue = [];
-      for (let i = 1; i <= 3; i++) { if (progress.srsBoxes[i]) progress.srsBoxes[i].forEach(w => srsQueue.push(w)); }
+      // 1. Scheduled review words from past days (Spaced Repetition)
+      const reviewWords = getReviewWordsForDay(currentDay);
+      reviewWords.forEach(w => {
+        const wordStr = typeof w === 'string' ? w : (w.word || w.thai || '');
+        if (wordStr) srsQueue.push(wordStr);
+      });
+      // 2. Leitner Box wrong words (boxes 1-3)
+      for (let i = 1; i <= 3; i++) { if (progress.srsBoxes[i]) progress.srsBoxes[i].forEach(w => { if (!srsQueue.includes(w)) srsQueue.push(w); }); }
       srsIndex = 0;
     }
     function renderSRSCard() {
@@ -1793,6 +1891,50 @@
         return window.vocabularyData.slice(startIdx, startIdx + 5);
       }
       return [];
+    }
+    // ── SRS Review Schedule (Spaced Repetition 2.0) ──
+    function getReviewSchedule(dayNum) {
+      if (dayNum <= 1) return [];
+      const reviews = [];
+      // Always review yesterday
+      if (dayNum - 1 >= 1) reviews.push(dayNum - 1);
+      // Every 3rd day, review 3 days ago
+      if (dayNum % 3 === 0 && dayNum - 3 >= 1) reviews.push(dayNum - 3);
+      // Every 5th day, review 5 days ago
+      if (dayNum % 5 === 0 && dayNum - 5 >= 1) reviews.push(dayNum - 5);
+      // Every 7th day (end of week): review this whole week's past days
+      if (dayNum % 7 === 0) {
+        const weekStart = dayNum - 6;
+        for (let d = weekStart; d < dayNum; d++) {
+          if (!reviews.includes(d)) reviews.push(d);
+        }
+      }
+      // On day 14 and 28, do a mega review of all past weeks
+      if (dayNum === 14) {
+        for (let d = 8; d <= 13; d++) { if (!reviews.includes(d)) reviews.push(d); }
+      }
+      if (dayNum === 28) {
+        for (let d = 22; d <= 27; d++) { if (!reviews.includes(d)) reviews.push(d); }
+      }
+      // Also add Leitner box 1-3 words
+      return [...new Set(reviews)].sort((a, b) => a - b);
+    }
+
+    function getReviewWordsForDay(dayNum) {
+      const schedule = getReviewSchedule(dayNum);
+      let words = [];
+      schedule.forEach(d => {
+        const dayWords = getWordsForDay(d);
+        if (dayWords && dayWords.length > 0) {
+          dayWords.forEach(w => {
+            const wordStr = typeof w === 'string' ? w : (w.word || w.thai || '');
+            if (wordStr && !words.some(x => (x.word || x) === (w.word || w))) {
+              words.push(w);
+            }
+          });
+        }
+      });
+      return words;
     }
     function prevDay() { if (currentDay > 1) { currentDay--; renderDay(currentDay); } }
     function nextDay() { if (currentDay < 28) { currentDay++; renderDay(currentDay); } }
@@ -2511,7 +2653,9 @@
       if (e.key === 't') switchScreen('tones');
       if (e.key === 'p') switchScreen('progress');
       if (e.key === 's') switchScreen('speaking');
+      if (e.key === 'l') switchScreen('listening');
     });
+    updateReviewScheduleUI();
 
     // ─── SPEECH RECOGNITION (Elsa Speak-style) ───
     let speechState = {
@@ -2894,6 +3038,837 @@
       }
     };
 
-  </script>
+  
+
+    // ── PWA: Register Service Worker ──
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').then(reg => {
+          console.log('SW registered:', reg.scope);
+        }).catch(err => {
+          console.log('SW registration failed:', err);
+        });
+      });
+    }
+    // ── Update Review Schedule UI ──
+    function updateReviewScheduleUI() {
+      const schedule = getReviewSchedule(currentDay);
+      const reviewDaysEl = document.getElementById('srs-review-days-count');
+      const reviewWordsEl = document.getElementById('srs-review-words-count');
+      const reviewCountEl = document.getElementById('srs-review-count');
+      const leitnerEl = document.getElementById('srs-leitner-count');
+      const subtitleEl = document.getElementById('srs-review-subtitle');
+
+      if (reviewDaysEl) reviewDaysEl.textContent = schedule.length > 0 ? schedule.length + ' วัน' : 'ไม่มี';
+      if (subtitleEl) subtitleEl.textContent = schedule.length > 0 ? 'วัน ' + schedule.join(', ') : 'ทบทวนคำศัพท์เก่า';
+
+      const reviewWords = getReviewWordsForDay(currentDay);
+      if (reviewWordsEl) reviewWordsEl.textContent = reviewWords.length + ' คำ';
+      if (reviewCountEl) reviewCountEl.textContent = reviewWords.length;
+
+      let leitnerTotal = 0;
+      for (let i = 1; i <= 5; i++) { if (progress.srsBoxes[i]) leitnerTotal += progress.srsBoxes[i].length; }
+      if (leitnerEl) leitnerEl.textContent = leitnerTotal + ' คำ';
+    }
+
+// ─── LISTENING COMPREHENSION ENGINE ───
+var listeningData = [
+  {
+    "id": 1,
+    "title": "🍜 ร้านเฝอ",
+    "difficulty": "ง่าย",
+    "dialogue": [
+      {
+        "speaker": "พนักงาน",
+        "text": "Chào anh! Anh dùng gì ạ?"
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Cho tôi một tô phở bò chín."
+      },
+      {
+        "speaker": "พนักงาน",
+        "text": "Có ăn thêm giá không ạ?"
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Có, cho thêm giá với rau thơm."
+      },
+      {
+        "speaker": "พนักงาน",
+        "text": "Vâng, mời anh ngồi. Có luôn ạ."
+      }
+    ],
+    "translation": "สวัสดีครับ! พี่จะทานอะไรดีคะ? / ขอเฝอเนื้อสุกหนึ่งชาม / ใส่ถั่วงอกเพิ่มไหมคะ? / ใส่ครับ ขอถั่วงอกกับผักชีด้วย / ค่ะ เชิญนั่งเลยค่ะ",
+    "questions": [
+      {
+        "q": "พนักงานพูดว่าอะไร?",
+        "options": [
+          "Chào em! Em dùng gì?",
+          "Chào anh! Anh dùng gì ạ?",
+          "Chào chị! Chị cần gì?",
+          "Chào cô! Cô muốn gì?"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ลูกค้าสั่งอะไร?",
+        "options": [
+          "Phở gà",
+          "Phở bò tái",
+          "Phở bò chín",
+          "Phở không"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "พนักงานถามว่ายังไงเกี่ยวกับถั่วงอก?",
+        "options": [
+          "Có ăn thêm giá không?",
+          "Có muốn giá không?",
+          "Cần giá không?",
+          "Ăn giá nhé?"
+        ],
+        "answer": 0
+      },
+      {
+        "q": "ลูกค้าขอเพิ่มอะไรอีก?",
+        "options": [
+          "Chanh với ớt",
+          "Giá với rau thơm",
+          "Tương với sốt",
+          "Hành với ngò"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "☕ ร้านกาแฟ",
+    "difficulty": "ง่าย",
+    "dialogue": [
+      {
+        "speaker": "บาริสต้า",
+        "text": "Chào em! Em muốn uống gì?"
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Chị ơi, cho em một cà phê sữa đá."
+      },
+      {
+        "speaker": "บาริสต้า",
+        "text": "Có uống tại đây hay mang về ạ?"
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Em uống tại đây ạ."
+      },
+      {
+        "speaker": "บาริสต้า",
+        "text": "20,000 đồng ạ. Em ngồi chờ một lát nhé."
+      }
+    ],
+    "translation": "สวัสดีครับ! น้องอยากดื่มอะไร? / พี่คะ ขอกาแฟนมเย็นหนึ่งแก้ว / ทานที่นี่หรือเอากลับบ้านคะ? / หนูทานที่นี่ค่ะ / สองหมื่นด่งค่ะ นั่งรอสักครู่",
+    "questions": [
+      {
+        "q": "ลูกค้าสั่งเครื่องดื่มอะไร?",
+        "options": [
+          "Cà phê đen đá",
+          "Cà phê sữa đá",
+          "Cà phê nóng",
+          "Sinh tố"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ราคาเท่าไหร่?",
+        "options": [
+          "10,000 đồng",
+          "20,000 đồng",
+          "30,000 đồng",
+          "15,000 đồng"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ลูกค้าทานที่ไหน?",
+        "options": [
+          "Tại đây",
+          "Mang về",
+          "Giao hàng",
+          "Ăn ngoài"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "🛒 ที่ตลาด",
+    "difficulty": "ง่าย",
+    "dialogue": [
+      {
+        "speaker": "แม่ค้า",
+        "text": "Cô muốn mua gì đấy ạ?"
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Cho tôi một cân cam."
+      },
+      {
+        "speaker": "แม่ค้า",
+        "text": "Cam này ngon lắm. 15,000 một cân."
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Được, lấy cho tôi một cân. Có bớt không?"
+      },
+      {
+        "speaker": "แม่ค้า",
+        "text": "Thôi được, 12,000 cho cô nhé."
+      }
+    ],
+    "translation": "คุณป้าอยากซื้ออะไรคะ? / ขอส้มหนึ่งกิโล / ส้มนี้อร่อยมาก 15,000 ต่อกิโล / ได้ เอาหนึ่งกิโลครับ ลดได้ไหม? / เอาล่ะ 12,000 สำหรับป้าค่ะ",
+    "questions": [
+      {
+        "q": "ลูกค้าซื้ออะไร?",
+        "options": [
+          "Táo",
+          "Cam",
+          "Chuối",
+          "Nho"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ราคาแรกเท่าไหร่?",
+        "options": [
+          "10,000",
+          "12,000",
+          "15,000",
+          "20,000"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "ต่อรองราคาได้เท่าไหร่?",
+        "options": [
+          "10,000",
+          "12,000",
+          "13,000",
+          "14,000"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "🗺️ ถามทาง",
+    "difficulty": "ปานกลาง",
+    "dialogue": [
+      {
+        "speaker": "นักท่องเที่ยว",
+        "text": "Xin lỗi, bến xe buýt ở đâu ạ?"
+      },
+      {
+        "speaker": "คนท้องถิ่น",
+        "text": "Đi thẳng, rẽ trái ở ngã tư đầu tiên."
+      },
+      {
+        "speaker": "นักท่องเที่ยว",
+        "text": "Có xa không ạ?"
+      },
+      {
+        "speaker": "คนท้องถิ่น",
+        "text": "Không xa lắm, đi khoảng 5 phút."
+      },
+      {
+        "speaker": "นักท่องเที่ยว",
+        "text": "Cảm ơn anh nhiều!"
+      },
+      {
+        "speaker": "คนท้องถิ่น",
+        "text": "Không có gì!"
+      }
+    ],
+    "translation": "ขอโทษครับ ป้ายรถเมล์อยู่ที่ไหน? / ตรงไป เลี้ยวซ้ายที่สี่แยกแรก / ไกลไหมครับ? / ไม่ไกลมาก เดินประมาณ 5 นาที / ขอบคุณมากครับ! / ไม่เป็นไรครับ",
+    "questions": [
+      {
+        "q": "นักท่องเที่ยวถามหาอะไร?",
+        "options": [
+          "Nhà ga",
+          "Bến xe buýt",
+          "Sân bay",
+          "Khách sạn"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ต้องเลี้ยวที่ไหน?",
+        "options": [
+          "Ngã tư thứ hai",
+          "Ngã ba",
+          "Ngã tư đầu tiên",
+          "Cuối đường"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "เดินกี่นาที?",
+        "options": [
+          "3 phút",
+          "5 phút",
+          "10 phút",
+          "15 phút"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "📱 เรียกรถ Grab",
+    "difficulty": "ปานกลาง",
+    "dialogue": [
+      {
+        "speaker": "คนขับ",
+        "text": "Anh ơi, em đến rồi. Anh ở đâu thế?"
+      },
+      {
+        "speaker": "ผู้โดยสาร",
+        "text": "Em ở trước cửa số 10 phố Hàng Bông."
+      },
+      {
+        "speaker": "คนขับ",
+        "text": "OK, em thấy anh rồi. Anh lên xe đi."
+      },
+      {
+        "speaker": "ผู้โดยสาร",
+        "text": "Cho em ra Hồ Tây nhé."
+      },
+      {
+        "speaker": "คนขับ",
+        "text": "Vâng, đi khoảng 15 phút. Anh thắt dây an toàn nhé."
+      }
+    ],
+    "translation": "พี่ครับ ผมมาแล้ว พี่อยู่ไหนครับ? / ฉันอยู่หน้าประตูบ้านเลขที่ 10 ถนน Hàng Bông / โอเค ผมเห็นพี่แล้ว เชิญขึ้นรถครับ / ไป Hồ Tây ครับ / ค่ะ ใช้เวลาประมาณ 15 นาที คาดเข็มขัดด้วยนะครับ",
+    "questions": [
+      {
+        "q": "ผู้โดยสารอยู่ที่ไหน?",
+        "options": [
+          "Trước cửa số 5",
+          "Trước cửa số 10",
+          "Trước cửa số 15",
+          "Trước cửa số 20"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ผู้โดยสารไปไหน?",
+        "options": [
+          "Hồ Gươm",
+          "Hồ Tây",
+          "Sân bay",
+          "Chợ Bến Thành"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ใช้เวลาเดินทางกี่นาที?",
+        "options": [
+          "10 phút",
+          "15 phút",
+          "20 phút",
+          "25 phút"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "🏨 ที่โรงแรม",
+    "difficulty": "ปานกลาง",
+    "dialogue": [
+      {
+        "speaker": "พนักงาน",
+        "text": "Xin chào, quý khách có đặt phòng trước không ạ?"
+      },
+      {
+        "speaker": "ผู้เข้าพัก",
+        "text": "Có, tôi đặt một phòng đôi từ ngày 10 đến ngày 14."
+      },
+      {
+        "speaker": "พนักงาน",
+        "text": "Vâng, để tôi kiểm tra. Họ tên của quý khách là gì ạ?"
+      },
+      {
+        "speaker": "ผู้เข้าพัก",
+        "text": "Tôi tên là Nguyễn Văn An."
+      },
+      {
+        "speaker": "พนักงาน",
+        "text": "Dạ rồi, phòng 502. Đây là chìa khóa ạ."
+      },
+      {
+        "speaker": "ผู้เข้าพัก",
+        "text": "Cảm ơn! Ở đây có wifi không?"
+      },
+      {
+        "speaker": "พนักงาน",
+        "text": "Có ạ. Mật khẩu là 12345."
+      }
+    ],
+    "translation": "สวัสดีค่ะ คุณลูกค้าจองห้องไว้ก่อนไหมคะ? / ครับ ผมจองห้องคู่วันที่ 10 ถึง 14 / ค่ะ ขอตรวจสอบก่อน คุณชื่ออะไรคะ? / ผมชื่อ Nguyễn Văn An / ได้แล้วค่ะ ห้อง 502 นี่คือกุญแจ / ขอบคุณครับ ที่นี่มี wifi ไหม? / มีค่ะ รหัส 12345",
+    "questions": [
+      {
+        "q": "ผู้เข้าพักจองห้องแบบไหน?",
+        "options": [
+          "Phòng đơn",
+          "Phòng đôi",
+          "Phòng VIP",
+          "Suite"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ห้องเลขที่เท่าไหร่?",
+        "options": [
+          "402",
+          "502",
+          "602",
+          "702"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "รหัส wifi คืออะไร?",
+        "options": [
+          "1234",
+          "12345",
+          "54321",
+          "00000"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "🚂 ซื้อตั๋วรถไฟ",
+    "difficulty": "ปานกลาง",
+    "dialogue": [
+      {
+        "speaker": "พนักงานขายตั๋ว",
+        "text": "Chào anh! Anh mua vé đi đâu ạ?"
+      },
+      {
+        "speaker": "ผู้โดยสาร",
+        "text": "Cho tôi một vé đi Đà Nẵng."
+      },
+      {
+        "speaker": "พนักงานขายตั๋ว",
+        "text": "Anh muốn đi giường nằm hay ghế ngồi?"
+      },
+      {
+        "speaker": "ผู้โดยสาร",
+        "text": "Giường nằm mềm bao nhiêu tiền?"
+      },
+      {
+        "speaker": "พนักงานขายตั๋ว",
+        "text": "500,000 đồng một vé."
+      },
+      {
+        "speaker": "ผู้โดยสาร",
+        "text": "Đắt quá! Có vé rẻ hơn không?"
+      },
+      {
+        "speaker": "พนักงานขายตั๋ว",
+        "text": "Ghế ngồi điều hòa chỉ 300,000 thôi ạ."
+      },
+      {
+        "speaker": "ผู้โดยสาร",
+        "text": "Được, lấy vé ghế ngồi điều hòa."
+      }
+    ],
+    "translation": "สวัสดีครับ พี่ซื้อตั๋วไปไหนครับ? / ขอตั๋วไปดานังหนึ่งใบ / พี่อยากนอนหรือนั่ง? / เตียงนิ่มราคาเท่าไหร่? / 500,000 ด่งต่อใบ / แพงจัง! มีถูกกว่านี้ไหม? / ที่นั่งปรับอากาศแค่ 300,000 ครับ / ได้ เอาที่นั่งปรับอากาศ",
+    "questions": [
+      {
+        "q": "ผู้โดยสารซื้อตั๋วไปไหน?",
+        "options": [
+          "Hà Nội",
+          "Đà Nẵng",
+          "Sài Gòn",
+          "Huế"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ราคาเตียงนิ่มเท่าไหร่?",
+        "options": [
+          "300,000",
+          "400,000",
+          "500,000",
+          "600,000"
+        ],
+        "answer": 2
+      },
+      {
+        "q": "สุดท้ายเลือกอะไร?",
+        "options": [
+          "Giường nằm mềm",
+          "Giường nằm cứng",
+          "Ghế ngồi điều hòa",
+          "Ghế thường"
+        ],
+        "answer": 2
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "🍽️ ร้านอาหาร",
+    "difficulty": "ปานกลาง",
+    "dialogue": [
+      {
+        "speaker": "บริกร",
+        "text": "Mời anh xem thực đơn ạ."
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Cảm ơn. Ở đây có món gì ngon?"
+      },
+      {
+        "speaker": "บริกร",
+        "text": "Bún chả Hà Nội là đặc sản ở đây ạ."
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Cho tôi một suất bún chả. Và một cốc bia."
+      },
+      {
+        "speaker": "บริกร",
+        "text": "Vâng. Anh có muốn gọi thêm gì không?"
+      },
+      {
+        "speaker": "ลูกค้า",
+        "text": "Thế thôi, cảm ơn."
+      },
+      {
+        "speaker": "บริกร",
+        "text": "Một suất bún chả 35,000 và bia 10,000, tổng cộng 45,000 ạ."
+      }
+    ],
+    "translation": "เชิญพี่ดูเมนูครับ / ขอบคุณ ที่นี่มีอะไรอร่อยบ้าง? / บุญชาฮานอยเป็นเมนูเด็ดที่นี่ครับ / ขอบุญชาหนึ่งที่ แล้วก็เบียร์หนึ่งแก้ว / ค่ะ พี่อยากสั่งเพิ่มไหม? / แค่นี้ครับ ขอบคุณ / บุญชา 35,000 และเบียร์ 10,000 รวม 45,000",
+    "questions": [
+      {
+        "q": "เมนูเด็ดของร้านคืออะไร?",
+        "options": [
+          "Phở",
+          "Bún chả",
+          "Nem",
+          "Bánh mì"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ลูกค้าสั่งเครื่องดื่มอะไร?",
+        "options": [
+          "Nước ngọt",
+          "Bia",
+          "Trà đá",
+          "Nước lọc"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "รวมราคาเท่าไหร่?",
+        "options": [
+          "35,000",
+          "45,000",
+          "55,000",
+          "60,000"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "💬 พูดคุยกับเพื่อน",
+    "difficulty": "ยาก",
+    "dialogue": [
+      {
+        "speaker": "เพื่อน A",
+        "text": "Dạo này thế nào? Lâu quá không gặp!"
+      },
+      {
+        "speaker": "เพื่อน B",
+        "text": "Mình vẫn tốt. Cậu đi đâu thế?"
+      },
+      {
+        "speaker": "เพื่อน A",
+        "text": "Mình đi học tiếng Việt."
+      },
+      {
+        "speaker": "เพื่อน B",
+        "text": "Giỏi quá! Học được bao lâu rồi?"
+      },
+      {
+        "speaker": "เพื่อน A",
+        "text": "Mình học được một tháng rồi."
+      },
+      {
+        "speaker": "เพื่อน B",
+        "text": "Nói tiếng Việt khó không?"
+      },
+      {
+        "speaker": "เพื่อน A",
+        "text": "Khó nhưng mà vui. Mình thích học lắm."
+      }
+    ],
+    "translation": "ช่วงนี้เป็นไงบ้าง? ไม่เจอกันนาน! / ฉันยังสบายดี นายไปไหนมา? / ฉันไปเรียนภาษาเวียดนาม / เก่งจัง! เรียนมาได้นานเท่าไหร่แล้ว? / เรียนมาได้หนึ่งเดือนแล้ว / พูดเวียดนามยากไหม? / ยากแต่สนุก ฉันชอบเรียนมาก",
+    "questions": [
+      {
+        "q": "เพื่อน A ไปทำอะไร?",
+        "options": [
+          "Đi làm",
+          "Đi học",
+          "Đi chơi",
+          "Đi mua sắm"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "เรียนภาษามาเท่าไหร่แล้ว?",
+        "options": [
+          "Một tuần",
+          "Một tháng",
+          "Ba tháng",
+          "Một năm"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "เพื่อน A คิดว่าเรียนภาษาเป็นยังไง?",
+        "options": [
+          "Rất dễ",
+          "Khó nhưng vui",
+          "Nhàm chán",
+          "Dễ nhưng chán"
+        ],
+        "answer": 1
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "🇻🇳 อยู่เวียดนาม",
+    "difficulty": "ยาก",
+    "dialogue": [
+      {
+        "speaker": "คนไทย",
+        "text": "Mình sống ở Hà Nội được hai năm rồi."
+      },
+      {
+        "speaker": "คนเวียดนาม",
+        "text": "Thế à? Mình cứ tưởng bạn mới đến."
+      },
+      {
+        "speaker": "คนไทย",
+        "text": "Năm đầu khó lắm. Nhưng bây giờ quen rồi."
+      },
+      {
+        "speaker": "คนเวียดนาม",
+        "text": "Bạn thích nhất điều gì ở Việt Nam?"
+      },
+      {
+        "speaker": "คนไทย",
+        "text": "Đồ ăn ngon, giá rẻ. Người Việt Nam thân thiện."
+      },
+      {
+        "speaker": "คนเวียดนาม",
+        "text": "Còn điều gì bạn chưa quen?"
+      },
+      {
+        "speaker": "คนไทย",
+        "text": "Thời tiết! Mùa hè nóng quá, mùa đông lạnh quá!"
+      }
+    ],
+    "translation": "ฉันอยู่ฮานอยมาสองปีแล้ว / เหรอ? ฉันนึกว่าเธอเพิ่งมา / ปีแรกยากมาก แต่ตอนนี้ชินแล้ว / เธอชอบอะไรที่สุดในเวียดนาม? / อาหารอร่อย ราคาถูก คนเวียดนามเป็นกันเอง / แล้วอะไรที่เธอยังไม่ชิน? / อากาศ! หน้าร้อนร้อนมาก หน้าหนาวหนาวมาก!",
+    "questions": [
+      {
+        "q": "คนไทยอยู่ฮานอยมากี่ปี?",
+        "options": [
+          "1 năm",
+          "2 năm",
+          "3 năm",
+          "5 năm"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "คนไทยชอบอะไรที่สุดในเวียดนาม?",
+        "options": [
+          "Phong cảnh",
+          "Đồ ăn",
+          "Con người",
+          "ทั้งอาหารและคน"
+        ],
+        "answer": 3
+      },
+      {
+        "q": "อะไรที่คนไทยยังไม่ชิน?",
+        "options": [
+          "Giao thông",
+          "Thời tiết",
+          "Ngôn ngữ",
+          "Văn hóa"
+        ],
+        "answer": 1
+      },
+      {
+        "q": "ปีแรกของคนไทยเป็นยังไง?",
+        "options": [
+          "Dễ lắm",
+          "Khó lắm",
+          "Bình thường",
+          "Vui lắm"
+        ],
+        "answer": 1
+      }
+    ]
+  }
+];
+
+var listeningState = { currentIdx: 0, qIdx: 0, correct: 0, attempted: 0, streak: 0, showTranscript: false, score: 0 };
+
+function showListeningScreen() {
+  listeningState.currentIdx = 0; listeningState.correct = 0; listeningState.attempted = 0; listeningState.streak = 0;
+  loadListeningDialogue(0);
+}
+
+function loadListeningDialogue(idx) {
+  var d = listeningData[idx]; if (!d) return;
+  listeningState.currentIdx = idx; listeningState.qIdx = 0; listeningState.score = 0; listeningState.showTranscript = false;
+  document.getElementById('listening-progress').textContent = (idx+1)+'/'+listeningData.length;
+  document.getElementById('listening-difficulty').textContent = d.difficulty;
+  document.getElementById('listening-title').textContent = d.title;
+  document.getElementById('listening-play-btn').textContent = '▶️';
+  document.getElementById('listening-dialogue-progress').style.width = '0%';
+  document.getElementById('listening-dialogue-status').textContent = '0/'+d.dialogue.length+' ประโยค';
+  document.getElementById('listening-q-total').textContent = d.questions.length;
+  document.getElementById('listening-transcript').style.display = 'none';
+  document.getElementById('listening-results').style.display = 'none';
+  document.getElementById('listening-question-card').style.display = 'block';
+  document.getElementById('listening-feedback').style.display = 'none';
+  renderListeningTranscript();
+  showListeningQuestion();
+  updateListeningStats();
+}
+
+function renderListeningTranscript() {
+  var d = listeningData[listeningState.currentIdx];
+  var t = '';
+  d.dialogue.forEach(function(line) {
+    var icon = (line.speaker === 'พนักงาน' || line.speaker === 'บริกร' || line.speaker === 'บาริสต้า' || line.speaker === 'แม่ค้า' || line.speaker === 'พนักงานขายตั๋ว' || line.speaker === 'คนขับ' || line.speaker === 'คนเวียดนาม' || line.speaker === 'คนท้องถิ่น') ? '👤' : '🙋';
+    t += '<div class="flex gap-2"><span class="text-neon-emerald shrink-0">'+icon+'</span><span><span class="text-gray-400 text-xs">'+line.speaker+':</span> <span class="text-gray-200">'+line.text+'</span></span></div>';
+  });
+  document.getElementById('listening-transcript-content').innerHTML = t;
+  document.getElementById('listening-translation').textContent = d.translation;
+}
+
+function toggleListeningTranscript() {
+  listeningState.showTranscript = !listeningState.showTranscript;
+  document.getElementById('listening-transcript').style.display = listeningState.showTranscript ? 'block' : 'none';
+}
+
+function playListeningDialogue() {
+  speechSynthesis.cancel();
+  var d = listeningData[listeningState.currentIdx];
+  var btn = document.getElementById('listening-play-btn');
+  btn.textContent = '⏳';
+  var total = d.dialogue.length;
+  var lineIdx = 0;
+  function speakNext() {
+    if (lineIdx >= total) { btn.textContent = '▶️'; return; }
+    var line = d.dialogue[lineIdx];
+    document.getElementById('listening-dialogue-progress').style.width = ((lineIdx+1)/total*100)+'%';
+    document.getElementById('listening-dialogue-status').textContent = (lineIdx+1)+'/'+total+' ประโยค';
+    var utter = new SpeechSynthesisUtterance(line.text);
+    utter.lang = 'vi-VN'; utter.rate = 0.85; utter.pitch = 1.0;
+    utter.onend = function() { lineIdx++; setTimeout(speakNext, 400); };
+    speechSynthesis.speak(utter);
+  }
+  speakNext();
+}
+
+function showListeningQuestion() {
+  var d = listeningData[listeningState.currentIdx];
+  var q = d.questions[listeningState.qIdx];
+  if (!q) { showListeningResults(); return; }
+  document.getElementById('listening-q-num').textContent = listeningState.qIdx+1;
+  document.getElementById('listening-question').textContent = q.q;
+  var optsHtml = '';
+  q.options.forEach(function(opt, i) {
+    optsHtml += '<button class="btn-rpg-choice text-xs w-full text-left !justify-start" onclick="answerListeningQuestion('+i+')"><span class="text-gray-400 mr-2">'+String.fromCharCode(65+i)+'.</span>'+opt+'</button>';
+  });
+  document.getElementById('listening-options').innerHTML = optsHtml;
+  document.getElementById('listening-feedback').style.display = 'none';
+}
+
+function answerListeningQuestion(selected) {
+  var q = listeningData[listeningState.currentIdx].questions[listeningState.qIdx];
+  var fb = document.getElementById('listening-feedback');
+  fb.style.display = 'block';
+  var btns = document.getElementById('listening-options').querySelectorAll('button');
+  btns.forEach(function(b) { b.disabled = true; b.classList.add('opacity-50'); });
+  listeningState.attempted++;
+  if (selected === q.answer) {
+    listeningState.score++; listeningState.correct++; listeningState.streak++;
+    fb.className = 'mt-3 text-sm font-medium text-neon-emerald';
+    fb.innerHTML = '✅ ถูกต้อง!';
+  } else {
+    listeningState.streak = 0;
+    fb.className = 'mt-3 text-sm font-medium text-neon-rose';
+    fb.innerHTML = '❌ ผิด! คำตอบที่ถูก: <span class="text-white">'+q.options[q.answer]+'</span>';
+  }
+  btns.forEach(function(b, i) { if (i === q.answer) b.classList.add('ring-2', 'ring-neon-emerald'); });
+  updateListeningStats();
+  setTimeout(function() { listeningState.qIdx++; showListeningQuestion(); }, 1800);
+}
+
+function showListeningResults() {
+  var d = listeningData[listeningState.currentIdx];
+  var total = d.questions.length;
+  document.getElementById('listening-question-card').style.display = 'none';
+  document.getElementById('listening-results').style.display = 'block';
+  var pct = listeningState.score / total;
+  document.getElementById('listening-result-emoji').textContent = pct >= 0.9 ? '🏆' : pct >= 0.7 ? '🎉' : pct >= 0.5 ? '👍' : '💪';
+  document.getElementById('listening-score').textContent = listeningState.score;
+  document.getElementById('listening-total').textContent = total;
+  document.getElementById('listening-result-msg').textContent = pct >= 0.9 ? 'ระดับเทพ! 🏆' : pct >= 0.7 ? 'เก่งมาก! 👏' : pct >= 0.5 ? 'พอใช้ได้! 💪' : 'ฝึกอีกหน่อยนะ! 🔄';
+  updateListeningStats();
+}
+
+function retryListeningDialogue() { loadListeningDialogue(listeningState.currentIdx); }
+function nextListeningDialogue() {
+  var next = listeningState.currentIdx + 1;
+  if (next >= listeningData.length) {
+    document.getElementById('listening-results').innerHTML = '<div class="text-5xl mb-2">🎊</div><div class="text-white font-bold text-lg">ทำครบทั้ง 10 บทสนทนา!</div><div class="text-xs text-gray-400 mt-1">ยินดีด้วย! 🎉<br>คุณฟังบทสนทนาภาษาเวียดนามครบทุกบทแล้ว!</div>';
+    return;
+  }
+  loadListeningDialogue(next);
+}
+
+function updateListeningStats() {
+  document.getElementById('listening-correct').textContent = listeningState.correct;
+  document.getElementById('listening-attempted').textContent = listeningState.attempted;
+  document.getElementById('listening-streak').textContent = listeningState.streak;
+}
+
+</script>
 </body>
 </html>

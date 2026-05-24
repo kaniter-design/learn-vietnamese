@@ -91,6 +91,12 @@ learn_vietnamese/
   - **Phase 5:** Roadmap Nodes — Hover scale (1.15), Complete bounce animation, Milestone glow badge, Offset alternating layout
   - **Phase 6:** Toast/Drawer/Empty/Loading — Toast slide-up with spring, Rich icons per type, Drawer spring cubic-bezier, Empty state styling, Skeleton shimmer
   - **Phase 7:** Accessibility — Focus-visible outlines (#10b981), Reduced-motion media query (disables all animations), Touch target minimums (44px), Smooth scroll
+- [x] **Listening Comprehension (🎧 ฝึกฟัง)** — 10 dialogues with comprehension questions
+  - 🍜 ร้านเฝอ, ☕ ร้านกาแฟ, 🛒 ตลาด, 🗺️ ถามทาง, 📱 Grab, 🏨 โรงแรม, 🚂 ตั๋วรถไฟ, 🍽️ ร้านอาหาร, 💬 เพื่อน, 🇻🇳 อยู่เวียดนาม
+  - 3-4 comprehension questions per dialogue (difficulty: ง่าย→ปานกลาง→ยาก)
+  - TTS play with line-by-line progression + transcript toggle + results tracking
+  - Bottom nav button (grid-cols-5) + keyboard shortcut 'l'
+  - SpeechSynthesis.cancel() + double-increment bug fix
 
 ---
 

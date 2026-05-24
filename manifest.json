@@ -1,0 +1,21 @@
+{
+  "name": "Hanoi Survival Vietnamese",
+  "short_name": "HanoiVN",
+  "description": "เรียนภาษาเวียดนาม ครบ 4 สัปดาห์ — ฟัง พูด อ่าน เขียน วรรณยุกต์ + Speech Recognition",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#030712",
+  "theme_color": "#10b981",
+  "orientation": "portrait",
+  "categories": ["education", "language"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%23030712'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle' fill='%2310b981'%3E🏍️%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "lang": "th"
+}
