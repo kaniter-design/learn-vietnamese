@@ -1,7 +1,7 @@
 # Progress — Learn Vietnamese Website
 
 > ไฟล์นี้ใช้ resume การทำงานใน session ถัดไป
-> อัปเดตล่าสุด: 2026-05-24 | ✅ Website Prototype Phase
+> อัปเดตล่าสุด: 2026-05-24 | ✅ Day 0 Phonetics & Leitner Drawer Complete & Planning Next Steps 🔄
 
 ---
 
@@ -9,26 +9,26 @@
 
 | Phase | สถานะ | เอกสาร |
 |-------|--------|--------|
-| **P1: Discovery** | ✅ Complete | `project-brief.md`, `scope-checklist.md` |
-| **P2: Research** | ✅ Complete | `competitor-analysis.md`, `personas.md`, `curriculum-research.md`, `positioning-statement.md`, `journey-map.md` |
-| **P3: UX Design** | ✅ Complete | `user-flow.md`, `ia-map.md`, `wireframe.html`, `wireframe-feedback.md` |
-| **Requirements** | ✅ Consolidated | `product-requirements.md`, `curriculum-4week.md` |
-| **P4: UI Design** | ✅ Complete | `design-tokens.css`, `component-library.md`, `accessibility-audit.md`, `responsive-plan.md` |
-| **P5: Prototype** | ✅ Complete | `index.html` + `data.js` — full website prototype |
-| **P6: Iterate** | 🔄 อยู่ระหว่างทำ | ดูรายละเอียดด้านล่าง |
+| **P1: Discovery** | ✅ Complete | `docs/project-brief.md`, `docs/scope-checklist.md` |
+| **P2: Research** | ✅ Complete | `docs/competitor-analysis.md`, `docs/personas.md`, `docs/curriculum-research.md`, `docs/positioning-statement.md`, `docs/journey-map.md` |
+| **P3: UX Design** | ✅ Complete | `docs/user-flow.md`, `docs/ia-map.md`, `docs/wireframe.html`, `docs/wireframe-feedback.md` |
+| **Requirements** | ✅ Consolidated | `docs/product-requirements.md`, `docs/curriculum-4week.md` |
+| **P4: UI Design** | ✅ Complete | `design-tokens.css`, `docs/component-library.md`, `docs/accessibility-audit.md`, `docs/responsive-plan.md` |
+| **P5: Backend Integration** | ✅ Complete | `app.py`, `database.py`, `schemas.py`, `requirements.txt` (FastAPI + SQLite + Gemini API) |
+| **P6: Version 3.0 Upgrades** | 🔄 อยู่ระหว่างทำ | ดูรายละเอียดด้านล่าง (ต่อคำประโยค SVO, ระบบตรวจการออกเสียงภาษาเวียดนาม) |
 | **P7: Handoff** | ⏳ | ยังไม่ได้เริ่ม |
 
 ---
 
-## 🔑 Tech Stack (Confirmed) — Website
+## 🔑 Tech Stack (Confirmed) — Full-Stack Web App
 
 | Layer | Choice |
 |-------|--------|
-| **Frontend** | Vanilla HTML + CSS (no framework) + CDN DaisyUI |
-| **Backend** | **TBD — None yet (static only)** |
-| **Database** | **TBD — None yet (no persistence)** |
-| **TTS** | edge-tts (vi-VN-HoaiNeural) — not integrated yet |
-| **AI Model** | `opencode-go/deepseek-v4-flash` |
+| **Frontend** | Vanilla HTML + CSS (no framework) + CDN DaisyUI + webkitSpeechRecognition API |
+| **Backend** | FastAPI (Python 3.14) |
+| **Database** | SQLite + SQLAlchemy ORM (`progress.db`) |
+| **TTS** | Web Speech API (vi-VN) with local backend proxy fallback `/api/tts` (bypasses CORS/Referer blocks) |
+| **AI Model** | Google Gemini API (`gemini-2.0-flash` on free tier via environment variable `GEMINI_API_KEY`) |
 | **Language pair** | Thai ↔ Vietnamese |
 
 ---
@@ -37,19 +37,23 @@
 
 ```
 learn_vietnamese/
-├── index.html                # Main website (1868 lines) — all screens
+├── index.html                # Main website (SPA - HTML + CSS + JS)
 ├── data.js                   # Curriculum data + quests + helpers
+├── app.py                    # FastAPI Gateway + Gemini API hooks + TTS Proxy
+├── database.py               # SQLite connection, SQL Model tables
+├── schemas.py                # Pydantic input/output validation models
+├── requirements.txt          # Python dependencies
+├── progress.db               # SQLite database file
 ├── design-tokens.css         # Design tokens (P4)
-├── wireframe.html            # Wireframe (P3)
 ├── progress.md               # ← ไฟล์นี้
 ├── MASTER-SYSTEM-PROMPT.md   # Master reference
-├── *.md                      # Design docs (P1-P4, content)
-├── k-s-workflow-for-ai.md    # AI workflow guide
+├── ai-collaboration-guide.md # Coordination guide for AI Agents
+└── docs/                     # Design/Research specs & documents (P1-P4)
 ```
 
 ---
 
-## ✅ Built Features (Website Prototype)
+## ✅ Built Features (Web App)
 
 | Feature | สถานะ | รายละเอียด |
 |---------|--------|------------|
@@ -57,55 +61,38 @@ learn_vietnamese/
 | Word cards (vocab) | ✅ Done | 270+ words, all 4 weeks in data.js |
 | Quiz engine | ✅ Done | Multiple choice from current day's vocab |
 | Spelling drill | ✅ Done | Listen → type, tone validation |
-| Tone practice | ✅ Done | All 6 tones w/ minimal pairs + sound chart |
-| Quest system (Text-RPG) | ✅ Done | 6 quests: Airport, Grab Bike, 7-Eleven, Market, Phở, Taxi. HP/currency mechanic, humor spikes |
-| Progress screen | ✅ Done | screen-progress (basic) |
-| Grammar reference | ✅ Done | screen-grammar |
-| Data: full curriculum | ✅ Done | 4 weeks, 28 days, ~270 words + IPA + tones + tips |
+| Tone practice | ✅ Done | All 6 tones w/ minimal pairs + sound chart, stats sync |
+| Quest system (Text-RPG) | ✅ Done | 6 quests: Airport, Grab Bike, 7-Eleven, Market, Phở, Taxi. Dynamic AI Quest Chat roleplay using Gemini with local fallback |
+| Progress screen | ✅ Done | screen-progress, dynamic stats and week progress bars |
+| Smart Fail Diagnostics | ✅ Done | Calls `/api/quiz/diagnose` for dynamic explanation of incorrect tone contours / vowels in Thai, and auto-queues failed words in SRS |
+| local TTS Proxy | ✅ Done | Routes speech synthesizer requests through `/api/tts` to bypass browser CORS blocks |
+| SQLite Sync | ✅ Done | Streaks, unlocked days, Leitner box levels, tone stats are persisted in SQLite |
 
 ---
 
-## ⏳ Remaining (Priority Order)
+## ⏳ Remaining Tasks (Version 3.0 Upgrades)
 
-### P1 — Core Polish (quick wins)
-- [ ] **LocalStorage save** — progress หายเมื่อรีเฟรช ต้อง save day completion, quiz scores
-- [ ] **Edge TTS audio** — ปุ่ม 🔊 บน word card, ใช้ media playback API
-
-### P2 — Content Expansion
-- [ ] **Week 3-4 spelling** — ระบบสะกดคำตอนนี้ใช้แค่ Week 1-2 vocab
-- [ ] **Week 3-4 quest scenarios** — quests มีแค่ 6 อัน ครอบคลุมแค่บางวัน
-- [ ] **Quest day mapping** — quest ถูก trigger อัตโนมัติตามวัน (ตอนนี้มีปุ่มแมนนวล)
-
-### P3 — Features
-- [ ] **SRS (Spaced Repetition)** — ระบบทวนคำระยะยาว แบบ Leitner/SM-2
-- [ ] **Business phrases library** — แยกหน้า business-phrases.md content
-- [ ] **Smart Fail Protocol** — feedback เมื่อตอบผิดซ้ำ
-- [ ] **AI conversation practice** — บทสนทนากับ AI (ต้องมี backend)
-
-### P4 — Quality
-- [ ] **Responsive polish** — mobile test, ปรับ layout จุดที่พัง
-- [ ] **Accessibility** — ตรวจ WCAG gaps จาก accessibility-audit.md
-- [ ] **Deploy** — ขึ้น Cloudflare Pages หรือ Netlify
+- [x] **Day 0 Phonetics & Tones Primer** — Interactive soundboard + vowel/consonant charts to teach pronunciation before vocabulary.
+- [x] **Vocabulary Leitner Box Drawer** — A visual dashboard to see learned words sorted by Leitner Box level (1 to 5) with audio playback.
+- [ ] **Duolingo-style Word Banks (ระบบต่อประโยค)** — Arrange word tokens in correct SVO order for sentence drills.
+  - [ ] ออกแบบชุดคำประโยคตัวอย่างสำหรับการฝึกหัด (SVO Sentence Pool) โดยเชื่อมกับไวยากรณ์ในแต่ละวัน
+  - [ ] พัฒนา UI บับเบิ้ลคำศัพท์ (Bubble Word Tokens) และพื้นที่วางเรียงคำประโยค (Drop Area)
+  - [ ] พัฒนาระบบตรวจสอบความถูกต้องลำดับคำ (Syntax & Order Validation) และฟีดแบ็กเมื่อทำผิด
+- [ ] **Elsa Speak-style Speech Recognition (ระบบประเมินเสียงพูด)** — Using `webkitSpeechRecognition` to evaluate user pronunciation of Vietnamese words with real-time feedback.
+  - [ ] พัฒนาฟังก์ชัน `startSpeakingDrill(word, btnElement)` ที่ถูกเรียกในคำการ์ดคำศัพท์
+  - [ ] เชื่อมต่อเบราว์เซอร์ `webkitSpeechRecognition` ด้วยภาษา `vi-VN`
+  - [ ] ระบบวิเคราะห์เปรียบเทียบคำพูดผู้ใช้กับคำศัพท์เป้าหมาย (String Similarity Matcher)
+  - [ ] พัฒนา UI ฟีดแบ็กในตัวการ์ด (เช่น สีเขียวเมื่อพูดถูกต้อง, สีแดงและข้อความความคลาดเคลื่อนเมื่อพูดผิด)
 
 ---
 
 ## 📝 Session Resume Guide
 
 เมื่อเปิด session ใหม่:
-1. อ่าน `progress.md` นี้ก่อน
-2. อ่าน `MASTER-SYSTEM-PROMPT.md` — master reference
-3. อ่าน `product-requirements.md` — requirements
-4. อ่าน `curriculum-4week.md` — เนื้อหา
-5. Recap: **✅ Website prototype เสร็จ (P5). อยู่ระหว่าง P6 Iterate — ลำดับถัดไปคือ LocalStorage + Audio**
+1. อ่าน `progress.md` นี้ก่อน เพื่อตรวจสอบสถานะล่าสุด
+2. Uvicorn Server รันอยู่ที่ `http://127.0.0.1:8000`
+3. Recap: **✅ API Integration (Phase 5) เสร็จสมบูรณ์แล้ว อยู่ระหว่างการทำ P6 Version 3.0 Upgrades**
 
 ---
 
-## 🎯 Recommended Next Session (เลือกได้)
-
-1. **LocalStorage persistence** — บันทึก progress, day completion, quiz score
-2. **Edge TTS audio** — ปุ่ม 🔊 เปิดเสียงอ่านคำศัพท์
-3. **Week 3-4 quiz/spelling** — ขยาย quiz engine ไปถึง data week 3-4
-
----
-
-*Updated: 2026-05-24 | Status: P5 Prototype ✅ → P6 Iterate 🔄*
+*Updated: 2026-05-24 | Status: P5 Backend Integration ✅ → P6 Version 3.0 Upgrades 🔄*

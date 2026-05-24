@@ -8,43 +8,83 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.css" rel="stylesheet" type="text/css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-tokens.css">
 
   <script src="data.js"></script>
 
   <style>
-    /* ===== DESIGN TOKENS ===== */
+    /* ===== DESIGN SYSTEM TOKENS ===== */
     :root {
-      --vn-green: #059669;
-      --vn-green-light: #10b981;
-      --vn-green-dark: #047857;
-      --vn-red: #dc2626;
-      --vn-red-light: #f87171;
+      --vn-green: #10b981;
+      --vn-green-light: #34d399;
+      --vn-green-dark: #059669;
+      --vn-red: #f43f5e;
+      --vn-red-light: #fb7185;
       --vn-yellow: #fbbf24;
 
-      --bg-base: #0f172a;
-      --bg-surface: #1e293b;
-      --bg-card: #1e293b;
-      --bg-card-hover: #334155;
-      --bg-elevated: #334155;
+      --bg-base: #060913; /* Cosmic Deep Black */
+      --bg-surface: rgba(15, 23, 42, 0.6);
+      --bg-card: rgba(30, 41, 59, 0.45);
+      --bg-card-hover: rgba(30, 41, 59, 0.65);
+      --bg-elevated: rgba(51, 65, 85, 0.6);
 
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
       --text-muted: #64748b;
 
-      --tone-ngang: #9ca3af;
-      --tone-huyen: #60a5fa;
-      --tone-sac: #f87171;
-      --tone-hoi: #fbbf24;
-      --tone-nga: #a78bfa;
-      --tone-nang: #e5e7eb;
+      --tone-ngang: #94a3b8;
+      --tone-huyen: #3b82f6;
+      --tone-sac: #ef4444;
+      --tone-hoi: #f59e0b;
+      --tone-nga: #8b5cf6;
+      --tone-nang: #f1f5f9;
 
-      --font-sans: 'Noto Sans Thai', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
-      --font-viet: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+      --font-sans: 'Plus Jakarta Sans', 'Noto Sans Thai', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-viet: 'Plus Jakarta Sans', 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-title: 'Outfit', 'Plus Jakarta Sans', var(--font-sans);
     }
 
     * { font-family: var(--font-sans); }
-    body { background: var(--bg-base); min-height: 100dvh; }
+    body { background: var(--bg-base); min-height: 100dvh; color: var(--text-primary); position: relative; overflow-x: hidden; }
+
+    /* ===== BACKGROUND GLOWS (Mesh Effect) ===== */
+    .glow-bg-1 {
+      position: absolute;
+      top: -150px; left: -50px;
+      width: 450px; height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(60px);
+    }
+    .glow-bg-2 {
+      position: absolute;
+      top: 35%; right: -150px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(65px);
+    }
+    .glow-bg-3 {
+      position: absolute;
+      bottom: -100px; left: 10%;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(55px);
+    }
+
+    /* ===== TYPOGRAPHY OVERRIDES ===== */
+    h1, h2, h3, h4, .stat-value {
+      font-family: var(--font-title);
+      letter-spacing: -0.02em;
+    }
 
     /* ===== TONE BADGES ===== */
     .tone-ngang { color: var(--tone-ngang); }
@@ -58,51 +98,59 @@
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 0.375rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.5rem;
       font-size: 0.75rem;
       font-weight: 600;
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
     }
 
     /* ===== VIETNAMESE WORD ===== */
     .vi-word {
       font-family: var(--font-viet);
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.01em;
     }
 
-    /* ===== CARDS ===== */
+    /* ===== GLASSMORPHIC CARDS ===== */
     .card-vn {
       background: var(--bg-card);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
     }
     .card-vn:hover {
-      border-color: rgba(255,255,255,0.12);
+      border-color: rgba(16, 185, 129, 0.35);
       background: var(--bg-card-hover);
+      box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.35), 0 0 20px -3px rgba(16, 185, 129, 0.25);
+      transform: translateY(-2px);
     }
 
     .card-hover {
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .card-hover:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px -8px rgba(0,0,0,0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px -8px rgba(0,0,0,0.4), 0 0 15px -3px rgba(255,255,255,0.05);
     }
     .card-hover:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
     }
 
     /* ===== PROGRESS BAR ===== */
     .progress-fill {
       height: 100%;
       border-radius: 9999px;
-      background: linear-gradient(90deg, var(--vn-green), var(--vn-green-light));
-      transition: width 0.6s ease;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* ===== CONFETTI ===== */
@@ -116,63 +164,96 @@
       animation: confettiPop 0.8s ease-out forwards;
     }
 
-    /* ===== BUTTONS ===== */
+    /* ===== PREMIUM BUTTONS ===== */
     .btn-vn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.375rem;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
+      gap: 0.4rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 0.75rem;
       font-size: 0.875rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
     }
-    .btn-vn:active { transform: scale(0.97); }
+    .btn-vn:active { transform: scale(0.96); }
+    
     .btn-vn-primary {
-      background: var(--vn-green);
+      background: linear-gradient(135deg, #10b981, #059669);
       color: white;
+      box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+    }
+    .btn-vn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transform: skewX(-25deg);
+      transition: none;
+    }
+    .btn-vn-primary:hover::after {
+      left: 150%;
+      transition: all 0.8s ease-in-out;
     }
     .btn-vn-primary:hover {
-      background: var(--vn-green-dark);
+      background: linear-gradient(135deg, #059669, #047857);
+      box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.4), 0 0 15px rgba(16, 185, 129, 0.2);
+      transform: translateY(-1px);
     }
+
     .btn-vn-ghost {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.03);
       color: var(--text-secondary);
-      border-color: rgba(255,255,255,0.1);
+      border-color: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
     }
     .btn-vn-ghost:hover {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
       color: var(--text-primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
     }
+
     .btn-vn-correct {
-      background: rgba(5, 150, 105, 0.15);
-      border-color: var(--vn-green);
-      color: var(--vn-green-light);
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
     }
     .btn-vn-wrong {
-      background: rgba(220, 38, 38, 0.15);
-      border-color: var(--vn-red);
-      color: var(--vn-red-light);
+      background: rgba(244, 63, 94, 0.12);
+      border-color: rgba(244, 63, 94, 0.4);
+      color: #fb7185;
+      box-shadow: 0 0 10px rgba(244, 63, 94, 0.1);
     }
 
     /* ===== QUIZ FEEDBACK ===== */
     .quiz-feedback {
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.15rem;
       border-radius: 0.75rem;
-      font-size: 0.85rem;
-      animation: slideIn 0.3s ease-out;
+      font-size: 0.875rem;
+      backdrop-filter: blur(8px);
+      animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     .quiz-feedback.correct {
-      background: rgba(5, 150, 105, 0.1);
-      border-left: 3px solid var(--vn-green);
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid #10b981;
+      border-top: 1px solid rgba(16, 185, 129, 0.1);
+      border-right: 1px solid rgba(16, 185, 129, 0.1);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
     }
     .quiz-feedback.wrong {
-      background: rgba(220, 38, 38, 0.1);
-      border-left: 3px solid var(--vn-red);
+      background: rgba(244, 63, 94, 0.1);
+      border-left: 4px solid #f43f5e;
+      border-top: 1px solid rgba(244, 63, 94, 0.1);
+      border-right: 1px solid rgba(244, 63, 94, 0.1);
+      border-bottom: 1px solid rgba(244, 63, 94, 0.1);
     }
 
     /* ===== SCREEN MANAGEMENT ===== */
@@ -180,9 +261,9 @@
     .screen.active { display: block; }
 
     /* ===== ANIMATIONS ===== */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(0.75rem); }
+      from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes confettiPop {
@@ -190,14 +271,238 @@
       100% { transform: scale(1.2) rotate(180deg); opacity: 0; }
     }
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-      50%      { box-shadow: 0 0 0 1rem rgba(16, 185, 129, 0); }
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
+      50%      { box-shadow: 0 0 0 0.8rem rgba(16, 185, 129, 0); }
     }
-    .animate-fade-in  { animation: fadeIn 0.4s ease-out; }
-    .animate-slide-in { animation: slideIn 0.35s ease-out; }
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.4; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+    .animate-fade-in  { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .animate-slide-in { animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     .animate-pulse-glow { animation: pulseGlow 2s infinite; }
 
     /* ===== RESPONSIVE NAV ===== */
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 0.85rem;
+      border-radius: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      white-space: nowrap;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.06);
+    }
+    .nav-link.active {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
+      font-weight: 600;
+    }
+
+    /* ===== MOBILE NAV DRAWER ===== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .nav-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      background: #090e1a;
+      z-index: 50;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-right: 1px solid rgba(255,255,255,0.08);
+      overflow-y: auto;
+    }
+    .nav-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* ===== QUIZ OPTION BUTTONS ===== */
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.15rem;
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      min-height: 3rem;
+      text-align: center;
+    }
+    .quiz-option:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-1px);
+    }
+    .quiz-option:active { transform: scale(0.97); }
+    
+    .quiz-option.correct {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      font-weight: 600;
+    }
+    .quiz-option.wrong {
+      border-color: #f43f5e;
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      font-weight: 600;
+    }
+    .quiz-option.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* ===== TIMELINE PATH ROADMAP ===== */
+    .path-week {
+      background: rgba(255,255,255,0.01);
+      border: 1px solid rgba(255,255,255,0.03);
+      padding: 0.85rem;
+      border-radius: 0.85rem;
+      position: relative;
+    }
+    
+    .path-road {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      position: relative;
+      padding: 0.25rem 0;
+    }
+
+    /* ===== STEP INDICATOR ===== */
+    .step-dot {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 700;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .step-dot.active {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+    .step-dot.active::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 2px solid #10b981;
+      border-radius: 9999px;
+      animation: pulseRing 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+    .step-dot.done {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+    .step-dot.pending {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.04);
+      color: var(--text-muted);
+    }
+
+    /* ===== STAT VALUE ===== */
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ===== RESPONSIVE GRID HELPERS ===== */
+    .grid-lessons {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .grid-lessons { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    }
+    @media (min-width: 1024px) {
+      .grid-lessons { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    }
+
+    .grid-quiz {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .grid-quiz { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ===== STREAK FIRE ===== */
+    .streak-fire {
+      animation: streakFire 1.5s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes streakFire {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.2)); }
+      50%      { transform: scale(1.12) rotate(3deg); filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5)); }
+    }
+
+    /* ===== SKIP LINK ===== */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      z-index: 1000;
+      padding: 0.5rem 1rem;
+      background: #10b981;
+      color: #fff;
+      font-size: 0.875rem;
+      border-radius: 0 0 0.5rem 0;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 0; }
+
+    @media (max-width: 639px) {
+      .hide-mobile { display: none !important; }
+    }
+    @media (min-width: 640px) {
+      .show-mobile { display: none !important; }
+    }
+
     .nav-link {
       display: flex;
       align-items: center;
@@ -393,11 +698,17 @@
       </div>
     </div>
     <div class="p-3 space-y-1">
-      <button class="nav-link active" data-screen="dashboard" onclick="switchScreen('dashboard'); closeNav();">
+      <button class="nav-link" data-screen="dashboard" onclick="switchScreen('dashboard'); closeNav();">
         <span>🏠</span> หน้าแรก
+      </button>
+      <button class="nav-link" data-screen="phonetics" onclick="switchScreen('phonetics'); closeNav();">
+        <span>🎓</span> ปรับพื้นฐานเสียง (Day 0)
       </button>
       <button class="nav-link" data-screen="learn" onclick="switchScreen('learn'); closeNav();">
         <span>📚</span> เรียน
+      </button>
+      <button class="nav-link" data-screen="flashcards" onclick="switchScreen('flashcards'); closeNav();">
+        <span>🃏</span> ท่องคำศัพท์ (SRS)
       </button>
       <button class="nav-link" data-screen="tones" onclick="switchScreen('tones'); closeNav();">
         <span>🎵</span> วรรณยุกต์
@@ -412,7 +723,15 @@
         <span>📖</span> ไวยากรณ์
       </button>
     </div>
-    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-[rgba(255,255,255,0.06)]">
+    <div class="absolute bottom-12 left-0 right-0 p-4 border-t border-[rgba(255,255,255,0.06)] bg-slate-900/40">
+      <div class="text-[0.65rem] text-gray-500 font-semibold uppercase tracking-wider mb-2">🔊 เสียงอ่าน (TTS)</div>
+      <select id="tts-engine-select-nav" class="select select-bordered select-xs w-full bg-slate-800 text-gray-300 border-gray-700 text-[0.7rem]" onchange="changeTTSEngine(this.value)">
+        <option value="auto">🤖 อัตโนมัติ (ตรวจเสียงระบบ)</option>
+        <option value="google">🌐 Google Cloud (แนะนำ)</option>
+        <option value="browser">💻 Browser Native (เสียงออฟไลน์)</option>
+      </select>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 p-4 h-12 flex items-center justify-center border-t border-[rgba(255,255,255,0.06)] bg-slate-900/60">
       <div class="text-gray-600 text-[0.65rem] text-center">🇻🇳 v0.2 · Web App</div>
     </div>
   </nav>
@@ -421,8 +740,8 @@
   <header class="sticky top-0 z-30 bg-[rgba(15,23,42,0.95)] backdrop-blur-md border-b border-[rgba(255,255,255,0.06)]">
     <div class="max-w-6xl mx-auto px-3 sm:px-6">
       <div class="flex items-center h-14 gap-3">
-        <!-- Hamburger (mobile) -->
-        <button class="show-mobile w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/5 transition-colors" onclick="toggleNav()" aria-label="เปิดเมนู">
+        <!-- Hamburger Menu -->
+        <button class="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/5 transition-colors" onclick="toggleNav()" aria-label="เปิดเมนู">
           <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -440,7 +759,9 @@
         <!-- Desktop Nav -->
         <nav class="hide-mobile flex items-center gap-1 ml-auto" role="navigation" aria-label="เมนูหลัก">
           <button class="nav-link active" data-screen="dashboard" onclick="switchScreen('dashboard')">🏠 หน้าแรก</button>
+          <button class="nav-link" data-screen="phonetics" onclick="switchScreen('phonetics')">🎓 ปรับพื้นฐาน</button>
           <button class="nav-link" data-screen="learn" onclick="switchScreen('learn')">📚 เรียน</button>
+          <button class="nav-link" data-screen="flashcards" onclick="switchScreen('flashcards')">🃏 ท่องคำศัพท์</button>
           <button class="nav-link" data-screen="tones" onclick="switchScreen('tones')">🎵 วรรณยุกต์</button>
           <button class="nav-link" data-screen="spelling" onclick="switchScreen('spelling')">✏️ สะกดคำ</button>
           <button class="nav-link" data-screen="progress" onclick="switchScreen('progress')">📊 ความก้าวหน้า</button>
@@ -482,7 +803,10 @@
               </div>
             </div>
             <button class="btn-vn btn-vn-primary w-full mt-4 text-sm font-semibold py-3" onclick="startToday()">
-              ▶️ เริ่มเรียนวันนี้ — <span id="dashboard-start-label">Week 1 · Day 1</span>
+              ▶️ เริ่มบทเรียนวันนี้ — <span id="dashboard-start-label">Week 1 · Day 1</span>
+            </button>
+            <button class="btn-vn bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 w-full mt-2 text-xs font-semibold py-2.5 flex items-center justify-center gap-1.5" onclick="switchScreen('phonetics')">
+              🎓 Day 0: ปรับพื้นฐานการออกเสียง (Alphabet & Tones)
             </button>
           </div>
         </div>
@@ -525,10 +849,27 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="flex flex-col sm:flex-row gap-2 animate-slide-in">
+        <div class="flex flex-col sm:flex-row gap-2 animate-slide-in mb-3">
           <button class="btn-vn btn-vn-ghost flex-1" onclick="switchScreen('tones')">🎵 ฝึกวรรณยุกต์</button>
           <button class="btn-vn btn-vn-ghost flex-1" onclick="switchScreen('grammar')">📖 ไวยากรณ์</button>
           <button class="btn-vn btn-vn-ghost flex-1" onclick="switchScreen('progress')">📊 ความก้าวหน้า</button>
+        </div>
+
+        <!-- TTS Engine Settings -->
+        <div class="card-vn mt-3 animate-slide-in border-slate-700/40 bg-[rgba(255,255,255,0.01)] !p-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="text-white text-xs font-semibold flex items-center gap-1.5">
+                🔊 ตั้งค่าระบบออกเสียง (TTS Settings)
+              </h3>
+              <p class="text-gray-500 text-[0.65rem] mt-0.5">เลือกเสียงพูดที่เหมาะสมกับระบบของคุณ (แนะนำให้ใช้ Google Cloud หากเสียงระบบอ่านไม่เป็นภาษาเวียดนาม)</p>
+            </div>
+            <select id="tts-engine-select" class="select select-bordered select-xs w-full sm:w-auto bg-slate-800 text-gray-300 border-gray-700 text-xs" onchange="changeTTSEngine(this.value)">
+              <option value="auto">🤖 อัตโนมัติ (เลือกเสียงระบบเวียดนามที่มี)</option>
+              <option value="google">🌐 Google Cloud (แนะนำ - เสียงแท้ คมชัด)</option>
+              <option value="browser">💻 Browser Native (เสียงระบบออฟไลน์)</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -925,6 +1266,20 @@
       </div>
 
       <!-- ================================================================ -->
+      <!-- SCREEN 4.5: FLASHCARDS (ทบทวนคำศัพท์ SRS)                        -->
+      <!-- ================================================================ -->
+      <div class="screen animate-fade-in" id="screen-flashcards" tabindex="-1">
+        <div class="mb-4 animate-slide-in">
+          <h2 class="text-xl font-bold text-white">🃏 ทบทวนคำศัพท์ (Spaced Repetition)</h2>
+          <p class="text-gray-400 text-sm mt-0.5">ท่องจำและสุ่มคำศัพท์ตามระบบ Leitner</p>
+        </div>
+
+        <div id="srs-card-container" class="animate-slide-in">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
       <!-- SCREEN 5: PROGRESS DASHBOARD                                     -->
       <!-- ================================================================ -->
       <div class="screen animate-fade-in" id="screen-progress" tabindex="-1">
@@ -935,19 +1290,19 @@
         <!-- Stats row — shown after learning -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-6 animate-slide-in" id="progress-stats">
           <div class="card-vn text-center opacity-40">
-            <div class="stat-value text-yellow-400">0</div>
+            <div class="stat-value text-yellow-400" id="stat-streak">0</div>
             <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">🔥 Streak</div>
           </div>
           <div class="card-vn text-center opacity-40">
-            <div class="stat-value text-blue-400">0</div>
+            <div class="stat-value text-blue-400" id="stat-words">0</div>
             <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">📚 คำที่จำได้</div>
           </div>
           <div class="card-vn text-center opacity-40">
-            <div class="stat-value text-green-400">0%</div>
+            <div class="stat-value text-green-400" id="stat-tones">0%</div>
             <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">🎵 วรรณยุกต์</div>
           </div>
           <div class="card-vn text-center opacity-40">
-            <div class="stat-value text-orange-400">0</div>
+            <div class="stat-value text-orange-400" id="stat-quests">0</div>
             <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">💬 สนทนา</div>
           </div>
         </div>
@@ -960,10 +1315,285 @@
           </div>
         </div>
 
+        </div>
+
+        <!-- Vocabulary Leitner Box Drawer -->
+        <div class="card-vn mb-4 animate-slide-in border-l-[3px] border-emerald-500/40">
+          <h3 class="text-white text-sm font-semibold mb-1">🗂️ คลังคำศัพท์ (Leitner Box System)</h3>
+          <p class="text-gray-500 text-[0.65rem] mb-3">แสดงปริมาณคำศัพท์ตามประสิทธิภาพการท่องจำในแต่ละระดับ</p>
+          
+          <div class="grid grid-cols-5 gap-1.5 text-center mb-3">
+            <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded p-1.5">
+              <div class="text-xs font-bold text-red-400" id="leitner-box-1-count">0</div>
+              <div class="text-[0.55rem] text-gray-500 mt-0.5">กล่อง 1</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded p-1.5">
+              <div class="text-xs font-bold text-orange-400" id="leitner-box-2-count">0</div>
+              <div class="text-[0.55rem] text-gray-500 mt-0.5">กล่อง 2</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded p-1.5">
+              <div class="text-xs font-bold text-yellow-400" id="leitner-box-3-count">0</div>
+              <div class="text-[0.55rem] text-gray-500 mt-0.5">กล่อง 3</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded p-1.5">
+              <div class="text-xs font-bold text-blue-400" id="leitner-box-4-count">0</div>
+              <div class="text-[0.55rem] text-gray-500 mt-0.5">กล่อง 4</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded p-1.5">
+              <div class="text-xs font-bold text-emerald-400" id="leitner-box-5-count">0</div>
+              <div class="text-[0.55rem] text-gray-500 mt-0.5">กล่อง 5</div>
+            </div>
+          </div>
+          
+          <button class="btn-vn btn-vn-ghost text-xs w-full py-2 flex items-center justify-center gap-1.5" onclick="toggleVocabularyDrawer()">
+            👁️ <span id="vocab-drawer-btn-text">เปิดแสดงรายละเอียดคำศัพท์สะสม</span>
+          </button>
+          
+          <div id="vocab-drawer-details" class="hidden mt-3 border-t border-[rgba(255,255,255,0.06)] pt-3 space-y-3 animate-fade-in max-h-[300px] overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
         <!-- CTA -->
         <div class="card-vn animate-slide-in text-center">
           <p class="text-gray-400 text-sm">เริ่มเรียนเพื่อดูความก้าวหน้าของคุณ</p>
           <button class="btn-vn btn-vn-primary mt-3" onclick="startToday()">▶️ เริ่มเรียนวันนี้</button>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SCREEN 5.5: PHONETICS PRIMER (Day 0 ปรับพื้นฐานเสียง)            -->
+      <!-- ================================================================ -->
+      <div class="screen animate-fade-in" id="screen-phonetics" tabindex="-1">
+        <div class="mb-4 animate-slide-in">
+          <h2 class="text-xl font-bold text-white">🎓 Day 0: ปรับพื้นฐานเสียงภาษาเวียดนาม</h2>
+          <p class="text-gray-400 text-sm mt-0.5">เรียนรู้ตัวอักษร สระ และระบบวรรณยุกต์ก่อนเริ่มจำคำศัพท์</p>
+        </div>
+
+        <!-- Phonetics Sub-tabs -->
+        <div class="flex border-b border-[rgba(255,255,255,0.08)] mb-4 bg-slate-900/40 p-1 rounded-lg">
+          <button class="flex-1 py-2 text-center text-xs font-semibold text-white bg-emerald-500/20 border border-emerald-500/20 rounded-md phonetic-tab-btn" onclick="switchPhoneticTab('p-tones', this)">🎵 วรรณยุกต์ 6 เสียง</button>
+          <button class="flex-1 py-2 text-center text-xs font-semibold text-gray-400 hover:text-white rounded-md phonetic-tab-btn" onclick="switchPhoneticTab('p-vowels', this)">🔠 สระพิเศษ</button>
+          <button class="flex-1 py-2 text-center text-xs font-semibold text-gray-400 hover:text-white rounded-md phonetic-tab-btn" onclick="switchPhoneticTab('p-consonants', this)">🅰️ พยัญชนะพิเศษ</button>
+        </div>
+
+        <!-- TAB 1: Tones -->
+        <div id="phonetic-p-tones" class="phonetic-tab-content space-y-3">
+          <div class="card-vn border-l-[3px] border-emerald-500/40 !p-4">
+            <h3 class="text-white text-xs font-semibold mb-2">วรรณยุกต์เวียดนาม 6 เสียง (เทียบเคียงไทยและจีน)</h3>
+            <p class="text-gray-400 text-[0.7rem] mb-3">กดปุ่ม 🔊 เพื่อฟังตัวอย่างเสียงเปรียบเทียบในแต่ละวรรณยุกต์ได้ทันที</p>
+            
+            <div class="space-y-2">
+              <div class="bg-[rgba(255,255,255,0.02)] p-2.5 rounded-lg flex items-center justify-between gap-3 border border-[rgba(255,255,255,0.04)]">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-white text-xs font-bold font-mono">1. Ngang (เสียงสามัญ)</span>
+                    <span class="bg-emerald-500/10 text-emerald-400 text-[0.6rem] px-1.5 py-0.5 rounded font-mono">➡️ [ระดับสูง-เรียบ]</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">ออกเสียงราบเรียบระนาบสูง (คล้ายสามัญไทยคีย์สูง)</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs !py-1 flex items-center gap-1 text-[0.65rem]" onclick="speak('ba', 0.8)">🔊 ba (สาม)</button>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-2.5 rounded-lg flex items-center justify-between gap-3 border border-[rgba(255,255,255,0.04)]">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-white text-xs font-bold font-mono">2. Huyền (เสียงเอก)</span>
+                    <span class="bg-blue-500/10 text-blue-400 text-[0.6rem] px-1.5 py-0.5 rounded font-mono">↘️ [ระดับต่ำ-ตก]</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">ออกเสียงทุ้มต่ำและตกจากระดับปกติลงไป (คล้ายเสียงเอกไทย)</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs !py-1 flex items-center gap-1 text-[0.65rem]" onclick="speak('bà', 0.8)">🔊 bà (คุณยาย)</button>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-2.5 rounded-lg flex items-center justify-between gap-3 border border-[rgba(255,255,255,0.04)]">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-white text-xs font-bold font-mono">3. Sắc (เสียงตรี-จัตวา)</span>
+                    <span class="bg-yellow-500/10 text-yellow-400 text-[0.6rem] px-1.5 py-0.5 rounded font-mono">↗️ [ระดับสูง-ขึ้นเร็ว]</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">ออกเสียงกระแทกขึ้นสูงอย่างรวดเร็ว (คล้ายเสียงตรีแต่ขึ้นจมูก)</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs !py-1 flex items-center gap-1 text-[0.65rem]" onclick="speak('bá', 0.8)">🔊 bá (ลุง/ป้า)</button>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-2.5 rounded-lg flex items-center justify-between gap-3 border border-[rgba(255,255,255,0.04)]">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-white text-xs font-bold font-mono">4. Hỏi (เสียงถาม)</span>
+                    <span class="bg-orange-500/10 text-orange-400 text-[0.6rem] px-1.5 py-0.5 rounded font-mono">❓ [กดต่ำแล้วขึ้น]</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">กดเสียงลงต่ำสุดแล้วยกเสียงขึ้นเล็กน้อยตอนท้ายเหมือนเสียงถามคำถาม</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs !py-1 flex items-center gap-1 text-[0.65rem]" onclick="speak('bả', 0.8)">🔊 bả (เหยื่อ)</button>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-2.5 rounded-lg flex items-center justify-between gap-3 border border-[rgba(255,255,255,0.04)]">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-white text-xs font-bold font-mono">5. Ngã (เสียงขึ้นจมูกสะดุด)</span>
+                    <span class="bg-purple-500/10 text-purple-400 text-[0.6rem] px-1.5 py-0.5 rounded font-mono">〰️ [ขึ้นสูง-สะดุด-ขึ้นอีก]</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">เสียงสั่นสะดุดกลางลำคอแล้วเบ่งขึ้นสูงอีกครั้ง (คล้ายเสียงหักมุมแต่ออกจมูก)</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs !py-1 flex items-center gap-1 text-[0.65rem]" onclick="speak('bã', 0.8)">🔊 bã (กาก/เศษ)</button>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-2.5 rounded-lg flex items-center justify-between gap-3 border border-[rgba(255,255,255,0.04)]">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-white text-xs font-bold font-mono">6. Nặng (เสียงหนัก/กักลม)</span>
+                    <span class="bg-red-500/10 text-red-400 text-[0.6rem] px-1.5 py-0.5 rounded font-mono">⬇️ [กดต่ำเฉียบพลัน]</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">ออกเสียงต่ำและถูกกักลมให้หยุดกระทันหันเหมือนเสียงกึ่งเสียงสะกด</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs !py-1 flex items-center gap-1 text-[0.65rem]" onclick="speak('bạ', 0.8)">🔊 bạ (หยาบช้า)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: Vowels -->
+        <div id="phonetic-p-vowels" class="phonetic-tab-content hidden space-y-3">
+          <div class="card-vn border-l-[3px] border-blue-500/40 !p-4">
+            <h3 class="text-white text-xs font-semibold mb-2">สระพิเศษในภาษาเวียดนาม</h3>
+            <p class="text-gray-400 text-[0.7rem] mb-3">เปรียบเทียบสระที่เขียนคล้ายกันแต่ออกเสียงต่างกันโดยสิ้นเชิง</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="bg-[rgba(255,255,255,0.02)] p-3 rounded-lg border border-[rgba(255,255,255,0.04)] flex flex-col justify-between">
+                <div>
+                  <span class="vi-word text-emerald-400 text-lg font-bold">a vs ă vs â</span>
+                  <p class="text-white text-xs mt-1">สระอา vs สระอะสั้น vs สระเออะสั้น</p>
+                  <p class="text-gray-500 text-[0.65rem] mt-1">
+                    - <strong>a</strong>: ออกเสียง อา ลากยาว<br>
+                    - <strong>ă</strong>: ออกเสียง อะ สั้นและกระชับ<br>
+                    - <strong>â</strong>: ออกเสียง เออะ สั้น
+                  </p>
+                </div>
+                <div class="flex gap-1.5 mt-3">
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('ai')">🔊 a</button>
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('ăn')">🔊 ă</button>
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('ân')">🔊 â</button>
+                </div>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-3 rounded-lg border border-[rgba(255,255,255,0.04)] flex flex-col justify-between">
+                <div>
+                  <span class="vi-word text-emerald-400 text-lg font-bold">o vs ô vs ơ</span>
+                  <p class="text-white text-xs mt-1">สระออ vs สระโอ vs สระเออ</p>
+                  <p class="text-gray-500 text-[0.65rem] mt-1">
+                    - <strong>o</strong>: ออกเสียง ออ (ปากกว้าง)<br>
+                    - <strong>ô</strong>: ออกเสียง โอ (ปากห่อกลม)<br>
+                    - <strong>ơ</strong>: ออกเสียง เออ (ยิงฟันปากแบน)
+                  </p>
+                </div>
+                <div class="flex gap-1.5 mt-3">
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('cho')">🔊 o</button>
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('cô')">🔊 ô</button>
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('cơ')">🔊 ơ</button>
+                </div>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-3 rounded-lg border border-[rgba(255,255,255,0.04)] flex flex-col justify-between">
+                <div>
+                  <span class="vi-word text-emerald-400 text-lg font-bold">e vs ê</span>
+                  <p class="text-white text-xs mt-1">สระแอ vs สระเอ</p>
+                  <p class="text-gray-500 text-[0.65rem] mt-1">
+                    - <strong>e</strong>: ออกเสียง แอ (ปากอ้ากว้าง)<br>
+                    - <strong>ê</strong>: ออกเสียง เอ (ปากแคบ)
+                  </p>
+                </div>
+                <div class="flex gap-1.5 mt-3">
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('mẹ')">🔊 e</button>
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('mê')">🔊 ê</button>
+                </div>
+              </div>
+
+              <div class="bg-[rgba(255,255,255,0.02)] p-3 rounded-lg border border-[rgba(255,255,255,0.04)] flex flex-col justify-between">
+                <div>
+                  <span class="vi-word text-emerald-400 text-lg font-bold">u vs ư</span>
+                  <p class="text-white text-xs mt-1">สระอู vs สระอือ</p>
+                  <p class="text-gray-500 text-[0.65rem] mt-1">
+                    - <strong>u</strong>: ออกเสียง อู (ปากจู๋)<br>
+                    - <strong>ư</strong>: ออกเสียง อือ (ปากแบน)
+                  </p>
+                </div>
+                <div class="flex gap-1.5 mt-3">
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('thu')">🔊 u</button>
+                  <button class="btn-vn btn-vn-ghost btn-xs flex-1" onclick="speak('thư')">🔊 ư</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Consonants -->
+        <div id="phonetic-p-consonants" class="phonetic-tab-content hidden space-y-3">
+          <div class="card-vn border-l-[3px] border-purple-500/40 !p-4">
+            <h3 class="text-white text-xs font-semibold mb-2">พยัญชนะต้นเวียดนามที่ต่างจากไทย</h3>
+            <p class="text-gray-400 text-[0.7rem] mb-3">จดจำเสียงพยัญชนะพิเศษเพื่อลดความสับสน</p>
+            
+            <div class="space-y-2">
+              <div class="p-2.5 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.04)] flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="vi-word text-emerald-400 text-base font-bold">đ</span>
+                    <span class="text-gray-500 text-xs">เทียบเสียง ด.เด็ก</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">ตัว d ขีดกลางคือเสียง ด.เด็ก ชัดเจน</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs" onclick="speak('đi')">🔊 đi (ไป)</button>
+              </div>
+
+              <div class="p-2.5 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.04)] flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="vi-word text-emerald-400 text-base font-bold">d / gi</span>
+                    <span class="text-gray-500 text-xs">เทียบเสียง ย.ยักษ์ หรือ ซ.โซ่</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">เวียดนามเหนือออกเสียง ซ.โซ่ (da = ซา), เวียดนามใต้และกลางออกเสียง ย.ยักษ์ (da = ยา)</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs" onclick="speak('da')">🔊 da (ผิวหนัง)</button>
+              </div>
+
+              <div class="p-2.5 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.04)] flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="vi-word text-emerald-400 text-base font-bold">tr</span>
+                    <span class="text-gray-500 text-xs">เทียบเสียง จ.จาน ลิ้นห่อ</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">เสียงกักสั่นลึกคล้าย จ.จาน ควบกล้ำลิ้นแตะปุ่มเหงือกด้านบน</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs" onclick="speak('tra')">🔊 tra (ตรวจ)</button>
+              </div>
+
+              <div class="p-2.5 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.04)] flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="vi-word text-emerald-400 text-base font-bold">ph</span>
+                    <span class="text-gray-500 text-xs">เทียบเสียง ฟ.ฟัน</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">สะกดเหมือน ph ในภาษาอังกฤษ (ไม่ใช่ พ.พาน แบบไทย)</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs" onclick="speak('phở')">🔊 phở (เฝอ)</button>
+              </div>
+
+              <div class="p-2.5 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.04)] flex items-center justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="vi-word text-emerald-400 text-base font-bold">nh</span>
+                    <span class="text-gray-500 text-xs">เทียบเสียง ญ.ผู้หญิง (ย.นาสิก)</span>
+                  </div>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5">ออกเสียงขึ้นจมูกคล้ายเสียง Ñ ในภาษาโปรตุเกสหรือสเปน</p>
+                </div>
+                <button class="btn-vn btn-vn-ghost btn-xs" onclick="speak('nhà')">🔊 nhà (บ้าน)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-6">
+          <button class="btn-vn btn-vn-primary px-8" onclick="switchScreen('dashboard')">🏠 กลับหน้าหลัก</button>
         </div>
       </div>
 
@@ -1152,10 +1782,16 @@
 
   <script>
     // ================================================================
-    // GLOBALS
+    // GLOBALS & PERSISTENT STATE
     // ================================================================
     let allWords = getAllWords();
     let currentDay = 1;
+    let completedDays = [];
+    let streak = 0;
+    let lastActiveDate = null;
+    let toneStats = { total: 0, correct: 0 };
+    let completedQuests = [];
+
     let currentDayWords = [];
     let quizQueue = [];
     let quizIdx = 0;
@@ -1164,6 +1800,180 @@
     let spellingStepNum = 0;
     let spellingWord = null;
     let toastTimeout = null;
+
+    let srsQueue = [];
+    let srsIdx = 0;
+    let srsCardFlipped = false;
+
+    // ================================================================
+    // PERSISTENCE HELPERS (LOCALSTORAGE + BACKEND API)
+    // ================================================================
+    let ttsEngine = 'auto';
+
+    function saveStateLocal() {
+      try {
+        localStorage.setItem('vietnamese_tutor_currentDay', currentDay);
+        localStorage.setItem('vietnamese_tutor_completedDays', JSON.stringify(completedDays));
+        localStorage.setItem('vietnamese_tutor_streak', streak);
+        localStorage.setItem('vietnamese_tutor_lastActiveDate', lastActiveDate || '');
+        localStorage.setItem('vietnamese_tutor_toneStats', JSON.stringify(toneStats));
+        localStorage.setItem('vietnamese_tutor_completedQuests', JSON.stringify(completedQuests));
+        localStorage.setItem('vietnamese_tutor_ttsEngine', ttsEngine);
+      } catch (e) {
+        console.error('Failed to save state to localStorage:', e);
+      }
+    }
+
+    function loadStateLocal() {
+      try {
+        const savedCurrentDay = localStorage.getItem('vietnamese_tutor_currentDay');
+        const savedCompletedDays = localStorage.getItem('vietnamese_tutor_completedDays');
+        const savedStreak = localStorage.getItem('vietnamese_tutor_streak');
+        const savedLastActiveDate = localStorage.getItem('vietnamese_tutor_lastActiveDate');
+        const savedToneStats = localStorage.getItem('vietnamese_tutor_toneStats');
+        const savedCompletedQuests = localStorage.getItem('vietnamese_tutor_completedQuests');
+        const savedTTSEngine = localStorage.getItem('vietnamese_tutor_ttsEngine');
+
+        if (savedCurrentDay) currentDay = parseInt(savedCurrentDay);
+        if (savedCompletedDays) completedDays = JSON.parse(savedCompletedDays);
+        if (savedStreak) streak = parseInt(savedStreak);
+        if (savedLastActiveDate) lastActiveDate = savedLastActiveDate;
+        if (savedToneStats) toneStats = JSON.parse(savedToneStats);
+        if (savedCompletedQuests) completedQuests = JSON.parse(savedCompletedQuests);
+        if (savedTTSEngine) ttsEngine = savedTTSEngine;
+
+        const selectDashboard = document.getElementById('tts-engine-select');
+        const selectNav = document.getElementById('tts-engine-select-nav');
+        if (selectDashboard) selectDashboard.value = ttsEngine;
+        if (selectNav) selectNav.value = ttsEngine;
+
+        checkStreakExpiry();
+      } catch (e) {
+        console.error('Failed to load state from localStorage:', e);
+      }
+    }
+
+    function saveState() {
+      saveStateLocal();
+    }
+
+    async function loadState() {
+      try {
+        const res = await fetch('/api/progress');
+        if (res.ok) {
+          const data = await res.json();
+          currentDay = data.current_day;
+          completedDays = data.completed_days;
+          streak = data.streak;
+          completedQuests = data.quests_completed || [];
+          
+          if (data.tone_accuracy) {
+            const pct = parseInt(data.tone_accuracy);
+            toneStats = { total: pct > 0 ? 100 : 0, correct: pct };
+          }
+          
+          renderPathDots();
+          updateProgressUI();
+          renderDay(currentDay);
+        } else {
+          loadStateLocal();
+        }
+      } catch (e) {
+        console.error('Failed to load state from API, falling back to local:', e);
+        loadStateLocal();
+      }
+    }
+
+    function checkStreakExpiry() {
+      if (lastActiveDate) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        const lastDate = new Date(lastActiveDate);
+        const todayDate = new Date(todayStr);
+        const diffTime = Math.abs(todayDate - lastDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if (diffDays > 1) {
+          streak = 0;
+          saveStateLocal();
+        }
+      }
+    }
+
+    function updateStreak() {
+      const todayStr = new Date().toISOString().split('T')[0];
+      if (!lastActiveDate || streak === 0) {
+        streak = 1;
+      } else {
+        const lastDate = new Date(lastActiveDate);
+        const todayDate = new Date(todayStr);
+        const diffTime = Math.abs(todayDate - lastDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) {
+          streak += 1;
+        } else if (diffDays > 1) {
+          streak = 1;
+        }
+      }
+      lastActiveDate = todayStr;
+    }
+
+    async function completeDay(dayNum) {
+      if (!completedDays.includes(dayNum)) {
+        try {
+          const res = await fetch('/api/progress/complete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ day_num: dayNum })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            streak = data.streak;
+            currentDay = data.current_day;
+            if (!completedDays.includes(dayNum)) {
+              completedDays.push(dayNum);
+              completedDays.sort((a, b) => a - b);
+            }
+            saveStateLocal();
+            renderPathDots();
+            updateProgressUI();
+            showToast('🎉 บันทึกความก้าวหน้าแล้ว!');
+          } else {
+            completeDayLocal(dayNum);
+          }
+        } catch (e) {
+          console.error('Failed to complete day on API, falling back to local:', e);
+          completeDayLocal(dayNum);
+        }
+      }
+    }
+
+    function completeDayLocal(dayNum) {
+      if (!completedDays.includes(dayNum)) {
+        completedDays.push(dayNum);
+        completedDays.sort((a, b) => a - b);
+        updateStreak();
+        if (dayNum === currentDay && currentDay < 28) {
+          currentDay = dayNum + 1;
+        }
+        saveStateLocal();
+        renderPathDots();
+        updateProgressUI();
+        showToast('🎉 บันทึกความก้าวหน้าแล้ว! (โหมดออฟไลน์)');
+      }
+    }
+
+    function getWordsCountForDay(dayNum) {
+      const info = getDayInfo(dayNum);
+      return info && info.words ? info.words.length : 0;
+    }
+
+    function getTotalWordsLearned() {
+      let total = 0;
+      completedDays.forEach(d => {
+        total += getWordsCountForDay(d);
+      });
+      return total;
+    }
 
     // ================================================================
     // NAVIGATION
@@ -1184,7 +1994,259 @@
       document.querySelectorAll('.nav-link').forEach(el => {
         el.classList.toggle('active', el.getAttribute('data-screen') === screenId);
       });
+      if (screenId === 'progress') {
+        updateProgressUI();
+        updateLeitnerStats();
+      }
+      if (screenId === 'flashcards') {
+        loadSRSQueue();
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ================================================================
+    // DAY 0 PHONETICS & VOCABULARY DRAWER HELPERS
+    // ================================================================
+    function switchPhoneticTab(tabId, btn) {
+      document.querySelectorAll('.phonetic-tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById('phonetic-' + tabId).classList.remove('hidden');
+      
+      document.querySelectorAll('.phonetic-tab-btn').forEach(el => {
+        el.className = 'flex-1 py-2 text-center text-xs font-semibold text-gray-400 hover:text-white rounded-md phonetic-tab-btn';
+      });
+      btn.className = 'flex-1 py-2 text-center text-xs font-semibold text-white bg-emerald-500/20 border border-emerald-500/20 rounded-md phonetic-tab-btn';
+    }
+
+    async function updateLeitnerStats() {
+      try {
+        const res = await fetch('/api/srs/stats');
+        if (res.ok) {
+          const data = await res.json();
+          const counts = data.counts;
+          for (let i = 1; i <= 5; i++) {
+            const el = document.getElementById('leitner-box-' + i + '-count');
+            if (el) el.textContent = counts[String(i)] || 0;
+          }
+          
+          window.lastLeitnerStats = data;
+          if (!document.getElementById('vocab-drawer-details').classList.contains('hidden')) {
+            renderVocabularyDrawerDetails(data);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load SRS stats:', e);
+      }
+    }
+
+    function toggleVocabularyDrawer() {
+      const detailsEl = document.getElementById('vocab-drawer-details');
+      const btnTextEl = document.getElementById('vocab-drawer-btn-text');
+      if (!detailsEl || !btnTextEl) return;
+
+      const isHidden = detailsEl.classList.contains('hidden');
+      if (isHidden) {
+        detailsEl.classList.remove('hidden');
+        btnTextEl.textContent = '🙈 ปิดแสดงรายละเอียดคำศัพท์สะสม';
+        if (window.lastLeitnerStats) {
+          renderVocabularyDrawerDetails(window.lastLeitnerStats);
+        } else {
+          updateLeitnerStats();
+        }
+      } else {
+        detailsEl.classList.add('hidden');
+        btnTextEl.textContent = '👁️ เปิดแสดงรายละเอียดคำศัพท์สะสม';
+      }
+    }
+
+    function renderVocabularyDrawerDetails(data) {
+      const detailsEl = document.getElementById('vocab-drawer-details');
+      if (!detailsEl) return;
+
+      detailsEl.innerHTML = '';
+      const boxNames = {
+        '1': { name: '🔴 กล่อง 1: เพิ่งเริ่มเรียน / ลืมบ่อยสุด', border: 'border-red-500/20 text-red-400' },
+        '2': { name: '🟠 กล่อง 2: พอเริ่มจำได้', border: 'border-orange-500/20 text-orange-400' },
+        '3': { name: '💛 กล่อง 3: เริ่มคุ้นเคย', border: 'border-yellow-500/20 text-yellow-400' },
+        '4': { name: '🔵 กล่อง 4: ทบทวนห่างๆ', border: 'border-blue-500/20 text-blue-400' },
+        '5': { name: '🟢 กล่อง 5: จำขึ้นใจ (ถาวร)', border: 'border-emerald-500/20 text-emerald-400' }
+      };
+
+      let totalWords = 0;
+      for (let i = 1; i <= 5; i++) {
+        const boxWords = data.words[String(i)] || [];
+        totalWords += boxWords.length;
+        if (boxWords.length === 0) continue;
+
+        const boxSection = document.createElement('div');
+        boxSection.className = 'space-y-1';
+        boxSection.innerHTML = `
+          <div class="text-[0.65rem] font-bold uppercase tracking-wider ${boxNames[String(i)].name.includes('🟢') ? 'text-emerald-400' : boxNames[String(i)].name.includes('🔴') ? 'text-red-400' : 'text-gray-400'}">${boxNames[String(i)].name} (${boxWords.length} คำ)</div>
+          <div class="grid grid-cols-2 gap-1.5">
+            ${boxWords.map(w => `
+              <div class="p-2 rounded bg-slate-800/40 border border-[rgba(255,255,255,0.04)] flex items-center justify-between text-xs transition-colors hover:bg-slate-800/70" onclick="speak('${w.word.replace(/'/g, "\\'")}')">
+                <span class="vi-word text-white font-medium">${w.word}</span>
+                <span class="text-gray-400 text-[0.65rem]">${w.meaning}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        detailsEl.appendChild(boxSection);
+      }
+
+      if (totalWords === 0) {
+        detailsEl.innerHTML = '<div class="text-center py-4 text-gray-500 text-xs">ยังไม่มีคำศัพท์ที่ถูกบันทึกอยู่ในระบบ Spaced Repetition (SRS) ในขณะนี้</div>';
+      }
+    }
+
+    // ================================================================
+    // FLASHCARDS & LEITNER SRS SYSTEM
+    // ================================================================
+    async function loadSRSQueue() {
+      const container = document.getElementById('srs-card-container');
+      if (container) {
+        container.innerHTML = '<div class="text-center py-8 text-gray-500 text-sm">กำลังโหลดคิวคำศัพท์ทบทวน...</div>';
+      }
+      
+      try {
+        const res = await fetch('/api/srs');
+        if (res.ok) {
+          srsQueue = await res.json();
+        } else {
+          srsQueue = [];
+        }
+      } catch (e) {
+        console.error('Failed to fetch SRS queue from backend:', e);
+        srsQueue = [
+          { word: 'xin chào', meaning: 'สวัสดี', box: 1 },
+          { word: 'cảm ơn', meaning: 'ขอบคุณ', box: 1 },
+          { word: 'xin lỗi', meaning: 'ขอโทษ', box: 1 }
+        ];
+      }
+      
+      srsIdx = 0;
+      srsCardFlipped = false;
+      renderSRSCard();
+    }
+
+    function renderSRSCard() {
+      const container = document.getElementById('srs-card-container');
+      if (!container) return;
+
+      if (srsQueue.length === 0) {
+        container.innerHTML = `
+          <div class="card-vn text-center p-8 border border-[rgba(255,255,255,0.06)] max-w-md mx-auto animate-slide-in">
+            <div class="text-4xl mb-3">🎉</div>
+            <h3 class="text-white font-semibold text-base mb-1">ยินดีด้วย! ทบทวนครบแล้ว</h3>
+            <p class="text-gray-400 text-xs mb-4">ไม่มีคำศัพท์ใดที่ถึงกำหนดทบทวนในระบบ Spaced Repetition ในขณะนี้</p>
+            <button class="btn-vn btn-vn-primary text-xs" onclick="switchScreen('dashboard')">🏠 กลับหน้าหลัก</button>
+          </div>
+        `;
+        return;
+      }
+
+      if (srsIdx >= srsQueue.length) {
+        container.innerHTML = `
+          <div class="card-vn text-center p-8 border border-[rgba(255,255,255,0.06)] max-w-md mx-auto animate-slide-in">
+            <div class="text-4xl mb-3">💯</div>
+            <h3 class="text-white font-semibold text-base mb-1">ยอดเยี่ยมมาก!</h3>
+            <p class="text-gray-400 text-xs mb-4">คุณได้ทำการทบทวนคำศัพท์จำนวน ${srsQueue.length} คำเสร็จสมบูรณ์</p>
+            <div class="flex gap-2 justify-center">
+              <button class="btn-vn btn-vn-ghost text-xs" onclick="loadSRSQueue()">🔄 ทบทวนอีกรอบ</button>
+              <button class="btn-vn btn-vn-primary text-xs" onclick="switchScreen('dashboard')">🏠 กลับหน้าหลัก</button>
+            </div>
+          </div>
+        `;
+        showConfetti();
+        return;
+      }
+
+      const wordObj = srsQueue[srsIdx];
+      const progressPercent = Math.round((srsIdx / srsQueue.length) * 100);
+
+      container.innerHTML = `
+        <div class="max-w-md mx-auto space-y-4">
+          <div class="flex items-center justify-between text-[0.65rem] text-gray-500 px-1">
+            <span>คำที่ ${srsIdx + 1} จาก ${srsQueue.length}</span>
+            <span>${progressPercent}% ทบทวนแล้ว</span>
+          </div>
+          <div class="w-full h-1 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: ${progressPercent}%"></div>
+          </div>
+
+          <div class="card-vn min-h-[280px] flex flex-col justify-between items-center text-center cursor-pointer select-none border-2 border-emerald-500/20 shadow-lg relative p-6 transition-all duration-300 transform hover:scale-[1.01] hover:border-emerald-500/40" id="srs-card" onclick="flipSRSCard()">
+            <div class="absolute top-3 right-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[0.65rem] px-2.5 py-0.5 rounded-full font-semibold">
+              📦 กล่อง Leitner: ${wordObj.box || 1}
+            </div>
+
+            <div class="my-auto flex flex-col items-center justify-center w-full py-4">
+              <div id="srs-card-front" class="${srsCardFlipped ? 'hidden' : 'block'} animate-fade-in space-y-4">
+                <div class="vi-word text-4xl font-extrabold text-white tracking-wide leading-normal">${wordObj.word}</div>
+                <button class="btn-vn btn-vn-ghost text-xs inline-flex items-center gap-1.5" onclick="event.stopPropagation(); speak('${wordObj.word.replace(/'/g, "\\'")}')">
+                  🔊 ฟังเสียงออกเสียง
+                </button>
+                <div class="text-gray-500 text-[0.65rem] pt-4 italic">แตะการ์ดเพื่อดูเฉลยคำแปล</div>
+              </div>
+
+              <div id="srs-card-back" class="${srsCardFlipped ? 'block' : 'hidden'} animate-fade-in space-y-4">
+                <div class="text-[0.65rem] text-gray-500 uppercase tracking-wider">คำศัพท์</div>
+                <div class="vi-word text-3xl font-extrabold text-emerald-400 tracking-wide leading-normal">${wordObj.word}</div>
+                <div class="w-8 h-px bg-[rgba(255,255,255,0.1)] mx-auto my-2"></div>
+                <div class="text-[0.65rem] text-gray-500 uppercase tracking-wider">คำแปลภาษาไทย</div>
+                <div class="text-2xl font-bold text-white">${wordObj.meaning}</div>
+                <div class="text-gray-500 text-[0.65rem] pt-4 italic">แตะการ์ดอีกครั้งเพื่อพลิกกลับ</div>
+              </div>
+            </div>
+
+            <div class="w-full mt-4" onclick="event.stopPropagation()">
+              <div class="${srsCardFlipped ? 'hidden' : 'block'}">
+                <button class="btn-vn btn-vn-primary w-full text-sm" onclick="flipSRSCard()">👁️ พลิกเพื่อแสดงคำแปล</button>
+              </div>
+              <div class="${srsCardFlipped ? 'grid grid-cols-2 gap-3' : 'hidden'}">
+                <button class="btn-vn bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 w-full text-xs font-semibold py-2.5 flex items-center justify-center gap-1" onclick="rateSRSCard(false)">
+                  ❌ จำไม่ได้ (ตกไปกล่อง 1)
+                </button>
+                <button class="btn-vn btn-vn-correct w-full text-xs font-semibold py-2.5 flex items-center justify-center gap-1" onclick="rateSRSCard(true)">
+                  ✅ จำได้แม่น (เลื่อนขึ้น 📦)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function flipSRSCard() {
+      srsCardFlipped = !srsCardFlipped;
+      renderSRSCard();
+    }
+
+    async function rateSRSCard(isCorrect) {
+      if (srsIdx >= srsQueue.length) return;
+      const wordObj = srsQueue[srsIdx];
+      const encodedWord = encodeURIComponent(wordObj.word);
+
+      try {
+        if (isCorrect) {
+          await fetch(`/api/srs/master/${encodedWord}`, {
+            method: 'DELETE'
+          });
+          showToast('👍 จำได้! เพิ่มระดับกล่องทบทวน');
+        } else {
+          await fetch('/api/srs/fail', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ word: wordObj.word, meaning: wordObj.meaning })
+          });
+          showToast('✏️ จำไม่ได้! ย้ายกลับไปกล่องก่อนหน้า');
+        }
+      } catch (e) {
+        console.error('Failed to sync card rating with backend:', e);
+        showToast('⚠️ บันทึกความจำในบราวเซอร์ (ออฟไลน์)');
+      }
+
+      srsIdx++;
+      srsCardFlipped = false;
+      renderSRSCard();
     }
 
     // ================================================================
@@ -1239,25 +2301,66 @@
     }
 
     function speak(text, speed = 0.85) {
-      if (!('speechSynthesis' in window)) {
-        showToast('⚠️ เบราว์เซอร์นี้ไม่รองรับ TTS');
-        return;
-      }
       if (speechSynthesis.speaking) speechSynthesis.cancel();
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'vi-VN';
-      utterance.rate = speed;
+      let useGoogle = false;
+      const viVoice = ttsVoices.find(v => v.lang.startsWith('vi') || v.lang.includes('VN'));
 
-      // Try to find a Vietnamese voice
-      const viVoice = ttsVoices.find(v => v.lang.startsWith('vi'));
-      if (viVoice) utterance.voice = viVoice;
+      if (ttsEngine === 'google') {
+        useGoogle = true;
+      } else if (ttsEngine === 'browser') {
+        useGoogle = false;
+      } else {
+        // 'auto' mode: fallback to google if native voice is missing
+        useGoogle = !viVoice;
+      }
 
-      utterance.onstart = () => showToast('🔊 กำลังเล่นเสียง...');
-      utterance.onend = () => showToast('✅ เล่นเสียงแล้ว');
-      utterance.onerror = () => showToast('⚠️ ไม่สามารถเล่นเสียงได้');
+      if (useGoogle) {
+        speakGoogleTTS(text, speed);
+      } else {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'vi-VN';
+        utterance.rate = speed;
+        if (viVoice) utterance.voice = viVoice;
 
-      speechSynthesis.speak(utterance);
+        utterance.onstart = () => showToast('🔊 กำลังเล่นเสียง (Native)...');
+        utterance.onend = () => showToast('✅ เล่นเสียงแล้ว');
+        utterance.onerror = (e) => {
+          console.error('Native TTS failed:', e);
+          speakGoogleTTS(text, speed);
+        };
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function speakGoogleTTS(text, speed = 0.85) {
+      showToast('🔊 กำลังดึงเสียงภาษาเวียดนาม...');
+      const url = '/api/tts?text=' + encodeURIComponent(text);
+      
+      const audio = new Audio();
+      audio.src = url;
+      audio.playbackRate = speed;
+
+      audio.play().then(() => {
+        showToast('✅ เล่นเสียงภาษาเวียดนามแล้ว');
+      }).catch(err => {
+        console.error('Google TTS playback failed:', err);
+        showToast('⚠️ ไม่สามารถเล่นเสียงได้');
+      });
+    }
+
+    function changeTTSEngine(value) {
+      ttsEngine = value;
+      localStorage.setItem('vietnamese_tutor_ttsEngine', ttsEngine);
+      
+      const selectDashboard = document.getElementById('tts-engine-select');
+      const selectNav = document.getElementById('tts-engine-select-nav');
+      if (selectDashboard) selectDashboard.value = ttsEngine;
+      if (selectNav) selectNav.value = ttsEngine;
+
+      showToast('🔊 เปลี่ยนระบบเสียงเป็น: ' + 
+        (value === 'auto' ? 'อัตโนมัติ' : value === 'google' ? 'Google Cloud' : 'Browser Native')
+      );
     }
 
     // Context-aware TTS helpers
@@ -1321,19 +2424,95 @@
         container.innerHTML = '';
         for (let d = 1; d <= 7; d++) {
           const dayNum = (w - 1) * 7 + d;
-          const dot = document.createElement('span');
-          dot.className = 'w-5 h-5 rounded-full flex items-center justify-center text-[0.55rem] font-bold ' +
-            (dayNum < currentDay ? 'bg-emerald-600/30 text-emerald-400' :
-             dayNum === currentDay ? 'bg-emerald-500 text-white' :
-             'bg-[rgba(255,255,255,0.06)] text-gray-600');
+          const dot = document.createElement('button');
+          dot.className = 'w-6 h-6 rounded-full flex items-center justify-center text-[0.55rem] font-bold transition-all duration-150 ' +
+            (completedDays.includes(dayNum) ? 'bg-emerald-600/30 text-emerald-400 hover:bg-emerald-600/50' :
+             dayNum === currentDay ? 'bg-emerald-500 text-white hover:bg-emerald-600 ring-2 ring-emerald-400/35' :
+             'bg-[rgba(255,255,255,0.06)] text-gray-600 hover:bg-[rgba(255,255,255,0.12)]');
           dot.textContent = d;
-          dot.title = 'Day ' + dayNum;
+          
+          const info = getDayInfo(dayNum);
+          dot.title = 'Day ' + dayNum + (info ? ': ' + info.title : '');
+
+          if (dayNum <= currentDay || completedDays.includes(dayNum)) {
+            dot.onclick = () => {
+              switchScreen('learn');
+              renderDay(dayNum);
+            };
+          } else {
+            dot.className += ' cursor-not-allowed opacity-50';
+            dot.onclick = () => showToast('🔒 บทเรียนนี้ยังไม่ปลดล็อก เรียนวันก่อนหน้าให้จบก่อนนะคับ');
+          }
           container.appendChild(dot);
         }
       }
       // Update start label
       const info = getDayInfo(currentDay);
       if (info) document.getElementById('dashboard-start-label').textContent = 'Week ' + info.week + ' · Day ' + info.day;
+    }
+
+    function updateProgressUI() {
+      const streakEl = document.getElementById('stat-streak');
+      const wordsEl = document.getElementById('stat-words');
+      const tonesEl = document.getElementById('stat-tones');
+      const questsEl = document.getElementById('stat-quests');
+
+      if (streakEl) {
+        streakEl.textContent = streak;
+        streakEl.parentElement.classList.toggle('opacity-40', streak === 0);
+      }
+      if (wordsEl) {
+        const totalWords = getTotalWordsLearned();
+        wordsEl.textContent = totalWords;
+        wordsEl.parentElement.classList.toggle('opacity-40', totalWords === 0);
+      }
+      if (tonesEl) {
+        const tonePct = toneStats.total > 0 ? Math.round((toneStats.correct / toneStats.total) * 100) : 0;
+        tonesEl.textContent = tonePct + '%';
+        tonesEl.parentElement.classList.toggle('opacity-40', toneStats.total === 0);
+      }
+      if (questsEl) {
+        const questCount = completedQuests.length;
+        questsEl.textContent = questCount;
+        questsEl.parentElement.classList.toggle('opacity-40', questCount === 0);
+      }
+
+      const pathContainer = document.getElementById('progress-path');
+      if (pathContainer) {
+        pathContainer.innerHTML = '';
+        const weekNames = [
+          { name: 'สัปดาห์ 1: ทักทาย + ระบบเสียง', days: [1, 2, 3, 4, 5, 6, 7] },
+          { name: 'สัปดาห์ 2: ตัวเลข + ซื้อของ', days: [8, 9, 10, 11, 12, 13, 14] },
+          { name: 'สัปดาห์ 3: อาหาร + สั่งเฝอ', days: [15, 16, 17, 18, 19, 20, 21] },
+          { name: 'สัปดาห์ 4: เดินทาง + ทิศทาง', days: [22, 23, 24, 25, 26, 27, 28] }
+        ];
+
+        weekNames.forEach(w => {
+          const completedInWeek = w.days.filter(d => completedDays.includes(d)).length;
+          const pct = Math.round((completedInWeek / 7) * 100);
+
+          const card = document.createElement('div');
+          card.className = 'p-3 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.06)] rounded-lg';
+          card.innerHTML = `
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-white text-xs font-semibold">${w.name}</span>
+              <span class="text-gray-500 text-[0.65rem]">${completedInWeek}/7 วัน (${pct}%)</span>
+            </div>
+            <div class="w-full h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
+              <div class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+            </div>
+          `;
+          pathContainer.appendChild(card);
+        });
+      }
+
+      const dLabel = document.getElementById('dashboard-start-label');
+      if (dLabel) {
+        const info = getDayInfo(currentDay);
+        if (info) {
+          dLabel.textContent = 'Week ' + info.week + ' · Day ' + info.day;
+        }
+      }
     }
 
     // ================================================================
@@ -1411,20 +2590,25 @@
         card.innerHTML =
           '<div class="flex items-start justify-between">' +
             '<span class="vi-word text-base sm:text-lg text-white font-semibold break-all">' + w.word + '</span>' +
-            '<button class="btn-vn btn-vn-ghost !p-1 !min-h-0 text-xs shrink-0 ml-1" onclick="speak(\'' + w.word.replace(/'/g, "\\'") + '\')">🔊</button>' +
+            '<button class="btn-vn btn-vn-ghost !p-1 !min-h-0 text-xs shrink-0 ml-1" onclick="event.stopPropagation(); speak(\'' + w.word.replace(/'/g, "\\'") + '\')">🔊</button>' +
           '</div>' +
           '<div class="flex items-center gap-1 mt-1">' +
             '<span class="tone-badge text-[0.6rem]">' + w.tones + '</span>' +
           '</div>' +
-          '<div class="hidden mt-2 pt-2 border-t border-[rgba(255,255,255,0.06)] word-details" data-word="' + w.word + '">' +
+          '<div class="hidden mt-2 pt-2 border-t border-[rgba(255,255,255,0.06)] word-details" data-word="' + w.word + '" onclick="event.stopPropagation()">' +
             '<p class="text-gray-500 text-xs">' + w.ipa + '</p>' +
             '<p class="text-gray-300 text-sm mt-1">→ ' + w.meaning + ' ' + (w.emoji || '') + '</p>' +
             (w.tips ? '<p class="text-gray-500 text-[0.65rem] mt-1 italic">' + w.tips + '</p>' : '') +
+            '<div class="mt-3 pt-2.5 border-t border-[rgba(255,255,255,0.04)] flex items-center justify-between gap-2">' +
+              '<button class="btn-vn bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[0.65rem] px-2.5 py-1.5 flex items-center gap-1 font-semibold speak-practice-btn" onclick="startSpeakingDrill(\'' + w.word.replace(/'/g, "\\'") + '\', this)">' +
+                '🎙️ ฝึกพูด' +
+              '</button>' +
+              '<span class="text-[0.65rem] text-gray-500 speak-practice-feedback">กดไมค์แล้วพูดออกเสียง</span>' +
+            '</div>' +
           '</div>';
         card.addEventListener('click', () => {
           const details = card.querySelector('.word-details');
           const isHidden = details.classList.contains('hidden');
-          // Close all other open cards
           document.querySelectorAll('.word-details').forEach(d => d.classList.add('hidden'));
           if (isHidden) details.classList.remove('hidden');
         });
@@ -1469,6 +2653,7 @@
           '<button class="btn-vn btn-vn-primary col-span-2" onclick="startDayQuiz()">🔄 ฝึกใหม่</button>' +
           '<button class="btn-vn btn-vn-ghost col-span-2" onclick="nextDay()">📖 วันถัดไป</button>';
         showConfetti();
+        completeDay(currentDay);
         return;
       }
 
@@ -1479,13 +2664,13 @@
       const choices = generateChoices(word, allWords, 3);
       const grid = document.getElementById('day-quiz-options');
       grid.innerHTML = choices.map(c =>
-        '<button class="quiz-option" onclick="answerDayQuiz(this, ' + c.isCorrect + ', \'' + c.text.replace(/'/g, "\\'") + '\')">' + c.text + '</button>'
+        '<button class="quiz-option" onclick="answerDayQuiz(this, ' + c.isCorrect + ', \'' + c.word.replace(/'/g, "\\'") + '\')">' + c.text + '</button>'
       ).join('');
       quizActive = true;
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
-    function answerDayQuiz(btn, isCorrect) {
+    function answerDayQuiz(btn, isCorrect, clickedWord) {
       if (!quizActive) return;
       quizActive = false;
 
@@ -1494,6 +2679,9 @@
 
       const fb = document.getElementById('day-quiz-feedback');
       fb.classList.remove('hidden', 'correct', 'wrong');
+      const extraInfo = fb.querySelector('.extra-info');
+      if (extraInfo) extraInfo.textContent = '';
+
       if (isCorrect) {
         fb.classList.add('correct');
         fb.querySelector('.flex span:first-child').textContent = '✅';
@@ -1505,6 +2693,38 @@
         fb.querySelector('.font-medium').textContent = 'ผิด!';
         const word = quizQueue[quizIdx];
         fb.querySelector('.answer-hint').textContent = '💡 ' + word.word + ' = ' + word.meaning;
+        
+        if (extraInfo) {
+          extraInfo.textContent = 'วิเคราะห์จุดผิดพลาดด้วย AI...';
+        }
+        
+        // Add to SRS via fail API
+        fetch('/api/srs/fail', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ word: word.word, meaning: word.meaning })
+        }).catch(e => console.error('Failed to add failed word to SRS:', e));
+
+        fetch('/api/quiz/diagnose', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            correct_word: word.word,
+            incorrect_word: clickedWord || ''
+          })
+        })
+        .then(res => {
+          if (res.ok) return res.json();
+          throw new Error('Diagnostics API failed');
+        })
+        .then(data => {
+          if (extraInfo) extraInfo.textContent = data.explanation;
+        })
+        .catch(err => {
+          console.error(err);
+          if (extraInfo) extraInfo.textContent = 'จุดแตกต่าง: เสียงสะกดหรือวรรณยุกต์ต่างกันเล็กน้อย';
+        });
+        
         setTimeout(() => { quizActive = true; }, 1500);
       }
     }
@@ -1634,6 +2854,7 @@
           fb.innerHTML = '<div class="flex items-center gap-2">🎉 <span class="font-medium text-white">สะกดถูกต้อง! <span class="vi-word text-emerald-400">' + spellingWord.word + '</span></span></div>' +
             '<div class="flex gap-2 mt-2"><button class="btn-vn btn-vn-primary text-xs" onclick="playSpellingAudio()">🔊 ฟัง</button><button class="btn-vn btn-vn-ghost text-xs" onclick="startDaySpelling()">▶️ คำถัดไป</button></div>';
           showConfetti();
+          completeDay(currentDay);
           spellingStepNum = 0;
           window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }, 500);
@@ -1648,18 +2869,53 @@
     let questStepIdx = 0;
     let questHP = 0;
 
-    function startDayQuest() {
+    let questChatHistory = [];
+    let questMode = 'offline';
+
+    async function startDayQuest() {
       const quest = getQuestForDay(currentDay);
       if (!quest) { showToast('⚠️ ไม่มี Roleplay สำหรับวันนี้'); return; }
 
       currentQuest = JSON.parse(JSON.stringify(quest));
       questStepIdx = 0;
-      questHP = currentQuest.hp;
+      questHP = currentQuest.hp || 100000;
+      questChatHistory = [];
+      questMode = 'offline';
 
       document.getElementById('day-quiz-section').classList.add('hidden');
       document.getElementById('day-spelling-section').classList.add('hidden');
 
-      showQuestStep();
+      try {
+        const res = await fetch('/api/quest/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            quest_id: currentQuest.id,
+            user_message: 'START_QUEST',
+            chat_history: [],
+            hp: 100,
+            budget: questHP
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.feedback_layer && data.feedback_layer.includes("ระบบออฟไลน์")) {
+            console.log("Gemini API is offline, using static local quest steps");
+            questMode = 'offline';
+            showQuestStep();
+          } else {
+            questMode = 'online';
+            showOnlineQuestStep(data);
+          }
+        } else {
+          questMode = 'offline';
+          showQuestStep();
+        }
+      } catch (e) {
+        console.error("Failed to load online quest, using local fallback:", e);
+        questMode = 'offline';
+        showQuestStep();
+      }
     }
 
     function showQuestStep() {
@@ -1745,7 +3001,170 @@
           (success ? '<button class="btn-vn btn-vn-ghost text-xs ml-2" onclick="startDayQuest()">🔄 เล่นใหม่</button>' : '') +
         '</div>';
 
-      if (success) showConfetti();
+      if (success) {
+        showConfetti();
+        if (!completedQuests.includes(currentQuest.id)) {
+          completedQuests.push(currentQuest.id);
+        }
+        completeDay(currentDay);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showOnlineQuestStep(data) {
+      if (!currentQuest) return;
+      const section = document.getElementById('day-quest-section');
+      section.classList.remove('hidden');
+
+      document.getElementById('quest-npc-emoji').textContent = currentQuest.npcEmoji;
+      document.getElementById('quest-title').textContent = currentQuest.icon + ' ' + currentQuest.title;
+      document.getElementById('quest-npc-name').textContent = 'NPC: ' + currentQuest.npc;
+      document.getElementById('quest-context').textContent = questChatHistory.length === 0 ? currentQuest.context : '';
+
+      document.getElementById('quest-hp-label').textContent = '💰 ' + numberWithCommas(questHP) + ' VND';
+      const hpPct = Math.max(0, Math.min(100, (questHP / currentQuest.hp) * 100));
+      document.getElementById('quest-hp-bar').style.width = hpPct + '%';
+      document.getElementById('quest-hp-bar').className = 'h-full rounded-full ' +
+        (hpPct > 60 ? 'bg-yellow-500' : hpPct > 30 ? 'bg-orange-500' : 'bg-red-500');
+
+      document.getElementById('quest-speech-emoji').textContent = currentQuest.npcEmoji;
+      document.getElementById('quest-npc-line').textContent = data.core_content_layer;
+      document.getElementById('quest-npc-line-thai').textContent = data.feedback_layer || '';
+      document.getElementById('quest-prompt').textContent = data.interaction_prompt || 'กรุณาเลือกคำตอบ:';
+
+      if (data.audio_directive && data.audio_directive.text_to_synthesize) {
+        speak(data.audio_directive.text_to_synthesize);
+      }
+
+      const choicesEl = document.getElementById('quest-choices');
+      choicesEl.innerHTML = '';
+
+      let buttons = [];
+      if (data.ui_render_directive && data.ui_render_directive.inline_buttons) {
+        buttons = data.ui_render_directive.inline_buttons.flat();
+      }
+
+      if (buttons.length === 0 || questHP <= 0 || (questChatHistory.length >= 10)) {
+        const btn = document.createElement('button');
+        btn.className = 'btn-vn btn-vn-primary w-full text-center';
+        btn.textContent = 'เสร็จสิ้นภารกิจ';
+        btn.onclick = () => endOnlineQuest(questHP > 0);
+        choicesEl.appendChild(btn);
+      } else {
+        buttons.forEach(btnText => {
+          if (btnText.includes('ฟังอีกครั้ง') || btnText.includes('ฟังความต่าง')) {
+            const btn = document.createElement('button');
+            btn.className = 'btn-vn btn-vn-ghost w-full text-center text-xs mt-2';
+            btn.textContent = btnText;
+            btn.onclick = () => {
+              if (data.audio_directive && data.audio_directive.text_to_synthesize) {
+                speak(data.audio_directive.text_to_synthesize);
+              }
+            };
+            choicesEl.appendChild(btn);
+            return;
+          }
+
+          const btn = document.createElement('button');
+          btn.className = 'btn-vn btn-vn-ghost w-full text-left !justify-start !px-3 text-sm';
+          btn.textContent = btnText;
+          btn.onclick = () => answerOnlineQuest(btnText, btn);
+          choicesEl.appendChild(btn);
+        });
+      }
+
+      document.getElementById('quest-step-counter').textContent = 'บทสนทนาแบบ AI';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    async function answerOnlineQuest(chosenText, btn) {
+      if (!currentQuest) return;
+
+      const choicesEl = document.getElementById('quest-choices');
+      choicesEl.querySelectorAll('button').forEach(b => {
+        b.disabled = true;
+        b.style.opacity = '0.5';
+      });
+
+      btn.className = 'btn-vn w-full text-left !justify-start !px-3 text-sm btn-vn-primary';
+      btn.style.opacity = '1.0';
+
+      questChatHistory.push({ role: 'user', text: chosenText });
+
+      try {
+        const res = await fetch('/api/quest/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            quest_id: currentQuest.id,
+            user_message: chosenText,
+            chat_history: questChatHistory.map(h => ({ role: h.role, text: h.text })),
+            hp: 100,
+            budget: questHP
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          
+          if (data.system_state_update) {
+            if (data.system_state_update.update_error_log) {
+              questHP = Math.max(0, questHP - 10000);
+              btn.className = 'btn-vn w-full text-left !justify-start !px-3 text-sm btn-vn-wrong';
+              
+              if (data.system_state_update.trigger_srs) {
+                fetch('/api/srs/fail', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ word: chosenText, meaning: 'จากแบบฝึกหัดสนทนา' })
+                }).catch(e => console.error('Failed to trigger SRS from Quest:', e));
+              }
+            } else {
+              btn.className = 'btn-vn w-full text-left !justify-start !px-3 text-sm btn-vn-correct';
+            }
+          }
+
+          questChatHistory.push({ role: 'model', text: data.core_content_layer });
+
+          setTimeout(() => {
+            if (questHP <= 0 || chosenText.includes('ตกลง') || chosenText.includes('ขอบคุณ') || data.core_content_layer.includes('Tạm biệt') || data.core_content_layer.includes('Hẹn gặp lại')) {
+              endOnlineQuest(questHP > 0);
+            } else {
+              showOnlineQuestStep(data);
+            }
+          }, 1200);
+        } else {
+          endOnlineQuest(false);
+        }
+      } catch (e) {
+        console.error("Error answering online quest:", e);
+        endOnlineQuest(false);
+      }
+    }
+
+    function endOnlineQuest(success) {
+      const section = document.getElementById('day-quest-section');
+      const hpStr = numberWithCommas(questHP);
+
+      section.querySelector('.card-vn').innerHTML = '' +
+        '<div class="text-center py-3">' +
+          '<div class="text-4xl mb-2">' + (success ? '🎉' : '💸') + '</div>' +
+          '<h3 class="text-white font-semibold text-sm mb-1">' + (success ? 'ผ่านภารกิจสนทนาแบบ AI!' : 'ภารกิจสนทนาล้มเหลว') + '</h3>' +
+          '<p class="text-gray-400 text-xs mb-1">' + (success ?
+            'เก่งมาก! คุณเอาตัวรอดจากการเจรจาได้สำเร็จด้วยระบบจำลองสนทนา AI' :
+            'คุณไม่สามารถสื่อสารกับคนท้องถิ่นได้เข้าใจ งบประมาณของคุณหมดลงก่อน!') + '</p>' +
+          '<p class="text-yellow-400 text-xs font-semibold mb-3">💰 คงเหลือ: ' + hpStr + ' VND</p>' +
+          '<button class="btn-vn btn-vn-primary text-xs" onclick="closeQuest()">ปิด</button>' +
+          '<button class="btn-vn btn-vn-ghost text-xs ml-2" onclick="startDayQuest()">🔄 เล่นใหม่</button>' +
+        '</div>';
+
+      if (success) {
+        showConfetti();
+        if (!completedQuests.includes(currentQuest.id)) {
+          completedQuests.push(currentQuest.id);
+        }
+        completeDay(currentDay);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1813,6 +3232,24 @@
       btn.classList.add(isCorrect ? 'correct' : 'wrong');
       btn.closest('.grid-quiz').querySelectorAll('.quiz-option').forEach(b => b.classList.add('disabled'));
       if (isCorrect) toneScore.correct++;
+      toneStats.total++;
+      if (isCorrect) toneStats.correct++;
+      saveState();
+      updateProgressUI();
+
+      fetch('/api/tones/record', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_correct: isCorrect })
+      }).then(res => {
+        if (res.ok) return res.json();
+      }).then(data => {
+        if (data && data.accuracy) {
+          const pct = parseInt(data.accuracy);
+          toneStats = { total: 100, correct: pct };
+          updateProgressUI();
+        }
+      }).catch(e => console.error('Failed to record tone practice stat:', e));
 
       const feedback = document.getElementById('tone-feedback');
       feedback.classList.remove('hidden', 'correct', 'wrong');
@@ -1862,7 +3299,7 @@
     });
 
     // Init on load
-    renderPathDots();
+    loadState();
   </script>
 </body>
 </html>

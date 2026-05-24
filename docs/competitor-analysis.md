@@ -1,8 +1,8 @@
-# Competitor Analysis — Vietnamese Learning Bot
+# Competitor Analysis — Learn Vietnamese Web App
 
 > Phase 2: Research
-> Scope: Vietnamese language learning apps + Telegram bots
-> Date: 2026-05-23
+> Scope: Vietnamese language learning apps + web tools
+> Date: 2026-05-24
 
 ---
 
@@ -16,7 +16,7 @@
 | **Mondly** | $10/mo | iOS, Android, Web | Conversation practice, AR lessons, real-life scenarios | Generic, no Thai, limited Vietnamese depth |
 | **LingoDeer** | $13/mo | iOS, Android | Grammar lessons, native audio, structured curriculum | 10 languages only, English bridge, no business focus |
 | **VietnamesePod101** | $8–30/mo | iOS, Android, Web | Audio lessons, culture notes, leveled curriculum | No gamification, no bot, passive learning, no Thai |
-| **Pimsleur Vietnamese** | $15–20 mo | iOS, Audio | Audio-focused, speaking practice | Expensive, no reading/writing, no Thai, no bot |
+| **Pimsleur Vietnamese** | $15–20 mo | iOS, Audio | Audio-focused, speaking practice | Expensive, no reading/writing, no Thai |
 
 ---
 
@@ -28,8 +28,8 @@
 | **Business Vietnamese** | No app targets business/trade communication specifically. Generic conversation only. |
 | **Copy-paste phrase library** | No app gives ready-to-use business email/meeting phrases you can paste directly. |
 | **Adaptive mastery tracking** | All use basic SRS. None track "can use in real conversation" vs "recognizes on flashcard". |
-| **Telegram-native** | No dedicated Vietnamese learning bot on Telegram. All are standalone apps. |
-| **Vietnamese tones focus** | Tones are the #1 pain point. No app has dedicated tone-training with feedback. |
+| **Zero-Cost LLM Roleplay** | Traditional apps rely on static choices or expensive APIs. Zero apps run generative roleplays completely free via Gemini Free Tier. |
+| **Vietnamese tones focus** | Tones are the #1 pain point. No app has dedicated tone-training with visual contour feedback. |
 | **Thai speaker pain points** | Thai and Vietnamese share some structural similarities (tonal, analytic). No app leverages this. |
 
 ---
@@ -43,10 +43,10 @@
 | **Thai bridge language** | All explanations, grammar, feedback in Thai |
 | **Business-first curriculum** | Survival → Business basics → Advanced business (not generic travel) |
 | **Copy-paste phrase library** | Ready-to-use emails, meeting phrases, negotiation scripts |
-| **Tone mastery system** | Dedicated 6-tone training with progressive difficulty |
-| **Adaptive learning** | Bot learns your weak points and adjusts |
-| **Telegram native** | Learn anywhere, anytime — no app download |
-| **$10/month** | Same as Drops, cheaper than Ling/Mondly, way cheaper than tutors |
+| **Tone mastery system** | Dedicated 6-tone training comparing pitch contours with Thai/Chinese |
+| **Adaptive learning** | Backend logs errors and adjusts roleplay/SRS dynamically |
+| **Local-first Web App** | Run locally on WSL, zero cloud subscription fees, privacy-focused |
+| **$0/month (Free)** | Fully runs on Gemini Free Tier API + SQLite + browser TTS/STT |
 
 ---
 
@@ -59,6 +59,7 @@
 - **ASEAN proximity** — Vietnam is Thailand's neighbor, increasing business ties
 - **Language difficulty** — Category IV for English speakers (same as Chinese, Japanese, Arabic)
 - **For Thai speakers** — Easier than for English speakers (shared tonal system, analytic grammar) but tones are different (6 vs 5)
+- **For Chinese learners** — Shared SVO word order, similar Sino-Vietnamese vocabulary (Hán Việt), and tonal concepts accelerate learning.
 
 ### Learner Pain Points (from reviews + forums)
 1. **Tones are terrifying** — 6 tones, completely change meaning
@@ -71,16 +72,16 @@
 
 ## 🏆 Competitive Advantage Matrix
 
-| Feature | Duolingo | Drops | Ling | Mondly | **Our Bot** |
+| Feature | Duolingo | Drops | Ling | Mondly | **Our Web App** |
 |---------|----------|-------|------|--------|-------------|
 | Thai bridge | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Business focus | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Copy-paste phrases | ❌ | ❌ | ❌ | ❌ | ✅ |
 | Tone training | ⚠️ Basic | ❌ | ⚠️ Basic | ❌ | ✅ Dedicated |
-| Conversation AI | ❌ | ❌ | ⚠️ Basic | ⚠️ Basic | ✅ Adaptive |
+| Conversation AI | ❌ | ❌ | ⚠️ Basic | ⚠️ Basic | ✅ Adaptive (Gemini) |
 | Adaptive difficulty | ❌ | ❌ | ❌ | ❌ | ✅ Mastery-based |
-| Telegram bot | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Price | Free–$13/mo | Free–$10/mo | $17/mo | $10/mo | **$10/mo** |
+| Responsive Web UI | ✅ | ❌ | ✅ | ✅ | ✅ |
+| Price | Free–$13/mo | Free–$10/mo | $17/mo | $10/mo | **$0/mo (Free)** |
 
 ---
 
@@ -89,19 +90,19 @@
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
 | Duolingo adds Thai→Vietnamese | Medium | High | Move fast, build business focus they won't |
-| OpenCode Go API instability | Medium | High | OpenAI-compatible = switch provider easily |
+| Gemini Free Tier rate limits (15 RPM) | Low | Medium | Cache static curriculum data locally, use AI only for dynamic roleplays & quiz explanations |
 | Curriculum content quality | Low | High | Human-reviewed content in JSON, AI supplements only |
-| Thai speaker assumptions wrong | Low | Medium | Test with user early, adjust |
+| Browser compatibility with Speech API | Low | Medium | Fall back gracefully to Google Translate TTS and simple text quizzes if browser lacks voice recognition |
 
 ---
 
 ## 💡 Opportunities
 
-1. **ASEAN expansion** — Bot framework can add Thai↔Lao, Thai↔Khmer, Thai↔Burmese later
-2. **Corporate clients** — Thai companies doing business in Vietnam need employee training
-3. **Tourism** — ~1M Thais visit Vietnam yearly, survival Vietnamese is valuable
+1. **ASEAN expansion** — Web app can add Thai↔Lao, Thai↔Khmer, Thai↔Burmese later
+2. **Corporate clients** — Thai government sectors or companies doing business in Vietnam need employee training
+3. **Tourism / Trade** — Survival Vietnamese is valuable for cross-border public liaisons and trade
 4. **Partner with Vietnamese tutors** — Future: connect AI practice with real human tutors
 
 ---
 
-*Generated: 2026-05-23 | Phase 2: Research*
+*Generated: 2026-05-24 | Phase 2: Research*

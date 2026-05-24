@@ -1,7 +1,7 @@
-# Journey Map — Learn Vietnamese Bot
+# Journey Map — Learn Vietnamese Web App
 
 > Phase 2: Research
-> 5-phase user journey from discovery to mastery
+> 5-phase user journey from discovery to mastery (Responsive Web App)
 
 ---
 
@@ -11,8 +11,8 @@
 Discovery → Onboarding → Learning → Practice → Mastery
    │            │           │          │          │
    │            │           │          │          │
-  Find bot    Set up     Lessons    Real use   Maintenance
-  & start     level      & review   at work    & growth
+ Open Web    Set up      Lessons    Real use   Maintenance
+ App Page    level       & review   at work    & growth
 ```
 
 ---
@@ -21,28 +21,29 @@ Discovery → Onboarding → Learning → Practice → Mastery
 
 | Aspect | Detail |
 |--------|--------|
-| **Trigger** | User needs Vietnamese for work, searches for learning tools |
-| **Channel** | Recommendation, Telegram search, word of mouth |
-| **First impression** | Bot description: "เรียนภาษาเวียดนามสำหรับธุรกิจ — อธิบายเป็นภาษาไทย" |
-| **Action** | User sends /start |
-| **Emotion** | Curious, hopeful, slightly anxious (new language) |
+| **Trigger** | User needs Vietnamese for trade/public liaison, searches/develops local-first tools |
+| **Channel** | Localhost browser link, local deployment on WSL, or bookmark |
+| **First impression** | Web App Title: "เรียนภาษาเวียดนามสำหรับธุรกิจและราชการ — อธิบายเป็นภาษาไทย" |
+| **Action** | User opens landing page and grants browser microphone permissions |
+| **Emotion** | Curious, hopeful, slightly anxious (wants to leverage language-learning experience) |
 
 ---
 
 ## Phase 2: Onboarding
 
-| Step | User Action | Bot Response | Emotion |
-|------|------------|--------------|---------|
-| 1 | /start | Welcome + feature overview | Excited |
-| 2 | "Get started" | "Do you know any Vietnamese?" | Honest |
-| 3 | "No experience" | "Perfect! We'll start from sounds. Here's your path:" | Relieved |
-| 4 | — | Show curriculum overview (L0→L4) | Motivated |
-| 5 | "Let's begin!" | Start Level 0, Module 0.1 (Alphabet) | Ready |
+| Step | User Action | Web App Response | Emotion |
+|------|------------|------------------|---------|
+| 1 | Opens landing page | Welcome dashboard + feature overview card | Excited |
+| 2 | Clicks "Get started" | Setup Wizard: "Do you know any Vietnamese?" (Level Assessment) | Honest |
+| 3 | Clicks "No experience" | "Perfect! We'll start from sounds. Here's your path:" | Relieved |
+| 4 | — | Show curriculum overview map (L0→L4) | Motivated |
+| 5 | Clicks "Let's begin!" | Load Level 0, Module 0.1 (Alphabet) UI interface | Ready |
 
 **Key design decisions:**
 - No complex assessment for Level 0 — everyone starts at sounds
-- Show the full path upfront (L0→L4) so user sees the destination
-- Skip option available but default is "start from zero"
+- Show the full path upfront (L0→L4) on the sidebar/map so user sees the destination
+- Skip assessment option available but default is "start from zero"
+- Early microphone permission checks for Web Speech STT support
 
 ---
 
@@ -120,17 +121,17 @@ Discovery → Onboarding → Learning → Practice → Mastery
 ## 🔄 Loop: Daily Learning Cycle
 
 ```
-Morning: SRS review (5 min)
+Morning: SRS review via mobile web browser (5 min)
   ↓
-Commute: New lesson or phrase drill (10 min)
+Commute: New lesson or phrase templates (10 min)
   ↓
-Lunch: Conversation practice (10 min)
+Lunch: Generative roleplay practice with Gemini (10 min)
   ↓
-Evening: Review + progress check (5 min)
+Evening: Review statistics + progress check (5 min)
   ↓
-Next day: Bot adjusts based on yesterday's performance
+Next day: Web App dashboard adjusts recommendations based on yesterday's performance
 ```
 
 ---
 
-*Generated: 2026-05-23 | Phase 2: Research*
+*Generated: 2026-05-24 | Phase 2: Research*
