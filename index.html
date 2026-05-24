@@ -327,6 +327,154 @@
     .step-dot.active { background: var(--neon-emerald); box-shadow: 0 0 10px var(--neon-emerald); }
     .step-dot.done { background: var(--neon-gold); }
 
+    /* WORD BANK (ระบบต่อประโยค) */
+    .wb-token {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.6rem 1rem; border-radius: 999px;
+      background: rgba(16, 185, 129, 0.08); border: 1.5px solid rgba(16, 185, 129, 0.25);
+      color: #e5e7eb; font-weight: 600; font-size: 0.9rem;
+      cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none; -webkit-tap-highlight-color: transparent;
+    }
+    .wb-token:hover { background: rgba(16, 185, 129, 0.15); border-color: var(--neon-emerald); transform: scale(1.05); }
+    .wb-token:active { transform: scale(0.95); }
+    .wb-token.placed {
+      background: rgba(16, 185, 129, 0.15); border-color: var(--neon-emerald);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+    }
+    .wb-token.correct-pos {
+      background: rgba(16, 185, 129, 0.2) !important; border-color: var(--neon-emerald) !important;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2) !important;
+    }
+    .wb-token.wrong-pos {
+      background: rgba(244, 63, 94, 0.2) !important; border-color: var(--neon-rose) !important;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.2) !important;
+      animation: shakeToken 0.3s ease;
+    }
+    @keyframes shakeToken {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+    .wb-empty-slot {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 3rem; min-height: 2.8rem;
+      border: 2px dashed rgba(255, 255, 255, 0.08);
+      border-radius: 999px; color: rgba(255, 255, 255, 0.15);
+      font-size: 0.7rem; font-weight: 500;
+    }
+    .wb-strip {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+      min-height: 4.5rem;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 2px dashed rgba(255, 255, 255, 0.08);
+      border-radius: 1rem;
+      transition: border-color 0.3s;
+    }
+    .wb-strip.active { border-color: rgba(16, 185, 129, 0.3); }
+    .wb-strip.correct { border-color: var(--neon-emerald); background: rgba(16, 185, 129, 0.04); }
+    .wb-strip.wrong { border-color: var(--neon-rose); background: rgba(244, 63, 94, 0.04); }
+
+    /* SPEECH RECOGNITION (Elsa Speak-style) */
+    .mic-btn {
+      width: 5rem; height: 5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05));
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      margin: 0 auto;
+    }
+    .mic-btn:hover { transform: scale(1.08); border-color: var(--cyber-blue); box-shadow: 0 0 30px rgba(59, 130, 246, 0.2); }
+    .mic-btn:active { transform: scale(0.95); }
+    .mic-btn.listening {
+      border-color: #22c55e;
+      box-shadow: 0 0 40px rgba(34, 197, 94, 0.4);
+      animation: micPulse 1.2s ease-in-out infinite;
+    }
+    .mic-btn.listening::after {
+      content: '';
+      position: absolute; inset: -8px;
+      border: 2px solid rgba(34, 197, 94, 0.3);
+      border-radius: 50%;
+      animation: micRing 1.5s ease-out infinite;
+    }
+    .mic-btn.processing {
+      border-color: var(--cyber-blue);
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+      animation: micPulse 0.6s ease-in-out infinite;
+    }
+    .mic-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    @keyframes micPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    @keyframes micRing {
+      0% { transform: scale(1); opacity: 0.6; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    /* Waveform animation bars */
+    .waveform-box {
+      display: flex; align-items: center; justify-content: center;
+      gap: 3px; height: 40px;
+      margin: 1rem 0;
+    }
+    .waveform-bar {
+      width: 4px;
+      background: var(--cyber-blue);
+      border-radius: 4px;
+      animation: waveAnim 0.8s ease-in-out infinite alternate;
+    }
+    .waveform-bar:nth-child(1) { height: 12px; animation-delay: 0s; }
+    .waveform-bar:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+    .waveform-bar:nth-child(3) { height: 28px; animation-delay: 0.2s; }
+    .waveform-bar:nth-child(4) { height: 24px; animation-delay: 0.15s; }
+    .waveform-bar:nth-child(5) { height: 16px; animation-delay: 0.05s; }
+    .waveform-bar:nth-child(6) { height: 30px; animation-delay: 0.25s; }
+    .waveform-bar:nth-child(7) { height: 22px; animation-delay: 0.1s; }
+    .waveform-bar:nth-child(8) { height: 14px; animation-delay: 0s; }
+    .waveform-bar:nth-child(9) { height: 26px; animation-delay: 0.2s; }
+    .waveform-bar:nth-child(10) { height: 18px; animation-delay: 0.05s; }
+    .waveform-bar.inactive { height: 4px !important; background: rgba(255,255,255,0.1); animation: none; }
+    @keyframes waveAnim {
+      0% { transform: scaleY(0.5); opacity: 0.6; }
+      100% { transform: scaleY(1.2); opacity: 1; }
+    }
+
+    .shake {
+      animation: shakeCard 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    @keyframes shakeCard {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(3px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+      40%, 60% { transform: translate3d(5px, 0, 0); }
+    }
+
+    /* Speech result card */
+    .speech-result {
+      border-radius: 1rem; padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .speech-result.excellent { border-color: #22c55e; background: rgba(34,197,94,0.06); }
+    .speech-result.good { border-color: #eab308; background: rgba(234,179,8,0.06); }
+    .speech-result.needs-work { border-color: var(--neon-rose); background: rgba(244,63,94,0.06); }
+    .speech-score-ring {
+      width: 4rem; height: 4rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.5rem;
+      font-size: 1.25rem; font-weight: 900;
+      border: 3px solid;
+    }
+
     /* SPELLING GRID */
     .grid-spelling { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
     .grid-quiz { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
@@ -404,11 +552,13 @@
         </div>
 
         <!-- Quick actions -->
-        <div class="grid grid-cols-2 gap-2 mt-3">
+        <div class="grid grid-cols-3 gap-2 mt-3">
           <button class="btn-vn text-xs text-center" onclick="switchScreen('learn')">📖 เริ่มเรียนวันนี้</button>
           <button class="btn-vn text-xs text-center" onclick="switchScreen('flashcards')">🃏 Flashcard</button>
           <button class="btn-vn text-xs text-center" onclick="switchScreen('tones')">🎵 ฝึกวรรณยุกต์</button>
+          <button class="btn-vn text-xs text-center" onclick="switchScreen('speaking')">🎤 ฝึกออกเสียง</button>
           <button class="btn-vn text-xs text-center" onclick="switchScreen('phonetics')">🔊 สัทศาสตร์</button>
+          <button class="btn-vn text-xs text-center" onclick="startWordBank()">🧩 ต่อประโยค</button>
         </div>
 
         <!-- TTS settings -->
@@ -641,7 +791,38 @@
       </div>
 
       <!-- ============================================================ -->
-      <!-- SCREEN 7: GRAMMAR -->
+      <!-- SCREEN 7: WORD BANKS (ระบบต่อประโยค) -->
+      <div class="screen" id="view-wordbank">
+        <div class="rpg-card p-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500/20 to-sky-600/10 flex items-center justify-center text-lg border border-sky-500/20">🧩</div>
+            <div>
+              <h2 class="text-white font-bold text-sm">ต่อประโยค Word Bank</h2>
+              <p class="text-gray-500 text-[0.6rem]">SVO Sentence Builder</p>
+            </div>
+          </div>
+          <!-- Context card -->
+          <div class="bg-white/5 rounded-xl p-3 mb-3 hidden" id="wb-context-card">
+            <div class="text-[0.55rem] text-gray-500 font-bold uppercase tracking-wider mb-1">💡 สถานการณ์</div>
+            <p class="text-gray-300 text-xs leading-relaxed" id="wb-context-text"></p>
+          </div>
+          <!-- Sentence strip (target) -->
+          <div class="wb-strip mb-3" id="wb-strip">
+            <span class="wb-empty-slot" id="wb-empty-placeholder">👆 แตะคำศัพท์ด้านล่าง</span>
+          </div>
+          <!-- Token pool -->
+          <div class="flex flex-wrap gap-2 mb-3 justify-center" id="wb-token-pool"></div>
+          <!-- Controls -->
+          <div class="flex gap-2">
+            <button class="btn-vn flex-1 text-xs py-2.5" id="wb-check-btn" onclick="checkWordBank()">✅ ตรวจสอบ</button>
+            <button class="btn-vn flex-1 text-xs py-2.5 bg-gray-700/30 border-gray-600/30" onclick="resetWordBank()">🔄 เริ่มใหม่</button>
+          </div>
+          <!-- Result feedback -->
+          <div id="wb-result" class="mt-3 hidden"></div>
+        </div>
+      </div>
+
+      <!-- SCREEN 8: GRAMMAR -->
       <!-- ============================================================ -->
       <div class="screen" id="view-grammar">
         <div class="rpg-card p-4">
@@ -663,6 +844,69 @@
         </div>
       </div>
 
+      <!-- ============================================================ -->
+      <!-- SCREEN 9: SPEAKING (Elsa Speak-style Pronunciation) -->
+      <!-- ============================================================ -->
+      <div class="screen" id="view-speaking">
+        <div class="rpg-card p-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 flex items-center justify-center text-lg border border-cyan-500/20">🎤</div>
+            <div>
+              <h2 class="text-white font-bold text-sm">ฝึกออกเสียง (Pronunciation)</h2>
+              <p class="text-gray-500 text-[0.6rem]">Elsa Speak-style Speech Trainer</p>
+            </div>
+          </div>
+
+          <!-- Target word display -->
+          <div id="speaking-target" class="text-center py-4">
+            <div class="text-gray-500 text-[0.55rem] font-bold uppercase tracking-wider mb-1">จงออกเสียงคำนี้</div>
+            <div class="text-white text-3xl font-black tracking-wide" id="speak-target-word">Xin chào</div>
+            <div class="text-gray-500 text-xs mt-1" id="speak-target-meaning">สวัสดี</div>
+            <button class="btn btn-ghost btn-xs text-emerald-400 mt-1" id="speak-target-audio" onclick="speak(document.getElementById('speak-target-word').textContent)">🔊 ฟังตัวอย่าง</button>
+          </div>
+
+          <!-- Waveform visualization -->
+          <div id="speaking-waveform" class="waveform-box">
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+          </div>
+
+          <!-- Mic button -->
+          <div class="text-center mb-3">
+            <button class="mic-btn" id="speak-mic-btn" onclick="toggleSpeechRecognition()">🎤</button>
+            <div class="text-[0.55rem] text-gray-500 font-bold mt-2" id="speak-status-text">แตะเพื่อเริ่มพูด</div>
+          </div>
+
+          <!-- Result feedback -->
+          <div id="speak-result" class="hidden speech-result">
+            <div class="speech-score-ring" id="speak-score-ring">100</div>
+            <div class="text-sm font-bold" id="speak-result-label">👍 เยี่ยมมาก!</div>
+            <div class="text-xs text-gray-400 mt-1" id="speak-result-detail">คุณพูดได้ดีมาก!</div>
+            <div class="mt-2 flex gap-2 justify-center">
+              <button class="btn-vn text-xs py-1.5 px-4" onclick="nextSpeechWord()">➡️ คำต่อไป</button>
+              <button class="btn-vn text-xs py-1.5 px-4 bg-slate-700/30 border-slate-600/30" onclick="retrySpeechWord()">🔄 พูดอีกครั้ง</button>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div id="speaking-stats" class="mt-3 pt-3 border-t border-white/5 hidden">
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div><div class="text-emerald-400 text-lg font-black" id="speak-correct-count">0</div><div class="text-[0.5rem] text-gray-500">✅ ถูกต้อง</div></div>
+              <div><div class="text-rose-400 text-lg font-black" id="speak-wrong-count">0</div><div class="text-[0.5rem] text-gray-500">❌ ควรฝึก</div></div>
+              <div><div class="text-cyan-400 text-lg font-black" id="speak-streak-count">0</div><div class="text-[0.5rem] text-gray-500">🔥 ติดต่อกัน</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /screen-container -->
 
     <!-- ===== BOTTOM SHEET MODAL DRAWER ===== -->
@@ -674,7 +918,7 @@
     </div>
 
     <!-- ===== BOTTOM NAVIGATION ===== -->
-    <footer class="bg-gray-950/90 border-t border-white/5 p-1.5 grid grid-cols-3 gap-1 z-40">
+    <footer class="bg-gray-950/90 border-t border-white/5 p-1.5 grid grid-cols-4 gap-1 z-40">
       <button class="bottom-nav-btn active" onclick="switchScreen('roadmap')">
         <span class="nav-icon">🗺️</span>แผนที่
       </button>
@@ -683,6 +927,9 @@
       </button>
       <button class="bottom-nav-btn" onclick="switchScreen('flashcards')">
         <span class="nav-icon">🃏</span>ทบทวนศัพท์
+      </button>
+      <button class="bottom-nav-btn" onclick="switchScreen('speaking')">
+        <span class="nav-icon">🎤</span>ฝึกออกเสียง
       </button>
     </footer>
 
@@ -874,7 +1121,7 @@
       if (target) target.classList.add('active');
       // Update bottom nav
       document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active'));
-      const navMap = { roadmap: 0, learn: 1, flashcards: 2 };
+      const navMap = { roadmap: 0, learn: 1, flashcards: 2, speaking: 3 };
       const idx = navMap[screenId];
       if (idx !== undefined) {
         const btns = document.querySelectorAll('.bottom-nav-btn');
@@ -886,6 +1133,8 @@
       if (screenId === 'learn') renderDay(currentDay);
       if (screenId === 'tones') renderToneStats();
       if (screenId === 'roadmap') renderNodeMap();
+      if (screenId === 'speaking') startSpeechPractice();
+      if (screenId === 'wordbank') { if (wbCurrentSentence) renderWordBank(); else startWordBank(); }
     }
 
     // ================================================================
@@ -1271,7 +1520,8 @@
         '<div class="text-emerald-400 text-3xl font-black mb-2">' + quizCorrectCount + '/' + currentQuizWords.length + '</div>' +
         '<div class="text-gray-400 text-xs mb-3">ความแม่นยำ ' + pct + '%</div>' +
         (pct >= 80 ? '<button class="btn-vn w-full text-sm" onclick="completeDayLocal(currentDay)">✅ ผ่าน! บันทึกความคืบหน้า</button>' : '<button class="btn-vn w-full text-sm" onclick="startDayQuiz()">🔄 ลองใหม่</button>') +
-        '<button class="btn-vn w-full text-sm mt-2 bg-blue-500/10 border-blue-500/30" onclick="startDayQuest()">🏍️ ทดสอบกับ NPC ในฮานอย!</button></div>';
+        '<button class="btn-vn w-full text-sm mt-2 bg-blue-500/10 border-blue-500/30" onclick="startDayQuest()">🏍️ ทดสอบกับ NPC ในฮานอย!</button>' +
+        '<button class="btn-vn w-full text-sm mt-2 bg-sky-500/10 border-sky-500/30" onclick="startWordBank()">🧩 ฝึกเรียงประโยค (Word Bank)</button></div>';
       container.innerHTML = html;
     }
     async function completeDayLocal(dayNum) {
@@ -1463,6 +1713,250 @@
         updateUI();
         renderDay(currentDay);
       }
+    }
+
+    // ================================================================
+    // WORD BANKS (ระบบต่อประโยค) — Sentence Pool
+    // ================================================================
+    const WB_SENTENCES = {
+      1: [
+        { thai: 'สวัสดีครับ ผมชื่อจอห์น', tokens: ['Xin', 'chào', 'Tôi', 'tên', 'là', 'John'], correct: ['Xin', 'chào', 'Tôi', 'tên', 'là', 'John'] },
+        { thai: 'ผมชื่ออะไร?', tokens: ['Tên', 'tôi', 'là', 'gì'], correct: ['Tên', 'tôi', 'là', 'gì'] }
+      ],
+      2: [
+        { thai: 'คุณคือใคร?', tokens: ['Bạn', 'là', 'ai'], correct: ['Bạn', 'là', 'ai'] },
+        { thai: 'ผมเป็นคนไทย', tokens: ['Tôi', 'là', 'người', 'Thái'], correct: ['Tôi', 'là', 'người', 'Thái'] },
+        { thai: 'คุณอยู่ที่กรุงเทพ', tokens: ['Bạn', 'sống', 'ở', 'Bangkok'], correct: ['Bạn', 'sống', 'ở', 'Bangkok'] }
+      ],
+      3: [
+        { thai: 'คุณสบายดีไหม?', tokens: ['Có', 'khỏe', 'không'], correct: ['Có', 'khỏe', 'không'] },
+        { thai: 'ฉันไม่มี', tokens: ['Tôi', 'không', 'có'], correct: ['Tôi', 'không', 'có'] }
+      ],
+      4: [
+        { thai: 'ปลาอยู่ที่ไหน?', tokens: ['Cá', 'ở', 'đâu'], correct: ['Cá', 'ở', 'đâu'] },
+        { thai: 'นี่คืออะไร?', tokens: ['Đây', 'là', 'cái', 'gì'], correct: ['Đây', 'là', 'cái', 'gì'] }
+      ],
+      5: [
+        { thai: 'ฉันกินข้าว', tokens: ['Tôi', 'ăn', 'cơm'], correct: ['Tôi', 'ăn', 'cơm'] },
+        { thai: 'ฉันดื่มน้ำ', tokens: ['Tôi', 'uống', 'nước'], correct: ['Tôi', 'uống', 'nước'] }
+      ],
+      6: [
+        { thai: 'ผมเป็นคน', tokens: ['Tôi', 'là', 'người'], correct: ['Tôi', 'là', 'người'] },
+        { thai: 'ก๋วยเตี๋ยวเฝออร่อยมาก', tokens: ['Phở', 'ngon', 'quá'], correct: ['Phở', 'ngon', 'quá'] }
+      ],
+      8: [
+        { thai: 'หนึ่งร้อยเหรียญ', tokens: ['Một', 'trăm', 'đồng'], correct: ['Một', 'trăm', 'đồng'] },
+        { thai: 'ห้าสิบเหรียญ', tokens: ['Năm', 'mươi', 'nghìn'], correct: ['Năm', 'mươi', 'nghìn'] }
+      ],
+      9: [
+        { thai: 'อันนี้เท่าไหร่?', tokens: ['Cái', 'này', 'bao', 'nhiêu'], correct: ['Cái', 'này', 'bao', 'nhiêu'] },
+        { thai: 'เท่าไหร่?', tokens: ['Bao', 'nhiêu', 'tiền'], correct: ['Bao', 'nhiêu', 'tiền'] }
+      ],
+      10: [
+        { thai: 'แพงเกินไป!', tokens: ['Đắt', 'quá'], correct: ['Đắt', 'quá'] },
+        { thai: 'ลดหน่อยได้ไหม?', tokens: ['Giảm', 'chút', 'được', 'không'], correct: ['Giảm', 'chút', 'được', 'không'] }
+      ],
+      15: [
+        { thai: 'ฉันอยากกินก๋วยเตี๋ยวเนื้อ', tokens: ['Tôi', 'muốn', 'ăn', 'phở', 'bò'], correct: ['Tôi', 'muốn', 'ăn', 'phở', 'bò'] },
+        { thai: 'ก๋วยเตี๋ยวเนื้ออร่อยมาก', tokens: ['Phở', 'bò', 'ngon', 'quá'], correct: ['Phở', 'bò', 'ngon', 'quá'] }
+      ],
+      16: [
+        { thai: 'ขอกาแฟให้นมหน่อย', tokens: ['Cho', 'tôi', 'cà', 'phê', 'sữa'], correct: ['Cho', 'tôi', 'cà', 'phê', 'sữa'] },
+        { thai: 'กาแฟดำร้อน', tokens: ['Cà', 'phê', 'đen', 'nóng'], correct: ['Cà', 'phê', 'đen', 'nóng'] }
+      ],
+      22: [
+        { thai: 'ตรงไปเลี้ยวขวา', tokens: ['Đi', 'thẳng', 'rẽ', 'phải'], correct: ['Đi', 'thẳng', 'rẽ', 'phải'] },
+        { thai: 'เลี้ยวซ้ายแล้วตรงไป', tokens: ['Rẽ', 'trái', 'rồi', 'đi', 'thẳng'], correct: ['Rẽ', 'trái', 'rồi', 'đi', 'thẳng'] }
+      ],
+      23: [
+        { thai: 'สถานีฮานอยอยู่ที่ไหน?', tokens: ['Ga', 'Hà', 'Nội', 'ở', 'đâu'], correct: ['Ga', 'Hà', 'Nội', 'ở', 'đâu'] },
+        { thai: 'ไปเท่าไหร่?', tokens: ['Bao', 'nhiêu', 'đến'], correct: ['Bao', 'nhiêu', 'đến'] }
+      ]
+    };
+
+    let wbCurrentSentence = null;
+    let wbPlacedTokens = [];
+    let wbCheckTimeout = null;
+
+    function getWBSentencesForDay(dayNum) {
+      // Find closest day with sentences <= current day
+      const days = Object.keys(WB_SENTENCES).map(Number).sort((a, b) => a - b);
+      let bestDay = 1;
+      for (const d of days) {
+        if (d <= dayNum) bestDay = d;
+      }
+      return WB_SENTENCES[bestDay] || WB_SENTENCES[1];
+    }
+
+    function startWordBank() {
+      const sentences = getWBSentencesForDay(currentDay);
+      if (!sentences || sentences.length === 0) {
+        showToast('ยังไม่มีประโยคสำหรับวันนี้', 'warning');
+        return;
+      }
+      const sentence = sentences[Math.floor(Math.random() * sentences.length)];
+      wbCurrentSentence = sentence;
+      wbPlacedTokens = [];
+      if (wbCheckTimeout) { clearTimeout(wbCheckTimeout); wbCheckTimeout = null; }
+      switchScreen('wordbank');
+    }
+
+    function renderWordBank() {
+      if (!wbCurrentSentence) return;
+      const strip = document.getElementById('wb-strip');
+      const pool = document.getElementById('wb-token-pool');
+      const context = document.getElementById('wb-context-card');
+      const contextText = document.getElementById('wb-context-text');
+      const result = document.getElementById('wb-result');
+      const checkBtn = document.getElementById('wb-check-btn');
+
+      result.classList.add('hidden');
+      checkBtn.disabled = false;
+      checkBtn.textContent = '✅ ตรวจสอบ';
+      strip.classList.remove('correct', 'wrong');
+
+      // Show context
+      context.classList.remove('hidden');
+      contextText.textContent = '🇹🇭 ' + wbCurrentSentence.thai;
+
+      // Build placed tokens strip
+      strip.innerHTML = '';
+      if (wbPlacedTokens.length === 0) {
+        strip.innerHTML = '<span class="wb-empty-slot" id="wb-empty-placeholder">👆 แตะคำศัพท์ด้านล่าง</span>';
+      } else {
+        wbPlacedTokens.forEach((token, i) => {
+          const el = document.createElement('span');
+          el.className = 'wb-token placed';
+          el.textContent = token;
+          el.onclick = function() { removeWordFromBank(i); };
+          el.title = 'แตะเพื่อเอาออก';
+          strip.appendChild(el);
+        });
+      }
+      strip.classList.add('active');
+
+      // Build token pool (show tokens not yet placed)
+      pool.innerHTML = '';
+      const available = wbCurrentSentence.tokens.filter(t => !wbPlacedTokens.includes(t) || countOccurrences(wbPlacedTokens, t) < countOccurrences(wbCurrentSentence.tokens, t));
+      if (available.length === 0) {
+        pool.innerHTML = '<span class="text-gray-500 text-xs">✅ วางคำครบแล้ว! กดตรวจสอบ</span>';
+      } else {
+        // Shuffle available tokens for challenge
+        const shuffled = [...available].sort(() => Math.random() - 0.5);
+        shuffled.forEach(token => {
+          const el = document.createElement('span');
+          el.className = 'wb-token';
+          el.textContent = token;
+          el.onclick = function() { placeWordInBank(token, el); };
+          pool.appendChild(el);
+        });
+      }
+    }
+
+    function countOccurrences(arr, val) {
+      return arr.filter(v => v === val).length;
+    }
+
+    function placeWordInBank(token, el) {
+      wbPlacedTokens.push(token);
+      playChime(440, 'sine', 0.08, 0.02);
+      renderWordBank();
+    }
+
+    function removeWordFromBank(index) {
+      wbPlacedTokens.splice(index, 1);
+      playChime(330, 'sine', 0.06, 0.015);
+      renderWordBank();
+    }
+
+    function checkWordBank() {
+      if (!wbCurrentSentence) return;
+      const strip = document.getElementById('wb-strip');
+      const result = document.getElementById('wb-result');
+      const checkBtn = document.getElementById('wb-check-btn');
+      const wrapper = document.getElementById('app-wrapper');
+
+      checkBtn.disabled = true;
+
+      // Compare user's sequence with correct sequence
+      const correct = wbCurrentSentence.correct;
+      const userSeq = wbPlacedTokens;
+
+      if (userSeq.length !== correct.length) {
+        strip.classList.remove('correct', 'wrong');
+        strip.classList.add('wrong');
+        playWrongSound();
+        wrapper.classList.add('shake-viewport');
+        setTimeout(() => wrapper.classList.remove('shake-viewport'), 400);
+        result.classList.remove('hidden');
+        result.innerHTML = '<div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-center">' +
+          '<div class="text-rose-400 font-bold text-sm mb-1">❌ จำนวนคำไม่ถูกต้อง</div>' +
+          '<div class="text-gray-400 text-xs">ควรมี <strong class="text-white">' + correct.length + '</strong> คำ แต่คุณวาง <strong class="text-rose-400">' + userSeq.length + '</strong> คำ</div></div>';
+        checkBtn.textContent = '🔁 ลองใหม่';
+        wbCheckTimeout = setTimeout(() => {
+          checkBtn.disabled = false;
+          checkBtn.textContent = '✅ ตรวจสอบ';
+          strip.classList.remove('wrong');
+          wbCheckTimeout = null;
+        }, 2000);
+        return;
+      }
+
+      // Check each position
+      let correctPos = 0;
+      for (let i = 0; i < correct.length; i++) {
+        if (userSeq[i] === correct[i]) correctPos++;
+      }
+
+      const allCorrect = correctPos === correct.length;
+
+      if (allCorrect) {
+        strip.classList.remove('correct', 'wrong');
+        strip.classList.add('correct');
+        playCorrectSound();
+        spawnConfetti();
+        result.classList.remove('hidden');
+        result.innerHTML = '<div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 text-center">' +
+          '<div class="text-emerald-400 font-bold text-lg mb-1">🎉 ถูกต้อง!</div>' +
+          '<div class="text-gray-400 text-xs mb-2">"' + wbCurrentSentence.correct.join(' ') + '" = ' + wbCurrentSentence.thai + '</div>' +
+          '<button class="btn-vn text-xs py-1.5 px-4" onclick="startWordBank()">➡️ ประโยคถัดไป</button>' +
+          '<button class="btn-vn text-xs py-1.5 px-4 ml-2 bg-slate-700/30 border-slate-600/30" onclick="switchScreen(\'learn\')">📖 กลับไปบทเรียน</button></div>';
+      } else {
+        strip.classList.remove('correct', 'wrong');
+        strip.classList.add('wrong');
+        playWrongSound();
+        spawnLossDamage(5000);
+        wrapper.classList.add('shake-viewport');
+        setTimeout(() => wrapper.classList.remove('shake-viewport'), 400);
+
+        // Highlight correct and wrong positions
+        const tokens = strip.querySelectorAll('.wb-token');
+        tokens.forEach((el, i) => {
+          el.classList.remove('correct-pos', 'wrong-pos');
+          el.classList.add(userSeq[i] === correct[i] ? 'correct-pos' : 'wrong-pos');
+        });
+
+        const pct = Math.round((correctPos / correct.length) * 100);
+        result.classList.remove('hidden');
+        result.innerHTML = '<div class="bg-rose-500/10 border border-rose-500/30 rounded-xl p-3 text-center">' +
+          '<div class="text-rose-400 font-bold text-sm mb-1">😅 ถูก ' + correctPos + '/' + correct.length + ' (' + pct + '%)</div>' +
+          '<div class="text-gray-400 text-xs leading-relaxed">ที่ถูกต้อง: <strong class="text-emerald-400">' + correct.join(' ') + '</strong></div>' +
+          '<div class="text-gray-500 text-[0.6rem] mt-1">' + wbCurrentSentence.thai + '</div>' +
+          '<button class="btn-vn text-xs py-1.5 px-4 mt-2" onclick="resetWordBank()">🔄 ลองใหม่</button></div>';
+        checkBtn.textContent = '🔁 ลองใหม่';
+        wbCheckTimeout = setTimeout(() => {
+          checkBtn.disabled = false;
+          checkBtn.textContent = '✅ ตรวจสอบ';
+          strip.classList.remove('wrong');
+          wbCheckTimeout = null;
+        }, 3000);
+      }
+    }
+
+    function resetWordBank() {
+      if (wbCheckTimeout) { clearTimeout(wbCheckTimeout); wbCheckTimeout = null; }
+      wbPlacedTokens = [];
+      renderWordBank();
     }
 
     // ================================================================
@@ -1673,9 +2167,307 @@
       if (e.key === 'f') switchScreen('flashcards');
       if (e.key === 't') switchScreen('tones');
       if (e.key === 'p') switchScreen('progress');
+      if (e.key === 's') switchScreen('speaking');
     });
 
-    console.log('🏍️ Hanoi Survival Vietnamese loaded!');
+    // ─── SPEECH RECOGNITION (Elsa Speak-style) ───
+    let speechState = {
+      currentVocab: null,
+      vocabPool: [],
+      poolIndex: 0,
+      mode: 'word',
+      isListening: false,
+      recognition: null,
+      attempts: 0,
+      correctCount: 0,
+      totalCount: 0
+    };
+
+    function getSpeechVocabForDay(day) {
+      // Reuse getWordsForDay which handles both CURRICULUM and vocabularyData
+      const words = getWordsForDay(day);
+      if (words && words.length > 0) return words.slice(0, 10);
+      // Fallback: gather from recent days
+      let pool = [];
+      for (let d = day; d >= Math.max(1, day - 4); d--) {
+        const items = getWordsForDay(d);
+        pool.push(...items);
+        if (pool.length >= 10) break;
+      }
+      return pool.slice(0, 10);
+    }
+
+    function startSpeechPractice() {
+      const day = currentDay || 1;
+      speechState.vocabPool = getSpeechVocabForDay(day);
+      if (speechState.vocabPool.length === 0) {
+        showToast('⚠️ ยังไม่มีคำศัพท์สำหรับวันนี้', 'warning');
+        return;
+      }
+      speechState.poolIndex = 0;
+      speechState.correctCount = 0;
+      speechState.totalCount = 0;
+      showSpeechWord();
+    }
+
+    function showSpeechWord() {
+      const pool = speechState.vocabPool;
+      if (speechState.poolIndex >= pool.length) {
+        finishSpeechPractice();
+        return;
+      }
+      speechState.currentVocab = pool[speechState.poolIndex];
+      speechState.attempts = 0;
+
+      const targetEl = document.getElementById('speaking-target');
+      const resultEl = document.getElementById('speak-result');
+      const statsEl = document.getElementById('speaking-stats');
+      const statusText = document.getElementById('speak-status-text');
+
+      document.getElementById('speak-target-word').textContent = speechState.currentVocab.vi || speechState.currentVocab.word;
+      document.getElementById('speak-target-meaning').textContent = speechState.currentVocab.thai || speechState.currentVocab.meaning || '';
+      const word = (speechState.currentVocab.vi || speechState.currentVocab.word).replace(/'/g, "\'");
+      document.getElementById('speak-target-audio').setAttribute('onclick', "speak('" + word + "')");
+
+      resultEl.classList.add('hidden');
+      statusText.textContent = '🎤 แตะไมค์แล้วอ่านออกเสียง';
+      statsEl.classList.remove('hidden');
+      stopListening();
+      updateSpeechStats();
+    }
+
+    function toggleSpeechRecognition() {
+      if (speechState.isListening) {
+        stopListening();
+      } else {
+        startListening();
+      }
+    }
+
+    function startListening() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        showToast('⚠️ เบราว์เซอร์นี้ไม่รองรับ Speech Recognition', 'warning');
+        return;
+      }
+      try {
+        const recognition = new SR();
+        recognition.lang = 'vi-VN';
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 3;
+
+        recognition.onresult = (event) => {
+          let bestTranscript = '';
+          let bestConfidence = 0;
+          for (let i = 0; i < event.results.length; i++) {
+            for (let j = 0; j < event.results[i].length; j++) {
+              const alt = event.results[i][j];
+              if (alt.confidence > bestConfidence) {
+                bestConfidence = alt.confidence;
+                bestTranscript = alt.transcript;
+              }
+            }
+          }
+          processSpeechInput(bestTranscript.trim().toLowerCase());
+        };
+
+        recognition.onerror = (event) => {
+          console.warn('Speech error:', event.error);
+          if (event.error === 'not-allowed') {
+            showToast('⚠️ ไม่อนุญาตใช้ไมค์ เปลี่ยนใน Settings', 'error');
+          } else if (event.error === 'no-speech') {
+            showToast('🗣️ ไม่ได้ยินเสียง ลองพูดอีกครั้ง', 'warning');
+          }
+          stopListening();
+        };
+
+        recognition.onend = () => {
+          speechState.isListening = false;
+          updateMicButtonStates();
+          animateWaveform(false);
+        };
+
+        recognition.start();
+        speechState.recognition = recognition;
+        speechState.isListening = true;
+        updateMicButtonStates();
+        animateWaveform(true);
+        document.getElementById('speak-status-text').textContent = '🎤 กำลังฟัง... พูดออกเสียง';
+      } catch (e) {
+        console.warn('Speech init error:', e);
+        showToast('⚠️ ไม่สามารถเปิดไมค์ได้', 'error');
+      }
+    }
+
+    function stopListening() {
+      if (speechState.recognition) {
+        try { speechState.recognition.stop(); } catch(e) {}
+        speechState.recognition = null;
+      }
+      speechState.isListening = false;
+      updateMicButtonStates();
+      animateWaveform(false);
+    }
+
+    function updateMicButtonStates() {
+      const btns = document.querySelectorAll('.mic-btn');
+      btns.forEach(btn => {
+        if (speechState.isListening) {
+          btn.classList.add('listening');
+          btn.innerHTML = '<div class="mic-pulse"></div><span class="text-4xl">🎤</span>';
+        } else {
+          btn.classList.remove('listening');
+          btn.innerHTML = '<span class="text-4xl">🎤</span>';
+        }
+      });
+    }
+
+    function animateWaveform(active) {
+      const waveform = document.getElementById('speaking-waveform');
+      if (!waveform) return;
+      const bars = waveform.querySelectorAll('.waveform-bar');
+      bars.forEach(bar => {
+        if (active) {
+          bar.classList.remove('inactive');
+        } else {
+          bar.classList.add('inactive');
+        }
+      });
+    }
+
+    function processSpeechInput(transcript) {
+      if (!transcript || !speechState.currentVocab) return;
+      speechState.attempts++;
+      speechState.totalCount++;
+
+      const target = (speechState.currentVocab.vi || speechState.currentVocab.word).toLowerCase().normalize('NFC');
+      const input = transcript.toLowerCase().normalize('NFC');
+      const similarity = stringSimilarity(input, target);
+      const isCorrect = similarity >= 0.6 || input.includes(target) || target.includes(input);
+
+      const resultEl = document.getElementById('speak-result');
+      const scoreRing = document.getElementById('speak-score-ring');
+      const label = document.getElementById('speak-result-label');
+      const detail = document.getElementById('speak-result-detail');
+      const statusText = document.getElementById('speak-status-text');
+
+      animateWaveform(false);
+      stopListening();
+
+      if (isCorrect) {
+        speechState.correctCount++;
+        resultEl.className = 'speech-result excellent';
+        scoreRing.textContent = Math.round(similarity * 100);
+        scoreRing.style.borderColor = '#22c55e';
+        scoreRing.style.color = '#22c55e';
+        label.textContent = '🎉 ถูกต้อง!';
+        detail.textContent = '"' + transcript + '" = ' + target;
+        resultEl.classList.remove('hidden');
+        statusText.textContent = '✅ ถูกต้อง! ไปคำถัดไป...';
+        playCorrectSound();
+        triggerConfetti();
+        updateSpeechStats();
+        setTimeout(() => {
+          speechState.poolIndex++;
+          showSpeechWord();
+        }, 1500);
+      } else {
+        resultEl.className = 'speech-result needs-work';
+        scoreRing.textContent = Math.round(similarity * 100);
+        scoreRing.style.borderColor = '#f43f5e';
+        scoreRing.style.color = '#f43f5e';
+        label.textContent = '😅 ลองอีกครั้ง';
+        detail.textContent = 'คุณพูด: "' + transcript + '" vs "' + target + '"';
+        resultEl.classList.remove('hidden');
+        statusText.textContent = '🔁 แตะไมค์เพื่อพูดอีกครั้ง';
+        playWrongSound();
+        const targetCard = document.getElementById('speaking-target');
+        if (targetCard) {
+          targetCard.classList.remove('shake');
+          void targetCard.offsetWidth;
+          targetCard.classList.add('shake');
+        }
+        updateSpeechStats();
+      }
+    }
+
+    function stringSimilarity(a, b) {
+      if (a === b) return 1.0;
+      if (!a || !b) return 0.0;
+      const normalize = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      const aNorm = normalize(a);
+      const bNorm = normalize(b);
+      if (aNorm === bNorm) return 0.85;
+      const dist = levenshteinDistance(a, b);
+      const maxLen = Math.max(a.length, b.length);
+      return maxLen === 0 ? 1.0 : 1 - (dist / maxLen);
+    }
+
+    function levenshteinDistance(a, b) {
+      const m = a.length, n = b.length;
+      const dp = Array.from({length: m + 1}, () => Array(n + 1).fill(0));
+      for (let i = 0; i <= m; i++) dp[i][0] = i;
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          dp[i][j] = a[i-1] === b[j-1]
+            ? dp[i-1][j-1]
+            : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+        }
+      }
+      return dp[m][n];
+    }
+
+    function playSpeechTarget() {
+      if (speechState.currentVocab) {
+        speak(speechState.currentVocab.vi || speechState.currentVocab.word);
+      }
+    }
+
+    function nextSpeechWord() {
+      speechState.poolIndex++;
+      showSpeechWord();
+    }
+
+    function retrySpeechWord() {
+      showSpeechWord();
+    }
+
+    function updateSpeechStats() {
+      const el = document.getElementById('speaking-stats');
+      if (!el) return;
+      const total = speechState.totalCount;
+      const correct = speechState.correctCount;
+      const wrong = total - correct;
+      document.getElementById('speak-correct-count').textContent = correct;
+      document.getElementById('speak-wrong-count').textContent = wrong;
+      document.getElementById('speak-streak-count').textContent = speechState.poolIndex;
+      el.classList.remove('hidden');
+    }
+
+    function finishSpeechPractice() {
+      const total = speechState.totalCount;
+      const correct = speechState.correctCount;
+      const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+      const resultEl = document.getElementById('speak-result');
+      const targetEl = document.getElementById('speaking-target');
+      document.getElementById('speak-target-word').textContent = '🎉 ฝึกเสร็จ!';
+      document.getElementById('speak-target-meaning').textContent = correct + '/' + total + ' (' + accuracy + '%)';
+      resultEl.className = 'speech-result ' + (accuracy >= 80 ? 'excellent' : 'good');
+      document.getElementById('speak-score-ring').textContent = accuracy;
+      document.getElementById('speak-score-ring').style.borderColor = accuracy >= 80 ? '#22c55e' : '#eab308';
+      document.getElementById('speak-score-ring').style.color = accuracy >= 80 ? '#22c55e' : '#eab308';
+      document.getElementById('speak-result-label').textContent = accuracy >= 80 ? '🏆 เยี่ยมมาก!' : accuracy >= 50 ? '👍 พอใช้ได้' : '💪 ฝึกอีกนิด';
+      document.getElementById('speak-result-detail').textContent = 'ผลการฝึกออกเสียง: ' + correct + '/' + total;
+      resultEl.classList.remove('hidden');
+      if (accuracy >= 80) { triggerConfetti(); }
+      updateSpeechStats();
+    }
+
+    function triggerConfetti() { spawnConfetti(); }
+
+    console.logg('🏍️ Hanoi Survival Vietnamese loaded!');
     console.log('📊 State:', progress);
   </script>
 </body>

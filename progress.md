@@ -74,15 +74,12 @@ learn_vietnamese/
 
 - [x] **Day 0 Phonetics & Tones Primer** — Interactive soundboard + vowel/consonant charts to teach pronunciation before vocabulary.
 - [x] **Vocabulary Leitner Box Drawer** — A visual dashboard to see learned words sorted by Leitner Box level (1 to 5) with audio playback.
-- [ ] **Duolingo-style Word Banks (ระบบต่อประโยค)** — Arrange word tokens in correct SVO order for sentence drills.
-  - [ ] ออกแบบชุดคำประโยคตัวอย่างสำหรับการฝึกหัด (SVO Sentence Pool) โดยเชื่อมกับไวยากรณ์ในแต่ละวัน
-  - [ ] พัฒนา UI บับเบิ้ลคำศัพท์ (Bubble Word Tokens) และพื้นที่วางเรียงคำประโยค (Drop Area)
-  - [ ] พัฒนาระบบตรวจสอบความถูกต้องลำดับคำ (Syntax & Order Validation) และฟีดแบ็กเมื่อทำผิด
-- [ ] **Elsa Speak-style Speech Recognition (ระบบประเมินเสียงพูด)** — Using `webkitSpeechRecognition` to evaluate user pronunciation of Vietnamese words with real-time feedback.
-  - [ ] พัฒนาฟังก์ชัน `startSpeakingDrill(word, btnElement)` ที่ถูกเรียกในคำการ์ดคำศัพท์
-  - [ ] เชื่อมต่อเบราว์เซอร์ `webkitSpeechRecognition` ด้วยภาษา `vi-VN`
-  - [ ] ระบบวิเคราะห์เปรียบเทียบคำพูดผู้ใช้กับคำศัพท์เป้าหมาย (String Similarity Matcher)
-  - [ ] พัฒนา UI ฟีดแบ็กในตัวการ์ด (เช่น สีเขียวเมื่อพูดถูกต้อง, สีแดงและข้อความความคลาดเคลื่อนเมื่อพูดผิด)
+- [x] **Duolingo-style Word Banks (ระบบต่อประโยค)** — 🧩 27 ประโยค SVO ใน 13 วัน, Bubble Token UI, Syntax Validation, Juicy Feedback
+- [x] **Elsa Speak-style Speech Recognition (ระบบประเมินเสียงพูด)** — 🎤 webkitSpeechRecognition vi-VN, Levenshtein Similarity, Mic Pulse UI, Waveform Animation, Real-time Score Feedback
+  - CSS: mic-btn pulse ring animation, waveform bars, speech result cards (excellent/good/needs-work)
+  - HTML: #view-speaking screen with target word, mic button, waveform, result card, stats
+  - JS: webkitSpeechRecognition vi-VN, String Similarity Matcher (Levenshtein), 10-vocab pool per day
+  - Integration: switchScreen handler, keyboard 's' shortcut, roadmap button, bottom nav tab
 
 ---
 
