@@ -1,9 +1,9 @@
-# Component Library — Learn Vietnamese Web App
+# Component Library — Learn Vietnamese Web App (v3.0)
 
-> **Phase:** P4 UI Design
-> **Status:** Draft
-> **Aligns with:** Full-Stack Web App Architecture (v2.0)
-> **Design Tokens:** `design-tokens.css` / Tailwind + DaisyUI references
+> **Phase:** P6 UX/UI Audit & Resolution  
+> **Status:** ✅ v3 Redesign Complete  
+> **Design Tokens:** `design-tokens.css` + CSS Custom Properties in `index.html`  
+> **Date:** 2026-05-24
 
 ---
 
@@ -11,267 +11,312 @@
 
 1. [Layout & Navigation Components](#1-layout--navigation-components)
 2. [Interactive Card Components](#2-interactive-card-components)
-3. [Chat & Dialogue Bubbles](#3-chat--dialogue-bubbles)
-4. [Audio & Pronunciation Controls](#4-audio--pronunciation-controls)
-5. [Spelling Drill Widget](#5-spelling-drill-widget)
-6. [Tones Contour Visualizer](#6-tones-contour-visualizer)
-7. [SM-2 Rating Button Groups](#7-sm-2-rating-button-groups)
-8. [Form Input & Speech Controls](#8-form-input--speech-controls)
-9. [Feedback & Notification Indicators](#9-feedback--notification-indicators)
-10. [JSON Output Mapping](#10-json-output-mapping)
+3. [Button System](#3-button-system)
+4. [Stats & Progress](#4-stats--progress)
+5. [Tone System](#5-tone-system)
+6. [Audio & Pronunciation Controls](#6-audio--pronunciation-controls)
+7. [Onboarding Flow](#7-onboarding-flow)
+8. [Settings Components](#8-settings-components)
+9. [Roadmap (Node Map)](#9-roadmap-node-map)
+10. [Feedback & Notifications](#10-feedback--notifications)
 
 ---
 
 ## 1. Layout & Navigation Components
 
-### 1.1 App Sidebar Navigation (Desktop)
-A sticky left-aligned column managing view states.
-- **Visuals:** Dark or slate background, clean border/shadow separation, active states with emerald color accents.
-- **Sub-elements:**
-  - *User Profile Badge:* User avatar placeholder, current daily streak badge (e.g. `🔥 7 Days`).
-  - *Nav Links:* Anchor links styled as horizontal list items with SVG icons: `📖 Learn`, `🃏 Flashcards`, `💬 Quest Chat`, `📝 Tones`, `📊 Progress`, `⚙️ Settings`.
-  - *Connection Status indicator:* Small pulsing indicator (Green = local FastAPI connected, Red = API offline).
+### 1.1 App Header (`.app-header`)
 
-### 1.2 Viewport Main Wrapper
-Main container adapting to active views.
-- **Desktop:** `flex-1 min-h-screen p-8 bg-slate-50 dark:bg-slate-900`
-- **Mobile (Responsive):** Full-screen width viewport, vertical scroll, bottom navigation bar replacing the sidebar menu.
+Sticky top navigation bar with brand and stats.
+
+```
+┌─────────────────────────────────────────┐
+│ 🇻🇳 HANOOI     │  🔥 3   💰 100,000  │
+│                │  (streak)  (VND)      │
+└─────────────────────────────────────────┘
+```
+
+- **CSS:** `position: sticky; top: 0; z-index: 40; backdrop-filter: blur(16px)`
+- **Sub-elements:**
+  - `.hud-brand`: Logo emoji + brand name (Syne font, brand color)
+  - `.hud-stats`: Flex row of stat pills
+  - `.hud-stat`: Pill badge with emoji + value (`.hud-streak` for fire, `.hud-vnd` for currency)
+
+### 1.2 Bottom Navigation (`.bottom-nav`)
+
+Mobile-first 5-tab navigation bar.
+
+```
+┌──────┬──────┬──────┬──────┬──────┐
+│ 🗺️    │ 📖   │ 🃏   │ 🎤   │ ⚙️   │
+│ แผนที่ │ เรียน │ ทบทวน │ ออกเสียง │ ตั้งค่า│
+└──────┴──────┴──────┴──────┴──────┘
+```
+
+- **CSS:** `grid-template-columns: repeat(5, 1fr)`, glass background, animated gradient underline indicator
+- **States:** 
+  - `active`: Brand-dim background + brand text color + translateY(-1px) icon
+  - Default: Gray text (#6b7280)
+- **Accessibility:** `min-height: 44px`, `focus-visible` outline
+
+### 1.3 Screen Header (`.screen-header`)
+
+Consistent header pattern for sub-screens.
+
+```
+┌─────────────────────────────────────┐
+│ [🔊]  สัทศาสตร์ Day 0               │
+│       ปูพื้นก่อนเรียนจริง             │
+└─────────────────────────────────────┘
+```
+
+- **Sub-elements:** `.screen-icon` (2.5rem, brand-dim bg), `.screen-title` (Syne 700), `.screen-subtitle` (muted)
 
 ---
 
 ## 2. Interactive Card Components
 
-### 2.1 Module Selection Card
-Used in the **Learn** dashboard to select lessons.
+### 2.1 Standard Card (`.card`)
+
+Primary content card with surface background.
+
 ```
-┌──────────────────────────────────────────────┐
-│  📖 Level 0: เสียงและวรรณยุกต์                │
-│  Progress: [██████░░░░] 60% (6/10)           │
-│                                              │
-│  [0.1 Alphabet] [0.2 Vowels]  [0.3 Consonants]│
-│  [0.4 Tones]    [0.5 Practice][0.6 Reading]  │
-└──────────────────────────────────────────────┘
+┌─────────────────────────────────────┐
+│  Content area                       │
+│  (padding: 1.25rem)                │
+└─────────────────────────────────────┘
 ```
+
+- **CSS:** `background: var(--bg-surface); border-radius: 16px; border: 1px solid rgba(255,255,255,0.06)`
+- **Hover:** Subtle lift effect (via `.rpg-card`, `.hud-card` base styles)
+
+### 2.2 Inner Card (`.card-inner`)
+
+Nested card for visual hierarchy within a `.card`.
+
+- **CSS:** `background: var(--bg-raised); border-radius: 12px; padding: 1rem`
+
+### 2.3 Glass Hierarchy
+
+Three levels of glass depth:
+
+| Class | Background | Backdrop |
+|-------|-----------|----------|
+| `.glass-1` | `rgba(9, 13, 22, 0.5)` | `blur(4px)` |
+| `.glass-2` | `rgba(9, 13, 22, 0.65)` | `blur(12px)` |
+| `.glass-3` | `rgba(9, 13, 22, 0.8)` | `blur(24px)` |
+
+---
+
+## 3. Button System
+
+Three variants with unified interaction patterns:
+
+### 3.1 Primary Button (`.btn-primary`)
+
+Full-width call-to-action button.
+
+- **CSS:** `background: var(--brand); border-radius: 12px; font-weight: 600`
+- **Hover:** Lighten brand + glow shadow + translateY(-1px)
+- **Active:** `scale(0.97)`
+
+### 3.2 Ghost Button (`.btn-ghost`)
+
+Secondary action button with subtle border.
+
+- **CSS:** `background: var(--bg-raised); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px`
+- **Hover:** Brighter text + border
+
+### 3.3 Choice Button (`.btn-choice`)
+
+Quiz/selection button with left-aligned text.
+
+- **CSS:** `background: var(--bg-surface); border-radius: 12px`
+- **Hover:** Brand border + left padding shift
+- **States:** `.correct` (green border + tint), `.wrong` (red border + tint)
+
+---
+
+## 4. Stats & Progress
+
+### 4.1 Stats Strip (`.stats-strip`)
+
+Horizontal stats display for dashboard/roadmap.
+
+```
+┌─────────────────────────────────────────┐
+│    🔥 วัน     │   📖 คำ    │  🎯 แม่นยำ  │
+│      3        │    42      │    78%     │
+└─────────────────────────────────────────┘
+```
+
+- **CSS:** `display: flex; justify-content: space-around; background: var(--bg-surface); border-radius: 16px`
+- **Divider:** `.stat-divider` (1px vertical line)
+
+### 4.2 Progress Bar (`.progress-fill`)
+
+Animated progress fill with shimmer effect.
+
+- **CSS:** `background: linear-gradient(90deg, #10b981, #34d399, #10b981); background-size: 200% 100%;`
+- **Animation:** `progressShimmer` (2.5s linear infinite)
+
+---
+
+## 5. Tone System
+
+### 5.1 Tone Grid (`.tone-grid`)
+
+2-column grid of interactive tone cards.
+
+```
+┌─────────────┬─────────────┐
+│  Ngang      │  Huyền      │
+│  (SVG line) │  (SVG line) │
+│  ma = ผี    │  mà = แต่   │
+│  🔊 ฟัง     │  🔊 ฟัง     │
+├─────────────┼─────────────┤
+│  Sắc        │  Hỏi        │
+│  ...        │  ...        │
+└─────────────┴─────────────┘
+```
+
+### 5.2 Tone Card (`.tone-card`)
+
+Individual tone display with SVG contour visualization.
+
+- **Elements:** SVG contour, tone name (colored), example word (VN monospace), meaning, mark, comparison text, play button
+- **States:** `.playing` (brand border + glow)
+
+### 5.3 Tone Colors
+
+| Tone | Variable | Color |
+|------|----------|-------|
+| Ngang | `--tone-1` | #94a3b8 (slate) |
+| Huyền | `--tone-2` | #fb923c (orange) |
+| Sắc | `--tone-3` | #f87171 (red) |
+| Hỏi | `--tone-4` | #fbbf24 (amber) |
+| Ngã | `--tone-5` | #c084fc (purple) |
+| Nặng | `--tone-6` | #4ade80 (green) |
+
+---
+
+## 6. Audio & Pronunciation Controls
+
+### 6.1 Mic Button (`.mic-btn`)
+
+Circular speech recording trigger.
+
 - **States:**
-  - *Locked:* Gray background, lock icon, unclickable.
-  - *Unlocked:* Light outline, hover scale animation.
-  - *Completed:* Checkmark indicator in corner, green boundary highlight.
+  - `idle`: Blue border, default size
+  - `.listening`: Green border + pulse ring animation
+  - `.processing`: Blue border + fast pulse
+  - `:disabled`: 40% opacity, no hover
 
-### 2.2 Quiz Challenge Card
-Container for multiple choice questions (MCQ) or minimal pair identification.
-- **Tailwind class:** `card shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700`
-- **Inner elements:**
-  - *Audio Prompt:* Large circular play button.
-  - *Answer Grid:* 2x2 layout of button choices.
-  - *Submit button:* Emerald green primary button (hidden in instant-reveal mode).
+### 6.2 Waveform Box (`.waveform-box`)
 
----
+Animated sound visualization bars.
 
-## 3. Chat & Dialogue Bubbles
+- **CSS:** 10 bars with staggered animation delays
+- **States:** `.inactive` (short flat bars, gray), active (gradient bars, animated height)
 
-Used in **Quest Chat** roleplay modes. Combines narrative context, NPC dialogs, and user speech translations.
+### 6.3 Speech Result Card (`.speech-result`)
 
-### 3.1 NPC Chat Bubble
-- **Visuals:** Left-aligned bubble, slate-gray or white background, rounded edges, speech bubble tail on left.
-- **Interactive features:**
-  - *Thai Translation toggle:* Small `[แปลไทย]` toggle text displaying/hiding translated lines (e.g., `(พี่อยากดื่มอะไรคะ?)`) under the Vietnamese word.
-  - *TTS Audio Trigger:* Compact speaker icon `[🔊]` placed next to the Vietnamese sentence.
+Pronunciation feedback display.
 
-```
-┌────────────────────────────────────────┐
-│ 🙂 Chị Linh (พนักงานร้าน)               │
-│                                        │
-│  "Chị muốn uống gì ạ?"  🔊              │
-│  [แปลไทย] -> (พี่อยากดื่มอะไรคะ?)        │
-└────────────────────────────────────────┘
-```
-
-### 3.2 User Chat Bubble
-- **Visuals:** Right-aligned bubble, emerald-green background, white text, rounded edges, speech bubble tail on right.
-- **Content:** User text input, or converted speech text. Matches tone analysis validation.
-
-```
-                               ┌────────────────────────────────────────┐
-                               │ User (ลูกค้า) 👤                        │
-                               │                                        │
-                               │  "Cho tôi một cà phê sữa đá." 🔊       │
-                               └────────────────────────────────────────┘
-```
+- **States:** `.excellent` (green border), `.good` (yellow), `.needs-work` (red)
+- **Sub-element:** `.speech-score-ring` — circular score display
 
 ---
 
-## 4. Audio & Pronunciation Controls
+## 7. Onboarding Flow
 
-### 4.1 Shadowing Card (ฟังแล้วพูดตาม)
-A listen-and-repeat exercise card used in the Shadowing screen to improve pronunciation and fluency.
+### 7.1 Onboarding Screen (`.onboard-step`)
 
-```
-┌──────────────────────────────────────────────┐
-│  🎭 Shadowing  (3/5)  ████████░░ 60%        │
-│                                              │
-│  📋 สถานการณ์: สั่งอาหารเย็น                   │
-│  "Chị dùng thêm gì không ạ?"                  │
-│  [🔊 ฟังปกติ] [🐢 ฟังช้า]                      │
-│                                              │
-│  🎤 [กดค้างเพื่ออัดเสียงพูดตาม]                │
-│  ▁▂▃▅▇████▇▅▃▂▁ (waveform)                 │
-│                                              │
-│  ผลลัพท์: ความเหมือน 78%                      │
-│  เปรียบเทียบคำต่อคำ:                          │
-│  ✅ Chị  ✅ dùng  ✅ thêm  ❌ gì  ✅ không  ✅ ạ  │
-└──────────────────────────────────────────────┘
-```
+3-step wizard.
 
-- **Flow:** Listen to native-speaker audio → Record yourself repeating → Get similarity score + word-by-word breakdown.
-- **Interactive features:**
-  - *Playback button:* Full-speed TTS pronunciation.
-  - *Slow playback button:* Slower speed (0.6x) for hearing tone and rhythm.
-  - *Microphone button:* Starts `webkitSpeechRecognition` in `vi-VN` mode.
-  - *Result card:* Shows Levenshtein similarity score and highlights correctly/incorrectly pronounced words.
+- **Step 1:** Welcome — app name + description + CTA
+- **Step 2:** Goal selection — `.goal-card` options (travel/business/conversation)
+- **Step 3:** Path preview — `.path-item` list of weekly topics
 
-### 4.2 Playback Button
-Every Vietnamese word or phrase requires an inline audio controller.
-- **HTML structure:** `<button class="btn btn-circle btn-primary btn-sm mx-1"> 🔊 </button>`
-- **Behavior:** Fetches client-side synthesized speech. If local voice package is missing, calls Google Translate public TTS fallback.
+### 7.2 Goal Card (`.goal-card`)
 
-### 4.2 Speed Selector Slider
-Global slider located in Settings modal (or adjacent to dialogue widgets).
-- **Options:** `0.6x` (Very Slow), `0.8x` (Slow), `1.0x` (Normal).
-- **Implementation:** HTML range slider binding to JS `speechSynthesis.rate`.
+Selectable goal option with emoji + title + description.
+
+- **States:** Selected (brand border + brand-dim bg + glow shadow)
 
 ---
 
-## 5. Spelling Drill Widget
+## 8. Settings Components
 
-Converts character spelling into a progressive step-by-step assembly game (Tier 2/3 scaffolding).
+### 8.1 Setting Select (`.setting-select`)
 
-```
-┌──────────────────────────────────────────────┐
-│  สะกดคำว่า: Mẹ ⬇️ (แม่)                       │
-│                                              │
-│  Selected: [ m ] → [ _ ] → [ _ ]             │
-│                                              │
-│  [ เลือกสระ ]:                                │
-│  ┌───────┬───────┬───────┬───────┬───────┐   │
-│  │   a   │   e   │   i   │   o   │   u   │   │
-│  └───────┴───────┴───────┴───────┴───────┘   │
-└──────────────────────────────────────────────┘
-```
+Styled dropdown for TTS engine selection.
 
-### Flow Sequence:
-1. **Consonant Selection Grid:** Select leading onset letter (e.g. `[m] [n] [b] [d]`).
-2. **Vowel Selection Grid:** Select middle vowel character (e.g. `[a] [e] [i] [o]`).
-3. **Tone Selection Grid:** Select tone diacritic mark (e.g. `[➡️] [↘️] [↗️] [❓] [〰️] [⬇️]`).
-4. **Validation:** Flash green if correctly assembled, play TTS word output. Fail defaults to reducing options to 2 cards.
+- **CSS:** `background: var(--bg-raised); border-radius: 10px; color: var(--text-primary)`
+
+### 8.2 Setting Label (`.setting-label`)
+
+Section label in settings.
+
+- **CSS:** `font-size: 0.8rem; font-weight: 600; color: var(--text-secondary)`
+
+### 8.3 Setting Value (`.setting-value`)
+
+Display-only value (e.g., current goal).
+
+- **CSS:** `font-size: 0.875rem; color: var(--brand); font-weight: 600`
 
 ---
 
-## 6. Tones Contour Visualizer
+## 9. Roadmap (Node Map)
 
-Displays real-time or static pitch contour graphs to help Thai speakers discriminate tones (since Thai has 5 tones, Vietnamese has 6, and Hỏi/Ngã/Nặng have no Thai equivalents).
+### 9.1 Week Label (`.week-label`)
 
-- **Implementation:** Lightweight SVG Canvas element.
-- **Curves:**
-  - *Ngang:* Flat straight horizontal line.
-  - *Huyền:* Straight line sloping downwards.
-  - *Sắc:* Curve sweeping steeply upwards.
-  - *Hỏi:* Dipping-rising line (curving down, then hooking up).
-  - *Ngã:* Staccato split contour (creaky break midway, rising sharply).
-  - *Nặng:* Steep drop cut off abruptly.
+Section header for each week in the node tree.
 
-```
-  Pitch
-  ▲
-  │     / [Sắc ↗️]
-  │ ─── [Ngang ➡️]
-  │ \_/\ [Hỏi ❓]
-  │  \   [Huyền ↘️]
-  └──────────────► Time
-```
+- **CSS:** `text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand)`
+
+### 9.2 Node Button (`.node-btn`)
+
+Circular day node in the vertical progression map.
+
+- **States:** 
+  - Default: Gray circle with day number
+  - `locked`: Grayed, no pointer events
+  - `completed`: Emerald tint + checkmark
+  - `active`: Brand fill + glow ring
 
 ---
 
-## 7. SM-2 Rating Button Groups
+## 10. Feedback & Notifications
 
-Used in **Flashcards** view state. Renders on the back of cards to record Leitner intervals.
+### 10.1 Toast Container (`#toast-container`)
 
-```
-┌────────────────────────────────────────────────────────┐
-│  จำคำนี้ได้ยากง่ายแค่ไหน?                               │
-│                                                        │
-│  [🔴 จำไม่ได้]     [🟡 ปานกลาง]     [🟢 จำแม่น/ง่ายมาก]   │
-│  (ทบทวนด่วน)       (ทบทวนพรุ่งนี้)    (ผ่าน / เพิ่มระยะ)     │
-└────────────────────────────────────────────────────────┘
-```
+Fixed bottom-center toast stack.
 
-- **Buttons mapping:**
-  - `[🔴 จำไม่ได้]`: Sets Leitner box to 1, next review within 12 hours.
-  - `[🟡 ปานกลาง]`: Increments interval by 1 day, keeps box.
-  - `[🟢 จำแม่น/ง่ายมาก]`: Advances word to next Leitner box, sets next review to +3 or +7 days.
+- **Animation:** `toastEnter` (spring scale-up)
+- **Accessibility:** `pointer-events: none` on container, `auto` on children
 
----
+### 10.2 Skeleton Loader (`.skeleton`)
 
-## 8. Form Input & Speech Controls
+Shimmer placeholder for loading content.
 
-### 8.1 Textarea Input Area
-Standard input area for typing business replies or draft emails.
-- **Classes:** `textarea textarea-bordered w-full h-32 focus:border-emerald-500`
-- **Placeholder:** `พิมพ์ประโยคตอบภาษาเวียดนามที่นี่...`
+- **CSS:** `background: linear-gradient(90deg, ...); border-radius: 0.75rem`
+- **Animation:** `skeletonShimmer` (1.8s ease-in-out infinite)
 
-### 8.2 Microphone speech triggers
-Used for Speech-to-Text validation.
-- **Visuals:** Circle button, microphone icon.
-- **States:**
-  - *Idle:* Gray icon, outline.
-  - *Listening (Active STT):* Red background, pulsing glow animations, text label changing to `🔴 กำลังบันทึกเสียงพูด... พูดภาษาเวียดนามได้เลย`.
-  - *Supported browser:* Chrome/Safari compatible with browser-native Web Speech API. Toggles alternative fallback text input on unsupported devices.
+### 10.3 Confetti (`.confetti-particle`)
+
+Celebration particles.
+
+- **CSS:** Fixed position, random colors, `confettiFall` animation
+- **Accessibility:** Hidden when `prefers-reduced-motion: reduce`
+
+### 10.4 Floating Loss (`.floating-loss`)
+
+Damage VND float text.
+
+- **CSS:** `position: fixed; color: var(--neon-rose)` with `floatAway` animation
+- **Accessibility:** Hidden on reduced-motion
 
 ---
 
-## 9. Feedback & Notification Indicators
-
-### 9.1 Smart Fail Correction Modal
-Renders when the user makes a mistake on a quiz question. **Never** just say "wrong"; describe the root linguistic error.
-- **Visuals:** Toast overlay or popover panel, light red tint background, warning border.
-- **Linguistic feedback mapping:**
-  - *Tone confusion:* Shows comparison curves, e.g. "คุณเลือก má ↗️ (เสียงจัตวา) แต่คำตอบที่ถูกต้องคือ mà ↘️ (เสียงเอก) นะครับ".
-  - *Vowel swap:* Displays mouth position differences (e.g., â vs a).
-
-### 9.2 Success Toast Notification
-Dynamic popup in the top-right corner.
-- **Triggers:** Completing a module, answering 5 correct questions, updating streak.
-- **Visual:** `badge badge-success`, emerald green, slide-in animation.
-
----
-
-## 10. JSON Output Mapping
-
-Response frames fetched from the local FastAPI backend `/api/quest/chat` conform to this JSON schema:
-
-```json
-{
-  "system_state_update": {
-    "update_error_log": "string | null",
-    "adjust_difficulty": -1 | 0 | 1,
-    "trigger_srs": false | true
-  },
-  "feedback_layer": "Thai diagnostic guidance or encouraging feedback.",
-  "core_content_layer": "Primary Vietnamese lesson/dialogue block. Formatting uses HTML tags.",
-  "audio_directive": {
-    "text_to_synthesize": "Vietnamese audio string",
-    "speed_rate": 1.0 | 0.8 | 0.6
-  },
-  "interaction_prompt": "Specific prompt instruction telling user what button/input to perform.",
-  "ui_render_directive": {
-    "keyboard_type": "Options_Grid" | "Free_Text_Input" | "Spelling_Assembly",
-    "inline_buttons": [
-      ["Option Text A", "Option Text B"],
-      ["🔊 Replay Audio"]
-    ]
-  }
-}
-```
-
----
-
-*Generated: 2026-05-24 | Phase 4: UI Design*
+*Generated: 2026-05-24 | Component Library for v3.0 Neon Night Market Design System*

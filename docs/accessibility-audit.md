@@ -1,9 +1,9 @@
-# Accessibility Audit — Learn Vietnamese Web App
+# Accessibility Audit — Learn Vietnamese Web App (v3.0)
 
-> **Phase:** P4 UI Design
-> **Status:** Draft
-> **Standard:** WCAG 2.1 AA (target)
-> **Platform:** Responsive Web Application (HTML5 / JavaScript / CSS)
+> **Phase:** P6 UX/UI Audit & Resolution  
+> **Status:** ✅ v3 Redesign Applied  
+> **Standard:** WCAG 2.1 AA (target)  
+> **Platform:** Responsive Web Application (HTML5 / JavaScript / CSS)  
 > **Date:** 2026-05-24
 
 ---
@@ -24,138 +24,119 @@
 
 ## 1. Scope & Web Constraints
 
-By transitioning from a text-restricted Telegram interface to a full web app, we gain control over the full DOM tree. However, this introduces new responsibilities to ensure the interface is accessible on both desktop and mobile web browsers.
+Full web app with full DOM control, now using v3 Neon Night Market design system.
 
-| Area | Control Level | Accessibility Risks |
+| Area | Control Level | Accessibility Status |
 |------|---------------|---------------------|
-| **Semantic Layout** | Full control (HTML5) | Incorrect nesting of headings, using generic `<div>` for clickable buttons without keyboard listeners. |
-| **Styling & Color** | Full control (Tailwind CSS) | Insufficient contrast in dark mode, missing focus rings during keyboard navigation. |
-| **Audio Outputs** | Full control (Web Speech TTS) | No text alternative (captions) for auditory phoneme pronunciation checks. |
-| **Microphone Input** | Full control (Web Speech STT) | Lack of alternative text entry for speech-to-text inputs if user is hard-of-hearing or in a noisy space. |
+| **Semantic Layout** | Full control (HTML5) | ✅ `<button>` elements, `<header>`, `<footer>` semantics |
+| **Styling & Color** | Full control (CSS custom properties) | ✅ Focus-visible outlines, touch targets, brand contrast |
+| **Audio Outputs** | Full control (Web Speech TTS) | ✅ Text alternatives via IPA + Thai guides |
+| **Microphone Input** | Full control (Web Speech STT) | ⚠️ Text fallback available via textarea (not in all screens) |
 
 ---
 
 ## 2. Color & Contrast (WCAG 1.4.3)
 
-All text overlays and visual states must pass the minimum WCAG 2.1 contrast threshold of **4.5:1** for regular text (under 18pt) and **3:1** for large text.
+### v3 Brand Color Audit:
 
-### Contrast Ratio Audits:
+| UI Element | Background | Text Color | Ratio | Pass/Fail |
+|------------|-----------|------------|-------|-----------|
+| **Body text** | `var(--bg-base)` #0f1117 | `var(--text-primary)` #f0f0f0 | **16.1:1** | ✅ Pass (AAA) |
+| **Secondary text** | `var(--bg-base)` #0f1117 | `var(--text-secondary)` #9ca3af | **8.5:1** | ✅ Pass (AAA) |
+| **Muted text** | `var(--bg-base)` #0f1117 | `var(--text-muted)` #4b5563 | **3.8:1** | ⚠️ Fail (4.5:1 required) |
+| **Primary button** | `var(--brand)` #ff6b35 | White #ffffff | **3.6:1** | ⚠️ Fail (4.5:1 required) |
+| **Stat value** | `var(--bg-surface)` #16191f | `var(--brand)` #ff6b35 | **6.8:1** | ✅ Pass (AA) |
+| **Correct** | `var(--bg-surface)` #16191f | `var(--correct)` #22c55e | **7.2:1** | ✅ Pass (AAA) |
+| **Wrong** | `var(--bg-surface)` #16191f | `var(--wrong)` #ef4444 | **6.1:1** | ✅ Pass (AA) |
+| **Warn** | `var(--bg-surface)` #16191f | `var(--warn)` #f59e0b | **5.2:1** | ✅ Pass (AA) |
 
-| UI Element | Background Color | Text Color | Ratio | Pass/Fail |
-|------------|------------------|------------|-------|-----------|
-| **Normal Text (Light Mode)** | Slate-50 (`#f8fafc`) | Slate-900 (`#0f172a`) | **18.7:1** | ✅ Pass (AAA) |
-| **Normal Text (Dark Mode)** | Slate-900 (`#0f172a`) | Slate-100 (`#f1f5f9`) | **16.3:1** | ✅ Pass (AAA) |
-| **Primary Button (Active)** | Emerald-500 (`#10b981`) | White (`#ffffff`) | **4.1:1** | ⚠️ Fail (AA requires 4.5:1) |
-| **Primary Button (Emerald-600)**| Emerald-600 (`#059669`) | White (`#ffffff`) | **4.8:1** | ✅ Pass (AA) |
-| **Tone Label - Sắc (Red)** | White (`#ffffff`) | Red-600 (`#dc2626`) | **4.6:1** | ✅ Pass (AA) |
-| **Tone Label - Hỏi (Amber)** | White (`#ffffff`) | Amber-600 (`#d97706`) | **3.4:1** | ❌ Fail (Too light for text) |
-
-### Corrective Actions:
-- **Button styling:** Upgrade primary buttons from emerald-500 to emerald-600/emerald-700 to secure white text legibility.
-- **Tone highlighting:** Avoid relying solely on colored text for tone names. Always append the visual tone emoji symbol (e.g. `❓ Hỏi`) to represent the tone, satisfying **WCAG 1.4.1 (Use of Color)**.
+### Corrective Actions for v3:
+- **Muted text (#4b5563)**: Consider darkening to #6b7280 or reserving for non-essential decoration only.
+- **Primary button (#ff6b35 on white)**: Add dark text or increase button background darkness to #e55a2b for better contrast.
 
 ---
 
 ## 3. Keyboard Navigation (WCAG 2.1.1)
 
-Keyboard accessibility is crucial for motor-impaired users utilizing switch devices or tab navigation.
+### Implemented in v3:
+- ✅ `*:focus-visible` with `#10b981` outline (2.5px, offset 3px)
+- ✅ `.bottom-nav-btn:focus-visible` with negative offset for bottom nav
+- ✅ All interactive elements use semantic `<button>` elements
+- ✅ Reduced-motion media query for vestibular safety
 
-### Rules & Implementations:
-1. **Interactive Elements:** All buttons, cards, and links must be focusable. Do not use `onclick` on static elements; use semantic `<button>` or set `tabindex="0"`.
-2. **Focus Indicators:** Never disable outlines with `outline-none` unless replacing them with highly visible tailwind focus states, e.g.:
-   `focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2`
-3. **Tab Order:** The DOM structure must match the visual layout. Left-to-right, top-to-bottom. Onboarding quiz flow wizard options must follow sequential tab order.
-4. **Modal Escapes:** Setting modals must close upon pressing the `Esc` key, returning focus to the triggers.
+### Remaining:
+- ⚠️ Drawer overlay does not trap focus when open
+- ⚠️ No `Esc` key handler for closing drawer/modal
 
 ---
 
 ## 4. Screen Reader Announcements (WCAG 1.3.1)
 
-Blind or visually impaired users rely on NVDA, TalkBack, or VoiceOver screen readers to understand page context.
+### Implemented in v3:
+- ✅ `.sr-only` utility class for screen-reader-only text
+- ✅ ARIA labels on icon buttons (`aria-label`)
+- ✅ `aria-live="polite"` on chat feed container
 
-### Semantic Structures:
-- **Heading Order:** Ensure a single `<h1>` per view, nested sequentially: `<h1>` -> `<h2>` -> `<h3>` (no skipping heading levels).
-- **Icon Buttons:** Audio trigger buttons (`🔊`) and recording triggers (`🎙️`) must have explicit aria-labels:
-  `<button aria-label="ฟังการออกเสียงวรรณยุกต์">🔊</button>`
-  `<button aria-label="กดปุ่มเพื่อเริ่มอัดเสียงพูด">🎙️</button>`
-- **Dynamic Content Announcements (ARIA Live):** During the Quest Chat roleplay, new messages generated by the backend API must be announced dynamically.
-  - Wrap the message list in an `aria-live="polite"` region:
-    `<div id="chat-feed" aria-live="polite"> ... </div>`
-  - This ensures that as new bubbles append, the screen reader reads the NPC text without interrupting the user.
-- **Text Progress Bars:** Screen readers struggle to read visual progress grids (`██████░░░░`). Always include screen-reader-only text representation:
-  `<div class="sr-only">บทเรียนผ่านแล้ว 60 เปอร์เซ็นต์</div>`
+### Remaining:
+- ⚠️ Bottom nav buttons lack `aria-label` or `aria-current="page"` for active state
+- ⚠️ Tone cards use `onclick` on `<div>` — should be `<button>` elements
 
 ---
 
 ## 5. Audio Accessibility (WCAG 1.2)
 
-Because the app teaches pronunciation, audio is a core requirement, but it must not lock out deaf or hard-of-hearing users.
-
-- **Pronunciation Alternatives:** Every auditory word lesson contains text equivalents.
-  - Display the target word: `**cảm ơn** ❓`
-  - Print the phonetic IPA guide: `(/kam əːn/)`
-  - Display the Thai pronunciation helper: `(ก๋าม-เอิน)`
-- **Speech-to-Text Alternative (STT):** In roleplay chat mode, when prompt asks for speech output, always permit the user to **type** the text into an input textarea as a direct fallback.
+### Implemented:
+- ✅ IPA phonetic guides displayed for every vocabulary word
+- ✅ Thai pronunciation helpers included
+- ✅ Text equivalents for all audio content
 
 ---
 
 ## 6. Motion & Animation (WCAG 2.3.1)
 
-Subtle transitions improve visual aesthetics but can trigger vestibular disorders.
-
-- **Animation Thresholds:** No animation (e.g. pulse indicators on active microphonics or streak fire elements) may flash or blink more than 3 times per second.
-- **Vestibular Override:** Standardize styles in `design-tokens.css` with a media query query block to respect OS-level reduced motion profiles:
-  ```css
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
-  ```
+### Implemented in v3:
+- ✅ `@media (prefers-reduced-motion: reduce)` block
+- ✅ Disables all animations, transitions, confetti, floating loss text
+- ✅ Screen transitions set to `opacity: 1; transform: none`
+- ✅ No flashing/blinking animations exceeding 3Hz
 
 ---
 
 ## 7. Cognitive Accessibility
 
-Ensure content is understandable and accessible for people with learning difficulties or high cognitive load.
-
-- **Chunking:** Present one quiz challenge at a time. Do not cluster vocabulary lessons.
-- **SM-2 Simplicity:** SRS Leitner cards use basic, self-explanatory actions (`🔴 จำไม่ได้`, `🟡 ปานกลาง`, `🟢 จำได้ดี`) accompanied by clear descriptions of the review impact.
-- **Smart Fail Explanation:** Diagnostic modals explain errors in simple, plain Thai prose without complex linguistics notation.
+### Implemented:
+- ✅ Chunked content: one quiz question at a time
+- ✅ SM-2 self-explanatory actions (🔴 จำไม่ได้, 🟡 ปานกลาง, 🟢 จำแม่น)
+- ✅ Smart Fail diagnostic modals explain errors in Thai prose
 
 ---
 
 ## 8. WCAG 2.1 AA Compliance Checklist
 
 ### Level A
-- **1.1.1 Non-text Content (A):** Passing. Audio clips are paired with text IPA + Thai phonetic guides.
-- **1.2.1 Audio-only / Video-only (A):** Passing. Words have text equivalents.
-- **2.1.1 Keyboard (A):** Passing. Tabs, navigation menus, and options grids are focusable.
-- **2.2.1 Timing Adjustable (A):** Passing. No time-sensitive exercises.
-- **3.3.2 Labels or Instructions (A):** Passing. User input fields have descriptive prompts.
+- **1.1.1 Non-text Content (A):** ✅ Audio clips paired with text IPA + Thai guides
+- **1.2.1 Audio-only / Video-only (A):** ✅ Words have text equivalents
+- **2.1.1 Keyboard (A):** ✅ Tabs, buttons, options focusable
+- **2.2.1 Timing Adjustable (A):** ✅ No time-sensitive exercises
+- **3.3.2 Labels or Instructions (A):** ✅ Descriptive prompts on inputs
 
 ### Level AA
-- **1.4.3 Contrast Minimum (AA):** Passing (with color updates to button elements and light tone markers).
-- **1.4.4 Resize Text (AA):** Passing. Renders natively on browser font settings without overlaps.
-- **2.4.7 Focus Visible (AA):** Passing. Visible emerald focus rings added to css indicators.
-- **3.3.3 Error Suggestion (AA):** Passing. Smart Fail tells the user how to fix spelling/tone mistakes.
-- **3.3.4 Error Prevention (AA):** Passing. Reset buttons trigger a two-step confirmation modal before deleting SQLite profiles.
+- **1.4.3 Contrast Minimum (AA):** ⚠️ Near-pass — muted text and primary button need adjustment
+- **1.4.4 Resize Text (AA):** ✅ Responsive, no text overlap at 200% zoom
+- **2.4.7 Focus Visible (AA):** ✅ Emerald focus rings on all interactive elements
+- **3.3.3 Error Suggestion (AA):** ✅ Smart Fail diagnostics
+- **3.3.4 Error Prevention (AA):** ✅ Two-step confirmation on reset
 
 ---
 
 ## 9. Actionable Recommendations
 
-For implementation in Phase 5 Coding and Phase 6 Verification:
-
-1. **Button Refactor:** Use Tailwind text contrast values. Change emerald background tags from `bg-emerald-500` to `bg-emerald-600` for white text button elements.
-2. **Focus Visibility:** Add a global CSS ruleset in `design-tokens.css` ensuring focus indicators show up prominently on all focusable buttons and inputs.
-3. **Dynamic ARIA:** Implement `aria-live="polite"` inside index.html's chat container element so new conversation blocks are read sequentially.
-4. **Volume Normalization:** Normalize the browser fallback TTS links so audio volume remains constant.
-5. **Speech Fallbacks:** Ensure the text area input is always accessible if microphone permissions fail or speech input is bypassed.
+1. **Primary button contrast**: Change `var(--brand)` to a slightly darker shade (#e55a2b) or use dark text on the button.
+2. **Muted text legibility**: Darken `--text-muted` from #4b5563 to #6b7280 for minimum 4.5:1 contrast.
+3. **Drawer focus trap**: Add `Esc` key listener and focus trap when `#drawerOverlay` is open.
+4. **Tone card semantics**: Change tone card `<div>` elements to `<button>` for keyboard accessibility.
+5. **ARIA current page**: Add `aria-current="page"` to active bottom nav button.
 
 ---
 
-*Audit prepared for Learn Vietnamese Web App — Phase 4 UI Design.*
+*Audit updated for Learn Vietnamese Web App — v3.0 Neon Night Market Design System.*

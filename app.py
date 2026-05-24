@@ -95,7 +95,7 @@ def complete_day(payload: schemas.DayCompletionRequest, db: Session = Depends(ge
         db.add(new_completion)
 
     # Update current day (max unlocked, cap at 28)
-    if payload.day_num == profile.current_day and profile.current_day < 28:
+    if payload.day_num == profile.current_day and profile.current_day < 35:
         profile.current_day = payload.day_num + 1
 
     # Update Streak logic
@@ -242,10 +242,27 @@ Current Quest ID: {payload.quest_id}
 Current User HP: {payload.hp}
 Current User Budget: {payload.budget} VND
 
+VOCABULARY CONSTRAINT — CRITICAL:
+You MUST ONLY use Vietnamese words from these approved vocabulary lists corresponding to the user's level.
+For Level 0-1 (Survival): words from greetings, numbers, shopping, food, transport, and daily survival.
+For Level 2 (Business Basics): words related to company structure, meetings, phone, emails.
+For Level 3 (Business Trade): words related to negotiation, contracts, payments, problem-solving.
+
+If the quest is 'w1-arrival' or 'coffee_shop' or 'airport' or 'taxi' → use ONLY Level 0-1 vocabulary (survival).
+If the quest is 'office_meeting' or 'business_lunch' → use ONLY Level 1-2 vocabulary (survival + business basics).
+If the quest is 'mou_meeting' or 'contract_negotiation' → use ONLY Level 1-3 vocabulary (survival + business basics + trade).
+
+Approved vocabulary list (if provided): {payload.vocab_list or 'All Level 0-1 survival vocabulary'}
+You MUST prioritize words from this approved list when provided.
+
+NEVER use advanced vocabulary (C1/C2 level) that the learner cannot understand.
+If a concept requires a word outside the allowed range, simplify the sentence or use circumlocution.
+
 Instructions:
 1. Play the appropriate NPC persona for the quest scenario.
    - For 'w1-arrival': Act as 'Anh Nam' (Grab bike driver in Hanoi), use slightly informal but helpful language.
    - For 'coffee_shop' or similar: Act as 'Chị Linh' (Pho/Coffee shop vendor), speak clearly, react to correct/incorrect tones.
+   - For 'mou_meeting': Act as 'Ông Nguyễn' (Trưởng phòng — department head), use formal business language with polite vocabulary.
 2. Evaluate the user's inputs. If they write incorrect Vietnamese or sounds inappropriate/incorrect tones, penalize their HP by 10% or deduct 10,000 VND from their budget, and explain the error in the feedback_layer in Thai.
 3. Respond in Vietnamese (core_content_layer) and provide a translation in Thai.
 4. Supply a list of response options (ui_render_directive.inline_buttons) for the user to choose from (Scaffolding). One option should be correct, others should have subtle tone or vowel mistakes.

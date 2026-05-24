@@ -61,6 +61,7 @@ class QuestChatRequest(BaseModel):
     chat_history: Optional[List[Dict[str, str]]] = Field(default_factory=list)
     hp: int = 100
     budget: int = 100000
+    vocab_list: Optional[List[str]] = Field(default=None, description="Approved vocabulary list for lexical constraint")
 
 # Quiz Diagnostics Models
 class DiagnosticRequest(BaseModel):

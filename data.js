@@ -196,6 +196,11 @@ const CURRICULUM = {
             { word: 'đắt quá', ipa: '/ɗat kwa/', tones: '↗️↗️', meaning: 'แพงเกินไป', emoji: '🙀', tips: 'ใช้ต่อรอง' },
             { word: 'giảm chút', ipa: '/zam tʃut/', tones: '❓↗️', meaning: 'ลดหน่อย', emoji: '🤏', tips: 'giảm chút được không? = ลดหน่อยได้ไหม' },
             { word: 'rẻ hơn', ipa: '/zɛ hɤːn/', tones: '❓➡️', meaning: 'ถูกกว่า', emoji: '💲', tips: 'Có rẻ hơn không? = มีถูกกว่าไหม' }
+          ],
+          pairs: [
+            { a: 'bảy ❓', b: 'bấy 〰️', diff: '7 (เจ็ด) vs ขนาดนั้น — ❓ vs 〰️ หายใจสั้นสะดุด', example: 'Bảy ngày (7 วัน) vs Bấy nhiêu (เท่านั้น)' },
+            { a: 'bốn ↗️', b: 'bộn ↘️', diff: '4 (สี่) vs วุ่นวาย — ↗️ vs ↘️ ขึ้น vs ตก', example: 'Bốn nghìn (4,000) vs Bộn lên (ยุ่งเหยิง)' },
+            { a: 'giá ↗️', b: 'già ↘️', diff: 'ราคา vs แก่/เฒ่า — ↗️ vs ↘️ เสียงขึ้น vs ตก', example: 'Giá bao nhiêu? (ราคาเท่าไหร่) vs Ông già (ชายแก่)' }
           ]
         },
         // Day 6: Roleplay shopping
@@ -271,8 +276,8 @@ const CURRICULUM = {
           id: 4,
           title: 'รสชาติ',
           words: [
-            { word: 'dắt', ipa: '/zɨːt/', tones: '↗️', meaning: 'เผ็ด', emoji: '🌶️', tips: 'Có dắt không? = เผ็ดไหม' },
-            { word: 'mặn', ipa: '/mɨːn/', tones: '⬇️', meaning: 'เค็ม', emoji: '🧂', tips: 'mặn = เค็ม' },
+            { word: 'dắt', ipa: '/zɐt/', tones: '↗️', meaning: 'เผ็ด', emoji: '🌶️', tips: 'Có dắt không? = เผ็ดไหม' },
+            { word: 'mặn', ipa: '/mɐn/', tones: '⬇️', meaning: 'เค็ม', emoji: '🧂', tips: 'mặn = เค็ม' },
             { word: 'ngọt', ipa: '/ŋɔt/', tones: '⬇️', meaning: 'หวาน', emoji: '🍬', tips: 'ngọt = หวาน' },
             { word: 'chua', ipa: '/tʃuːa/', tones: '➡️', meaning: 'เปรี้ยว', emoji: '🍋', tips: 'chua = เปรี้ยว' },
             { word: 'béo', ipa: '/ɓɛɔ/', tones: '↗️', meaning: 'มัน', emoji: '🥑', tips: 'béo = มัน/มีไขมัน' }
@@ -402,6 +407,99 @@ const CURRICULUM = {
           words: []
         }
       ]
+    },
+
+    // ================================================================
+    // WEEK 5: Business Vietnamese (~35 words)
+    // ================================================================
+    {
+      id: 5,
+      title: 'ธุรกิจเบื้องต้น',
+      days: [
+        // Day 1: Business greetings (6 words)
+        {
+          id: 1,
+          title: 'ทักทายธุรกิจ',
+          words: [
+            { word: 'kính chào', ipa: '/kɨŋ tʃaw/', tones: '↗️↘️', meaning: 'สวัสดีครับ (ทางการมาก)', emoji: '🫡', tips: 'kính = เคารพ สุภาพกว่า xin chào' },
+            { word: 'hân hạnh', ipa: '/hɨn haɲ/', tones: '➡️⬇️', meaning: 'ยินดีที่ได้รู้จัก', emoji: '🤝', tips: 'Hân hạnh gặp bạn = ยินดีที่ได้พบคุณ' },
+            { word: 'danh thiếp', ipa: '/zaɲ tʰiəp/', tones: '➡️↗️', meaning: 'นามบัตร', emoji: '🪪', tips: 'Cho tôi danh thiếp = ขอนามบัตร' },
+            { word: 'công ty', ipa: '/koŋ ti/', tones: '➡️➡️', meaning: 'บริษัท', emoji: '🏢', tips: 'Công ty của bạn = บริษัทของคุณ' },
+            { word: 'đối tác', ipa: '/ɗoj tak/', tones: '↘️↗️', meaning: 'พันธมิตร/คู่ค้า', emoji: '🤝', tips: 'đối tác chiến lược = strategic partner' },
+            { word: 'hợp tác', ipa: '/hop tak/', tones: '⬇️↗️', meaning: 'ความร่วมมือ', emoji: '🤲', tips: 'hợp tác kinh doanh = business cooperation' }
+          ]
+        },
+        // Day 2: Meetings (6 words)
+        {
+          id: 2,
+          title: 'การประชุม',
+          words: [
+            { word: 'cuộc họp', ipa: '/kuək hɔp/', tones: '⬇️⬇️', meaning: 'การประชุม', emoji: '📋', tips: 'Tham dự cuộc họp = เข้าร่วมประชุม' },
+            { word: 'trình bày', ipa: '/tʃɨŋ baj/', tones: '↘️↘️', meaning: 'นำเสนอ', emoji: '📊', tips: 'Trình bày dự án = นำเสนอโปรเจกต์' },
+            { word: 'đồng ý', ipa: '/ɗoŋ i/', tones: '↘️↗️', meaning: 'เห็นด้วย', emoji: '👍', tips: 'Tôi đồng ý = ผมเห็นด้วย' },
+            { word: 'không đồng ý', ipa: '/xəːŋ ɗoŋ i/', tones: '➡️↘️↗️', meaning: 'ไม่เห็นด้วย', emoji: '👎', tips: 'สุภาพกว่า: chưa đồng ý (ยังไม่เห็นด้วย)' },
+            { word: 'kết luận', ipa: '/ket luən/', tones: '↗️⬇️', meaning: 'สรุป', emoji: '🔚', tips: 'Kết luận là... = สรุปว่า...' },
+            { word: 'biên bản', ipa: '/biən ban/', tones: '➡️↘️', meaning: 'รายงานการประชุม', emoji: '📝', tips: 'Lập biên bản = จัดทำรายงาน' }
+          ]
+        },
+        // Day 3: Negotiation (6 words)
+        {
+          id: 3,
+          title: 'การเจรจา',
+          words: [
+            { word: 'thỏa thuận', ipa: '/tʰɔa tʰuən/', tones: '❓⬇️', meaning: 'ข้อตกลง', emoji: '📜', tips: 'Ký kết thỏa thuận = ลงนามข้อตกลง' },
+            { word: 'hợp đồng', ipa: '/hɔp ɗoŋ/', tones: '⬇️↘️', meaning: 'สัญญา', emoji: '📄', tips: 'Hợp đồng kinh tế = สัญญาเศรษฐกิจ' },
+            { word: 'điều kiện', ipa: '/ɗiəw kiən/', tones: '↘️⬇️', meaning: 'เงื่อนไข', emoji: '📌', tips: 'Điều kiện tiên quyết = precondition' },
+            { word: 'giá cả', ipa: '/zaː kaː/', tones: '↗️❓', meaning: 'ราคา (ทางการ)', emoji: '💰', tips: 'Thảo luận về giá cả = หารือเรื่องราคา' },
+            { word: 'thanh toán', ipa: '/tʰaɲ twan/', tones: '➡️↘️', meaning: 'การชำระเงิน', emoji: '💳', tips: 'Phương thức thanh toán = วิธีชำระเงิน' },
+            { word: 'chiết khấu', ipa: '/tʃiət xəw/', tones: '↗️❓', meaning: 'ส่วนลด', emoji: '🏷️', tips: 'Xin chiết khấu = ขอส่วนลด' }
+          ]
+        },
+        // Day 4: Email & Writing (5 words)
+        {
+          id: 4,
+          title: 'อีเมลธุรกิจ',
+          words: [
+            { word: 'kính gửi', ipa: '/kɨŋ gɨj/', tones: '↗️❓', meaning: 'เรียน (ขึ้นต้นจดหมาย)', emoji: '✉️', tips: 'Kính gửi ông Giám đốc = เรียน ท่านผจก.' },
+            { word: 'trân trọng', ipa: '/tʃɨn tʃoŋ/', tones: '➡️⬇️', meaning: 'ด้วยความเคารพ', emoji: '🙏', tips: 'Trân trọng kính chào = ขอแสดงความนับถือ' },
+            { word: 'phản hồi', ipa: '/fan hoj/', tones: '❓↘️', meaning: 'ตอบกลับ/ฟีดแบ็ค', emoji: '💬', tips: 'Chờ phản hồi = รอฟีดแบ็ค' },
+            { word: 'đính kèm', ipa: '/ɗiɲ kɛm/', tones: '↘️↘️', meaning: 'แนบไฟล์', emoji: '📎', tips: 'Tôi đính kèm tài liệu = ผมแนบเอกสาร' },
+            { word: 'tài liệu', ipa: '/taj liəw/', tones: '↘️⬇️', meaning: 'เอกสาร', emoji: '📁', tips: 'Hồ sơ tài liệu = แฟ้มเอกสาร' }
+          ]
+        },
+        // Day 5: Positions & Organization (6 words)
+        {
+          id: 5,
+          title: 'ตำแหน่งในองค์กร',
+          words: [
+            { word: 'giám đốc', ipa: '/zam ɗok/', tones: '↗️↗️', meaning: 'ผู้อำนวยการ/CEO', emoji: '👔', tips: 'Tổng giám đốc = CEO' },
+            { word: 'trưởng phòng', ipa: '/tʃɨəŋ fɔŋ/', tones: '❓↘️', meaning: 'หัวหน้าแผนก', emoji: '👤', tips: 'Trưởng phòng kinh doanh = หัวหน้าฝ่ายขาย' },
+            { word: 'nhân viên', ipa: '/ɲɨn viən/', tones: '➡️➡️', meaning: 'พนักงาน', emoji: '🧑‍💼', tips: 'Nhân viên văn phòng = พนักงานออฟฟิศ' },
+            { word: 'bộ phận', ipa: '/ɓo fən/', tones: '⬇️⬇️', meaning: 'แผนก/ฝ่าย', emoji: '🏛️', tips: 'Bộ phận tài chính = ฝ่ายการเงิน' },
+            { word: 'dự án', ipa: '/zu an/', tones: '⬇️↘️', meaning: 'โปรเจกต์', emoji: '📊', tips: 'Quản lý dự án = Project management' },
+            { word: 'báo cáo', ipa: '/ɓaw kaw/', tones: '↗️↗️', meaning: 'รายงาน', emoji: '📑', tips: 'Nộp báo cáo = ส่งรายงาน' }
+          ]
+        },
+        // Day 6: Key Business Phrases (6 words)
+        {
+          id: 6,
+          title: 'วลีธุรกิจสำคัญ',
+          words: [
+            { word: 'quan tâm', ipa: '/kwan tɨm/', tones: '➡️➡️', meaning: 'สนใจ', emoji: '👀', tips: 'Tôi quan tâm đến... = ผมสนใจ...' },
+            { word: 'xin vui lòng', ipa: '/ʃin vuj loŋ/', tones: '➡️➡️↘️', meaning: 'กรุณา', emoji: '🙇', tips: 'Xin vui lòng trả lời = กรุณาตอบกลับ' },
+            { word: 'cân nhắc', ipa: '/kən ɲak/', tones: '➡️⬇️', meaning: 'พิจารณา', emoji: '🤔', tips: 'Tôi cần cân nhắc = ผมจำเป็นต้องพิจารณา' },
+            { word: 'mong muốn', ipa: '/mɔŋ muən/', tones: '➡️↗️', meaning: 'หวังว่า/ต้องการ', emoji: '🤲', tips: 'Chúng tôi mong muốn = พวกเราหวังว่า' },
+            { word: 'hợp tác lâu dài', ipa: '/hɔp tak ləw zaj/', tones: '⬇️↗️➡️↘️', meaning: 'ร่วมมือระยะยาว', emoji: '♾️', tips: 'Mong hợp tác lâu dài = หวังร่วมมือยาวๆ' },
+            { word: 'cơ hội', ipa: '/kɤː hoj/', tones: '➡️⬇️', meaning: 'โอกาส', emoji: '🍀', tips: 'Cơ hội kinh doanh = โอกาสทางธุรกิจ' }
+          ]
+        },
+        // Day 7: Weekly review (no new words)
+        {
+          id: 7,
+          title: '🎉 ทบทวนธุรกิจ',
+          words: []
+        }
+      ]
     }
   ]
 };
@@ -442,12 +540,20 @@ const DAY_MAP = [
   { week: 4, day: 4, title: 'เรียกรถ', grammar: 'Bao nhiêu đến...? = เท่าไหร่ถึง...' },
   { week: 4, day: 5, title: '🗺️ Roleplay: เดินทาง', grammar: 'Ghé thăm = แวะเยี่ยม' },
   { week: 4, day: 6, title: '🚕 Roleplay: Taxi/Grab', grammar: 'Review all tenses' },
-  { week: 4, day: 7, title: '🎉 Final Review', grammar: 'All grammar + all vocab' }
+  { week: 4, day: 7, title: '🎉 Final Review', grammar: 'All grammar + all vocab' },
+  // Week 5: Business Vietnamese (days 29-35)
+  { week: 5, day: 1, title: 'ทักทายธุรกิจ', grammar: 'Kính + กิริยา = ภาษาทางการ' },
+  { week: 5, day: 2, title: 'การประชุม', grammar: 'Trình bày + [เรื่อง] = นำเสนอ...' },
+  { week: 5, day: 3, title: 'การเจรจา', grammar: 'Thỏa thuận về + [เรื่อง] = ตกลงเรื่อง...' },
+  { week: 5, day: 4, title: 'อีเมลธุรกิจ', grammar: 'Kính gửi + Trân trọng = รูปแบบจดหมาย' },
+  { week: 5, day: 5, title: 'ตำแหน่งองค์กร', grammar: 'Tôi làm + [ตำแหน่ง] = ผมทำงานเป็น...' },
+  { week: 5, day: 6, title: '💼 Roleplay: ประชุม MOU', grammar: 'Mong + กริยา = หวังว่า...' },
+  { week: 5, day: 7, title: '🎉 ทบทวนธุรกิจ', grammar: 'Review all business vocab' }
 ];
 
 // Map day number (1-28) → { week, day, title, grammar, words[] }
 function getDayInfo(dayNum) {
-  if (dayNum < 1 || dayNum > 28) return null;
+  if (dayNum < 1 || dayNum > 35) return null;
   const map = DAY_MAP[dayNum - 1];
   // Get vocabulary words for this curriculum week+day
   const words = map.week ? getWords(map.week, map.day) : [];
@@ -684,6 +790,66 @@ const QUESTS = [
     ],
     success: '🎉 Chị Linh ยกนิ้วให้ — "Phở ngon không? Ăn nữa nhé!"',
     fail: '💸 สั่งพลาด! เสียทั้งเงินทั้งหน้า'
+  },
+  // ── WEEK 5 QUEST ───────────────────────────────────────────
+  {
+    id: 'w5-mou',
+    title: 'ประชุม MOU',
+    icon: '💼',
+    npc: 'คุณเหงียน (Trưởng phòng)',
+    npcEmoji: '👔',
+    dayRange: [29, 30],
+    context: 'คุณเข้าร่วมประชุม MOU กับบริษัทเวียดนาม "Công ty TNHH Hà Nội" ที่ห้องประชุมชั้น 23...',
+    hp: 200000,
+    steps: [
+      {
+        npcLine: 'Kính chào! Rất hân hạnh được gặp anh.',
+        npcLineThai: 'สวัสดีครับ! ยินดีที่ได้พบคุณครับ',
+        prompt: 'คุณจะตอบกลับยังไง?',
+        choices: [
+          { text: 'Kính chào! Tôi rất hân hạnh ↗️↘️ ➡️↗️➡️⬇️', correct: true, response: '✅ "Chào anh!" — เขาจับมือคุณ พร้อมยิ้ม', hpChange: 0 },
+          { text: 'Kính chậu! Tôi rất hân hạnh ↗️⬇️ ➡️↗️➡️⬇️', correct: false, response: '❌ "Chậu?" = "กระถาง" — เขามองคุณแปลกๆ "คุณจะคุยธุรกิจหรือขายกระถาง" 😅', hpChange: -10000 }
+        ]
+      },
+      {
+        npcLine: 'Anh có mang danh thiếp không ạ?',
+        npcLineThai: 'พี่มีนามบัตรไหมครับ?',
+        prompt: 'คุณจะส่งนามบัตรให้เขา — "นี่นามบัตรผมครับ"',
+        choices: [
+          { text: 'Đây là danh thiếp của tôi ➡️↘️➡️↗️↘️➡️', correct: true, response: '✅ "Rất hân hạnh!" เขาอ่านชื่อคุณแล้วยิ้ม', hpChange: 0 },
+          { text: 'Đây là danh thiếp của chai ➡️↘️➡️↗️↘️➡️', correct: false, response: '❌ "Chai?" = "ขวด" — เขาหัวเราะ "คุณเอาขวดมาแลกนามบัตรหรือเปล่า" 🍾', hpChange: -10000 }
+        ]
+      },
+      {
+        npcLine: 'Chúng ta cùng xem xét hợp đồng nhé.',
+        npcLineThai: 'เรามาดูสัญญากันเลยนะครับ',
+        prompt: 'คุณเห็นด้วยที่จะเริ่มดูสัญญา',
+        choices: [
+          { text: 'Vâng, chúng ta cùng xem ✅➡️↘️➡️➡️➡️', correct: true, response: '✅ "Tốt quá!" เขาวางสัญญาลงบนโต๊ะ พร้อมปากกา', hpChange: 0 },
+          { text: 'Vâng, chúng ta cùng xăm ✅➡️↘️➡️➡️➡️', correct: false, response: '❌ "Xăm?" = "สักลาย" — คนทั้งห้องมองคุณ "คุณจะสักลายที่ประชุมหรือครับ" 😱', hpChange: -15000 }
+        ]
+      },
+      {
+        npcLine: 'Anh có đồng ý với điều kiện này không?',
+        npcLineThai: 'พี่เห็นด้วยกับเงื่อนไขนี้ไหมครับ?',
+        prompt: 'คุณตอบว่า "ผมขอพิจารณาก่อน"',
+        choices: [
+          { text: 'Tôi cần cân nhắc ➡️↘️➡️⬇️', correct: true, response: '✅ "Không vấn đề gì!" เขาพยักหน้าเข้าใจ', hpChange: 0 },
+          { text: 'Tôi cần cản nhắc ➡️↘️❓⬇️', correct: false, response: '❌ "Cản?" = "ขัดขวาง" — วงเลิกคิ้ว "คุณจะขัดขวางเรื่องนี้เหรอครับ?" 🤨', hpChange: -10000 }
+        ]
+      },
+      {
+        npcLine: 'Chúng tôi mong hợp tác lâu dài với quý công ty!',
+        npcLineThai: 'พวกเราหวังว่าจะร่วมมือระยะยาวกับบริษัทท่านครับ!',
+        prompt: 'คุณพูดตอบกลับ "ขอบคุณครับ หวังเช่นกัน!"',
+        choices: [
+          { text: 'Cảm ơn! Tôi cũng mong vậy ❓➡️ ➡️↘️➡️⬇️', correct: true, response: '✅ "Chúc mừng!" เขายกแก้วน้ำ "Happy cooperation!" 🥂', hpChange: 0 },
+          { text: 'Cảm ởn! Tôi cũng mong vậy ❓↘️ ➡️↘️➡️⬇️', correct: false, response: '❌ "Ởn?" = "อิ่ม" — "พี่อิ่มแล้วเหรอ? ยังไม่ได้กินอะไรเลยครับ" 😂', hpChange: -5000 }
+        ]
+      }
+    ],
+    success: '🎉 เซ็น MOU สำเร็จ! คุณเหงียนชวนไปเลี้ยงอาหารค่ำ — "Hợp tác vui vẻ!"',
+    fail: '💸 การประชุมล้มเหลว! ค่าเสียโอกาสทางธุรกิจมหาศาล'
   },
   // ── WEEK 4 QUEST ───────────────────────────────────────────
   {
