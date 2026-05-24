@@ -94,7 +94,7 @@ def complete_day(payload: schemas.DayCompletionRequest, db: Session = Depends(ge
         new_completion = CompletedDay(day_num=payload.day_num)
         db.add(new_completion)
 
-    # Update current day (max unlocked, cap at 28)
+    # Update current day (max unlocked, cap at 35)
     if payload.day_num == profile.current_day and profile.current_day < 35:
         profile.current_day = payload.day_num + 1
 
