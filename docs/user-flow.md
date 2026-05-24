@@ -20,23 +20,31 @@
                                   │
                     ┌─────────────▼───────────────┐
                     │    Dashboard / Main View    │
-                    │                             │
-                    │  [📖 Learn]   [🃏 Flashcard]│
-                    │  [💬 Chat]    [📝 Tones]    │
-                    │  [📊 Progress][⚙️ Settings] │
-                    └──┬────┬────┬────┬────┬──────┘
-                       │    │    │    │    │
-            ┌──────────┘    │    │    │    └──────────┐
-            ▼               ▼    ▼    ▼               ▼
-       ┌─────────┐   ┌─────────┐ ┌──────┐ ┌──────────────┐
-       │ Learn   │   │ Flash-  │ │ Tones│ │ Chat / Quest │
-       │ View    │   │ cards   │ │ View │ │ View         │
-       │         │   │ View    │ │      │ │              │
-       │Select   │   │Review → │ │Pitch │ │Select quest │
-       │level →  │   │Rate SRS │ │contour││→ LLM message │
-       │interactive│ │(Leitner)│ │audio │ │→ Speak/Type  │
-       │lesson   │   │         │ │quiz  │ │→ Correction  │
-       └─────────┘   └─────────┘ └──────┘ └──────────────┘
+                    │                             ││  [📖 Learn]   [🃏 Flashcard]│
+│  [🎭 Shadowing][📝 Tones]  │
+│  [📊 Progress][⚙️ Settings]│
+└──┬────┬────┬────┬────┬──────┘
+   │    │    │    │    │
+    ┌──────────┘    │    │    │    └──────────┐
+    ▼               ▼    ▼    ▼               ▼
+       ┌─────────┐   ┌──────────┐ ┌──────┐ ┌──────────────┐
+       │ Learn   │   │ Flash-   │ │ Tones│ │ Chat / Quest │
+       │ View    │   │ cards    │ │ View │ │ View         │
+       │         │   │ View     │ │      │ │              │
+       │Select   │   │Review →  │ │Pitch │ │Select quest  │
+       │level →  │   │Rate SRS  │ │contour││→ LLM message  │
+       │interactive│  │(Leitner) │ │audio ││→ Speak/Type   │
+       │lesson   │   │          │ │quiz  ││→ Correction   │
+       └─────────┘   └──────────┘ └──────┘ └──────────────┘
+       ┌─────────┐
+       │ 🎭 Shadowing│
+       │ View    │
+       │         │
+       │Listen → │
+       │Record → │
+       │Score +  │
+       │Feedback │
+       └─────────┘
 ```
 
 ---
@@ -237,6 +245,7 @@ App shows: 📝 Tone Discrimination Stats (Current accuracy: 72%)
 | `/` or `Index` | Onboarding Wizard | Level test / Onboarding skips |
 | `[Learn]` | Curriculum Module Matrix | Opens lesson cards, starts interactive MCQ quizzes |
 | `[Flashcards]` | Leitner Flashcard Viewer | Flips cards, sends SM-2 rating calls to API |
+| `[Shadowing]` | Shadowing Drill | Plays TTS sentence → Records via webkitSpeechRecognition → Computes Levenshtein similarity score |
 | `[Tones]` | Tone Audio Trainer | Triggers Web Speech recognition & plays pitch contour visualizer |
 | `[Chat]` | Quest Roleplay Room | API fetches LLM replies, parses STT speech, calculates HP |
 | `[Progress]` | Database Stats Panel | Loads SQLite records (streaks, complete modules, SRS queue) |

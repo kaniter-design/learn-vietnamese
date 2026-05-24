@@ -78,6 +78,17 @@ To maintain zero API costs, all speech capabilities are handled client-side:
     `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q={text}`
 *   **Speech Recognition (STT):** Uses the browser's native `webkitSpeechRecognition` API. The language is set to `vi-VN` to recognize user spoken input and match it with the target word.
 
+### 🎭 Shadowing (ฟังแล้วพูดตาม)
+A listen-and-repeat drill that combines TTS + STT for fluency practice:
+1. Displays a Vietnamese sentence in context (e.g. ordering food, business greeting).
+2. User listens to TTS playback (normal or slow speed).
+3. User records themselves repeating the sentence via `webkitSpeechRecognition`.
+4. Engine computes a **Levenshtein similarity score** between spoken input and target sentence.
+5. Results shown as a percentage + word-by-word comparison (✅ correct / ❌ incorrect).
+6. 10 built-in sentences (SHADOWING_DATA) covering A0-B1 levels, shuffled and served 5 per session.
+- **Navigation:** Bottom nav tab (🎭), keyboard shortcut `h`, Roadmap quick action.
+- **Zero API cost:** All processing is client-side (TTS + STT + Levenshtein).
+
 ---
 
 ## 🧱 5. REST API Interface Specs

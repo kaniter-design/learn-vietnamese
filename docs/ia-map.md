@@ -49,6 +49,12 @@ Learn Vietnamese Web App (Local WSL)
 │   ├── Vocabulary Bank Panel (แสดงคลังคำศัพท์ทั้งหมดแบบตาราง)
 │   └── Add Custom Words (ฟอร์มบันทึกคำศัพท์เพิ่มด้วยตนเอง)
 │
+├── 🎭 Shadowing (ฟังแล้วพูดตาม)
+│   ├── Listen & Repeat Drill (ฟังประโยค → อัดเสียงพูดตาม)
+│   ├── Levenshtein Similarity Scoring (เปรียบเทียบคำต่อคำ)
+│   ├── Speed Controls (ฟังปกติ / ฟังช้า)
+│   └── Real-time Waveform + Result Card Feedback
+│
 ├── 📝 Tones (ออกเสียงและแยกวรรณยุกต์)
 │   ├── MCQ Listening Training (คลิกฟังคำพูด -> ทายวรรณยุกต์)
 │   ├── Speech Training (ดูคำศัพท์ -> กดอัดเสียง -> แปลงเป็นข้อความเพื่อตรวจสอบเสียงสะกด)
@@ -118,6 +124,7 @@ The app works as a Single Page Application (SPA). Switching tabs mutates the act
 | ONBOARDING WIZARD | Complete quiz / Skip | DASHBOARD (Learn) | POST `/api/progress` (Set initial level) |
 | DASHBOARD | Clicks `[Learn]` tab | LEARN MODULE | None |
 | DASHBOARD | Clicks `[Flashcards]` tab | SRS CARD REVIEW | GET `/api/srs` (Fetch review queue) |
+| DASHBOARD | Clicks `[Shadowing]` tab | SHADOWING DRILL | None (client-side TTS + STT) |
 | DASHBOARD | Clicks `[Tones]` tab | TONES PRACTICE | GET `/api/progress` (Fetch tone analytics) |
 | DASHBOARD | Clicks `[Chat]` tab | QUEST CHAT ROOM | GET `/api/progress` (Fetch unlocked quests) |
 | QUEST CHAT ROOM | Submits text/speech answer | QUEST CHAT ROOM | POST `/api/quest/chat` (LLM response generation) |

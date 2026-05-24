@@ -102,7 +102,34 @@ Used in **Quest Chat** roleplay modes. Combines narrative context, NPC dialogs, 
 
 ## 4. Audio & Pronunciation Controls
 
-### 4.1 Playback Button
+### 4.1 Shadowing Card (ฟังแล้วพูดตาม)
+A listen-and-repeat exercise card used in the Shadowing screen to improve pronunciation and fluency.
+
+```
+┌──────────────────────────────────────────────┐
+│  🎭 Shadowing  (3/5)  ████████░░ 60%        │
+│                                              │
+│  📋 สถานการณ์: สั่งอาหารเย็น                   │
+│  "Chị dùng thêm gì không ạ?"                  │
+│  [🔊 ฟังปกติ] [🐢 ฟังช้า]                      │
+│                                              │
+│  🎤 [กดค้างเพื่ออัดเสียงพูดตาม]                │
+│  ▁▂▃▅▇████▇▅▃▂▁ (waveform)                 │
+│                                              │
+│  ผลลัพท์: ความเหมือน 78%                      │
+│  เปรียบเทียบคำต่อคำ:                          │
+│  ✅ Chị  ✅ dùng  ✅ thêm  ❌ gì  ✅ không  ✅ ạ  │
+└──────────────────────────────────────────────┘
+```
+
+- **Flow:** Listen to native-speaker audio → Record yourself repeating → Get similarity score + word-by-word breakdown.
+- **Interactive features:**
+  - *Playback button:* Full-speed TTS pronunciation.
+  - *Slow playback button:* Slower speed (0.6x) for hearing tone and rhythm.
+  - *Microphone button:* Starts `webkitSpeechRecognition` in `vi-VN` mode.
+  - *Result card:* Shows Levenshtein similarity score and highlights correctly/incorrectly pronounced words.
+
+### 4.2 Playback Button
 Every Vietnamese word or phrase requires an inline audio controller.
 - **HTML structure:** `<button class="btn btn-circle btn-primary btn-sm mx-1"> 🔊 </button>`
 - **Behavior:** Fetches client-side synthesized speech. If local voice package is missing, calls Google Translate public TTS fallback.

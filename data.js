@@ -799,3 +799,79 @@ const TONES = [
   { id: 'nga', emoji: '〰️', name: 'Ngã', desc: 'น้ำ', thai: 'ไม่มี!' },
   { id: 'nang', emoji: '⬇️', name: 'Nặng', desc: 'กลั้น', thai: 'ไม่มี!' }
 ];
+// ================================================================
+// SHADOWING DATA — 10 practice sentences
+// Listen → Repeat → Compare → Feedback
+// ================================================================
+const SHADOWING_DATA = [
+  { 
+    id: 1, vn: 'Tôi muốn đi chợ Bến Thành', 
+    ipa: '/toj muən di tʃəː ɓen tʰaɲ/', 
+    thai: 'ฉันอยากไปตลาดเบนถั่น',
+    context: 'กำลังคุยกับเพื่อนว่าจะไปเที่ยวที่ไหน',
+    difficulty: 'ง่าย'
+  },
+  { 
+    id: 2, vn: 'Cho tôi một tô phở bò', 
+    ipa: '/tʃɔ toj mot to fəː ɓɔ/', 
+    thai: 'ขอเฝอเนื้อหนึ่งชาม',
+    context: 'นั่งในร้านเฝอ กำลังสั่งอาหาร',
+    difficulty: 'ง่าย'
+  },
+  { 
+    id: 3, vn: 'Cái này bao nhiêu tiền?', 
+    ipa: '/kaj naj ɓaw ɲiəw tiən/', 
+    thai: 'อันนี้เท่าไหร่?',
+    context: 'เดินดูของในร้าน อยากถามราคา',
+    difficulty: 'ง่าย'
+  },
+  { 
+    id: 4, vn: 'Làm ơn chỉ tôi đường ra ga', 
+    ipa: '/lam ɜːn tʃi toj ɗɨəŋ za ɣa/', 
+    thai: 'กรุณาช่วยบอกทางไปสถานีให้หน่อย',
+    context: 'หลงทางอยู่ในฮานอย old quarter',
+    difficulty: 'ปานกลาง'
+  },
+  { 
+    id: 5, vn: 'Tôi muốn đặt hai vé xe lửa', 
+    ipa: '/toj muən ɗat haj vɛ sɛ lɨːa/', 
+    thai: 'ฉันต้องการจองตั๋วรถไฟสองใบ',
+    context: 'กำลังซื้อตั๋วที่สถานี',
+    difficulty: 'ปานกลาง'
+  },
+  { 
+    id: 6, vn: 'Grab đến sân bay là bao nhiêu?', 
+    ipa: '/ɣap ɗen sən ɓaj la ɓaw ɲiəw/', 
+    thai: 'แกร็บไปสนามบินเท่าไหร่?',
+    context: 'กำลังคุยกับไรเดอร์ Grab',
+    difficulty: 'ปานกลาง'
+  },
+  { 
+    id: 7, vn: 'Xin lỗi, quán này có mở cửa không?', 
+    ipa: '/ʃin loj kwan naj kɔ mɜː kɨːa xəŋ/', 
+    thai: 'ขอโทษครับ ร้านนี้เปิดหรือยัง?',
+    context: 'ยืนหน้าร้านอาหาร อยากรู้ว่าเปิดรึยัง',
+    difficulty: 'ปานกลาง'
+  },
+  { 
+    id: 8, vn: 'Tôi muốn gọi một ly cà phê sữa đá', 
+    ipa: '/toj muən ɣoj mot li kaː fɛ sɨːa ɗa/', 
+    thai: 'ฉันอยากสั่งกาแฟนมเย็นหนึ่งแก้ว',
+    context: 'นั่งในร้านกาแฟ กำลังเรียกพนักงาน',
+    difficulty: 'ยาก'
+  },
+  { 
+    id: 9, vn: 'Chị có thể nói chậm hơn được không ạ?', 
+    ipa: '/tʃi kɔ tʰeː nɔj tʃəm hɜːn ɗɨək xəŋ a/', 
+    thai: 'พี่พูดช้ากว่านี้ได้ไหมคะ?',
+    context: 'กำลังคุยกับคนท้องถิ่น พูดเร็วเกินไป',
+    difficulty: 'ยาก'
+  },
+  { 
+    id: 10, vn: 'Cảm ơn anh đã giúp tôi tìm đường', 
+    ipa: '/kam ɜːn ʔaɲ ɗa zuːp toj tim ɗɨəŋ/', 
+    thai: 'ขอบคุณพี่ที่ช่วยฉันหาทาง',
+    context: 'มีคนช่วยหาทางให้ พูดขอบคุณ',
+    difficulty: 'ยาก'
+  }
+];

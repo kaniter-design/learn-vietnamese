@@ -843,6 +843,11 @@
     a { color: #34d399; text-decoration: none; }
     a:hover { text-decoration: underline; }
 
+
+    /* Accessibility: sr-only */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    
 </style>
 </head>
 <body class="flex justify-center min-h-dvh select-none antialiased">
@@ -905,6 +910,7 @@
           <button class="btn-vn text-xs text-center" onclick="switchScreen('tones')">🎵 ฝึกวรรณยุกต์</button>
           <button class="btn-vn text-xs text-center" onclick="switchScreen('speaking')">🎤 ฝึกออกเสียง</button>
           <button class="btn-vn text-xs text-center" onclick="switchScreen('phonetics')">🔊 สัทศาสตร์</button>
+          <button class="btn-vn text-xs text-center" onclick="switchScreen('shadowing')">🎭 Shadowing</button>
           <button class="btn-vn text-xs text-center" onclick="startWordBank()">🧩 ต่อประโยค</button>
         </div>
 
@@ -920,6 +926,82 @@
           </div>
         </div>
       </div>
+      <!-- ============================================================ -->
+      <!-- SCREEN 1b: ONBOARDING WIZARD -->
+      <!-- ============================================================ -->
+      <div class="screen flex-col px-4 py-4 space-y-3" id="view-onboarding" style="display:none;">
+        <!-- Step 1: Welcome -->
+        <div id="onboarding-step-1" class="flex flex-col items-center text-center py-6 space-y-4">
+          <div class="text-6xl mb-2">🇻🇳</div>
+          <div class="text-2xl font-bold text-white">ฮานอย ซูไววอล</div>
+          <div class="text-base text-emerald-400 font-semibold">ยินดีต้อนรับ! 🎉</div>
+          <div class="text-xs text-gray-400 leading-relaxed px-4">
+            แอปเรียนภาษาเวียดนามสำหรับคนไทยโดยเฉพาะ<br>
+            เริ่มต้นจากศูนย์ สู่การเอาตัวรอดในเวียดนาม
+          </div>
+          <div class="flex flex-col w-full gap-2 px-4 mt-2">
+            <div class="flex items-center gap-3 text-xs text-gray-300">
+              <span class="text-emerald-400">📖</span> เรียนคำศัพท์ 28 วัน ครอบคลุมทุกสถานการณ์
+            </div>
+            <div class="flex items-center gap-3 text-xs text-gray-300">
+              <span class="text-emerald-400">🔊</span> ฝึกออกเสียงด้วยระบบ Speech + วรรณยุกต์
+            </div>
+            <div class="flex items-center gap-3 text-xs text-gray-300">
+              <span class="text-emerald-400">🎧</span> ฟังบทสนทนาจริง พร้อมแบบฝึกหัด
+            </div>
+            <div class="flex items-center gap-3 text-xs text-gray-300">
+              <span class="text-emerald-400">🤖</span> AI Roleplay กับ Gemini ปรับตามคุณ
+            </div>
+          </div>
+          <button class="btn-vn mt-4" onclick="onboardingNext(2)">
+            เริ่มกันเลย! ➡️
+          </button>
+          <button class="text-xs text-gray-500 underline mt-2" onclick="skipOnboarding()">
+            ข้าม (ไปเลย)
+          </button>
+        </div>
+
+        <!-- Step 2: Assessment -->
+        <div id="onboarding-step-2" class="flex-col space-y-3" style="display:none;">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-2xl">📝</span>
+            <div>
+              <div class="text-base font-bold text-white">ทดสอบระดับภาษา</div>
+              <div class="text-[0.6rem] text-gray-400">ตอบ 5 ข้อเพื่อประเมินระดับของคุณ</div>
+            </div>
+          </div>
+          <div class="text-xs text-gray-500" id="onboarding-q-progress">ข้อที่ 1 / 5</div>
+          <div id="onboarding-question-card" class="rpg-card p-4">
+            <div class="text-sm font-semibold text-white mb-3" id="onboarding-question">Loading...</div>
+            <div id="onboarding-options" class="flex flex-col gap-2"></div>
+          </div>
+          <div class="text-[0.6rem] text-gray-500 text-center" id="onboarding-level-hint"></div>
+        </div>
+
+        <!-- Step 3: Result -->
+        <div id="onboarding-step-3" class="flex-col items-center text-center space-y-3" style="display:none;">
+          <div id="onboarding-result-emoji" class="text-5xl">🎯</div>
+          <div class="text-lg font-bold text-white" id="onboarding-result-title">ประเมินระดับของคุณ</div>
+          <div class="rpg-card p-4 w-full">
+            <div class="text-3xl font-bold text-emerald-400" id="onboarding-level-display">A0</div>
+            <div class="text-xs text-gray-400 mt-1" id="onboarding-level-desc">มือใหม่เริ่มต้น</div>
+            <div class="mt-3 text-xs text-gray-400 leading-relaxed" id="onboarding-level-detail">
+              คุณยังไม่มีพื้นฐานภาษาเวียดนาม<br>
+              ไม่ต้องห่วง! เราจะเริ่มจากศูนย์ไปด้วยกัน
+            </div>
+            <div class="mt-4 text-xs text-gray-500">
+              คำศัพท์วันที่ 1-7 (Day 1-7) · ระดับพื้นฐาน
+            </div>
+          </div>
+          <button class="btn-vn mt-2" onclick="finishOnboarding()">
+            🚀 เริ่มเรียน!
+          </button>
+          <button class="text-xs text-gray-500 underline mt-1" onclick="skipOnboarding()">
+            ข้าม (ใช้ระดับ A0)
+          </button>
+        </div>
+      </div>
+
 
       <!-- ============================================================ -->
       <!-- SCREEN 1: LEARN / QUEST (Core Gameplay) -->
@@ -1199,6 +1281,112 @@
           <div id="wb-result" class="mt-3 hidden"></div>
         </div>
       </div>
+      <!-- ============================================================ -->
+      <!-- SCREEN 6b: SETTINGS -->
+      <!-- ============================================================ -->
+      <div class="screen flex-col px-4 py-4 space-y-3" id="view-settings" style="display:none;">
+        <div class="flex items-center gap-3 mb-1">
+          <span class="text-2xl">⚙️</span>
+          <div>
+            <div class="text-base font-bold text-white">ตั้งค่า (Settings)</div>
+            <div class="text-[0.6rem] text-gray-400">ปรับแต่งแอปตามต้องการ</div>
+          </div>
+        </div>
+        
+        <!-- TTS Speed -->
+        <div class="rpg-card p-4">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🔊</span>
+            <div>
+              <div class="text-sm font-semibold text-white">ความเร็วเสียง (TTS Speed)</div>
+              <div class="text-[0.6rem] text-gray-400">ปรับความเร็วในการอ่านออกเสียง</div>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center gap-3">
+            <span class="text-xs text-gray-400 w-8 text-right">🐢</span>
+            <input type="range" id="tts-speed-slider" min="0.5" max="1.5" step="0.05" value="0.85" class="flex-1 accent-emerald-500" oninput="updateTTSSpeed(this.value)">
+            <span class="text-xs text-gray-400 w-8">🐇</span>
+          </div>
+          <div class="text-center text-xs text-gray-500 mt-1">
+            <span id="tts-speed-display">0.85</span>x
+          </div>
+        </div>
+        
+        <!-- Language Config -->
+        <div class="rpg-card p-4">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🌐</span>
+            <div>
+              <div class="text-sm font-semibold text-white">ภาษา (Language)</div>
+              <div class="text-[0.6rem] text-gray-400">ภาษาในการแสดงผล</div>
+            </div>
+          </div>
+          <div class="mt-3 flex gap-2">
+            <button class="btn-vn text-xs flex-1 active" onclick="setAppLanguage('th')" id="lang-th-btn">🇹🇦 ไทย</button>
+            <button class="btn-vn text-xs flex-1 !border-gray-600 !text-gray-400" onclick="setAppLanguage('en')" id="lang-en-btn">🇺🇸 English</button>
+          </div>
+        </div>
+        
+        <!-- API Status -->
+        <div class="rpg-card p-4">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🔌</span>
+            <div>
+              <div class="text-sm font-semibold text-white">สถานะเซิร์ฟเวอร์</div>
+              <div class="text-[0.6rem] text-gray-400">เชื่อมต่อ API กับ Gemini AI</div>
+            </div>
+          </div>
+          <div class="mt-2 flex items-center gap-2">
+            <span id="api-status-dot" class="w-2 h-2 rounded-full bg-gray-500"></span>
+            <span id="api-status-text" class="text-xs text-gray-400">กำลังตรวจสอบ...</span>
+            <button class="ml-auto btn-vn text-xs !px-3 !py-1" onclick="checkAPIStatus()">🔄 ตรวจสอบ</button>
+          </div>
+        </div>
+        
+        <!-- Data Management -->
+        <div class="rpg-card p-4">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">💾</span>
+            <div>
+              <div class="text-sm font-semibold text-white">จัดการข้อมูล</div>
+              <div class="text-[0.6rem] text-gray-400">ข้อมูลการเรียนของคุณ</div>
+            </div>
+          </div>
+          <div class="mt-2 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-400">จำนวนวันที่เรียนแล้ว</span>
+              <span class="text-xs text-white font-bold" id="settings-days-count">0</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-400">คำศัพท์ที่เรียนแล้ว</span>
+              <span class="text-xs text-white font-bold" id="settings-words-count">0</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-400">SRS Flashcard</span>
+              <span class="text-xs text-white font-bold" id="settings-srs-count">0</span>
+            </div>
+          </div>
+          <button class="btn-vn text-xs w-full mt-3 !border-red-800 !text-red-400 hover:!bg-red-900/20" onclick="confirmResetProgress()" id="reset-progress-btn">
+            🗑️ รีเซ็ตข้อมูลทั้งหมด
+          </button>
+        </div>
+        
+        <!-- About -->
+        <div class="rpg-card p-4">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">ℹ️</span>
+            <div>
+              <div class="text-sm font-semibold text-white">เกี่ยวกับ</div>
+              <div class="text-[0.6rem] text-gray-400">เวอร์ชัน 1.0 · ฮานอย ซูไววอล</div>
+            </div>
+          </div>
+          <div class="mt-1 text-xs text-gray-500 leading-relaxed">
+            แอปเรียนภาษาเวียดนามสำหรับคนไทย<br>
+            ฟรีตลอดชีพ · ไม่มีโฆษณา · สร้างด้วย ❤️
+          </div>
+        </div>
+      </div>
+
 
       <!-- SCREEN 8: GRAMMAR -->
       <!-- ============================================================ -->
@@ -1285,6 +1473,88 @@
         </div>
       </div>
 
+
+      <!-- ============================================================ -->
+      <!-- SCREEN: SHADOWING (Shadowing — ฟังแล้วพูดตาม) -->
+      <!-- ============================================================ -->
+      <div class="screen flex-col px-4 py-4 space-y-3" id="view-shadowing" style="display:none;">
+        <!-- Header -->
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-2xl">🎭</span>
+          <div>
+            <h2 class="text-white font-bold text-lg">Shadowing (พูดตาม)</h2>
+            <p class="text-xs text-gray-400">ฟัง → พูดตาม → เปรียบเทียบ</p>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="flex items-center gap-2 text-xs text-gray-500">
+          <span id="shad-progress-text" class="font-bold text-emerald-400">1/10</span>
+          <div class="flex-1 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" id="shad-progress-bar" style="width:10%"></div>
+          </div>
+          <span id="shad-score-text" class="text-cyan-400 font-bold">—</span>
+        </div>
+
+        <!-- Context card -->
+        <div class="glass-light rounded-xl p-4">
+          <div class="text-[0.55rem] text-gray-500 font-bold uppercase tracking-wider mb-1">💡 สถานการณ์</div>
+          <p class="text-gray-300 text-xs leading-relaxed" id="shad-context">Loading...</p>
+        </div>
+
+        <!-- Target sentence card -->
+        <div class="hud-card p-5 text-center">
+          <div class="text-[0.55rem] text-gray-500 font-bold uppercase tracking-wider mb-2">🇻🇳 จงพูดตามประโยคนี้</div>
+          <div class="text-white text-xl font-black tracking-wide mb-1" id="shad-target-vn">—</div>
+          <div class="text-gray-400 text-xs" id="shad-target-ipa">—</div>
+          <div class="text-emerald-400 text-sm mt-1" id="shad-target-thai">—</div>
+          <div class="mt-3 flex gap-2 justify-center">
+            <button class="btn-vn text-xs px-4 py-2" id="shad-play-btn" onclick="playShadowingAudio()">🔊 ฟังตัวอย่าง</button>
+            <button class="btn-vn text-xs px-4 py-2 bg-emerald-600/20 border-emerald-500/40" id="shad-play-slow-btn" onclick="playShadowingAudio(0.5)">🐢 ฟังช้า</button>
+          </div>
+        </div>
+
+        <!-- Waveform + Mic -->
+        <div class="text-center">
+          <div id="shad-waveform" class="waveform-box">
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+            <div class="waveform-bar inactive"></div>
+          </div>
+          <button class="mic-btn" id="shad-mic-btn" onclick="toggleShadowingRec()">🎤</button>
+          <div class="text-[0.55rem] text-gray-500 font-bold mt-2" id="shad-status-text">แตะเพื่อเริ่มพูด</div>
+        </div>
+
+        <!-- Result feedback -->
+        <div id="shad-result" class="hidden speech-result">
+          <div class="speech-score-ring" id="shad-score-ring">—</div>
+          <div class="text-sm font-bold" id="shad-result-label">👍 เยี่ยมมาก!</div>
+          <div class="text-xs text-gray-400 mt-1" id="shad-result-detail">คุณพูดได้ดีมาก!</div>
+          <!-- Word-by-word comparison -->
+          <div class="mt-3 flex flex-wrap gap-2 justify-center" id="shad-word-comparison"></div>
+          <div class="mt-3 flex gap-2 justify-center">
+            <button class="btn-vn text-xs py-1.5 px-4" onclick="nextShadowingSentence()">➡️ ประโยคถัดไป</button>
+            <button class="btn-vn text-xs py-1.5 px-4 bg-slate-700/30 border-slate-600/30" onclick="retryShadowingSentence()">🔄 พูดอีกครั้ง</button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div id="shad-stats" class="hidden pt-2 border-t border-white/5">
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div><div class="text-emerald-400 text-lg font-black" id="shad-correct-count">0</div><div class="text-[0.5rem] text-gray-500">✅ ผ่าน</div></div>
+            <div><div class="text-rose-400 text-lg font-black" id="shad-wrong-count">0</div><div class="text-[0.5rem] text-gray-500">❌ ควรฝึก</div></div>
+            <div><div class="text-cyan-400 text-lg font-black" id="shad-streak-count">0</div><div class="text-[0.5rem] text-gray-500">🔥 ต่อเนื่อง</div></div>
+          </div>
+        </div>
+      </div>
+
     <!-- SCREEN: Listening Comprehension (10 dialogues) -->
     <div id="view-listening" class="screen flex-col px-4 py-4 space-y-3" style="display:none;">
       <!-- Header -->
@@ -1348,7 +1618,7 @@
     </div>
 
     <!-- ===== BOTTOM NAVIGATION ===== -->
-    <footer class="bg-gray-950/90 border-t border-white/5 p-1.5 grid grid-cols-5 gap-1 z-40">
+    <footer class="bg-gray-950/90 border-t border-white/5 p-1.5 grid grid-cols-6 gap-0.5 z-40">
       <button class="bottom-nav-btn active" onclick="switchScreen('roadmap')">
         <span class="nav-icon">🗺️</span>แผนที่
       </button>
@@ -1360,6 +1630,10 @@
       </button>
       <button class="bottom-nav-btn" onclick="switchScreen('listening')">
         <span class="nav-icon">🎧</span>ฝึกฟัง
+      </button>
+      
+      <button class="bottom-nav-btn" onclick="switchScreen('shadowing')">
+        <span class="nav-icon">🎭</span>พูดตาม
       </button>
       <button class="bottom-nav-btn" onclick="switchScreen('speaking')">
         <span class="nav-icon">🎤</span>ฝึกออกเสียง
@@ -1554,7 +1828,7 @@
       if (target) target.classList.add('active');
       // Update bottom nav
       document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active'));
-      const navMap = { roadmap: 0, learn: 1, flashcards: 2, speaking: 3 };
+      const navMap = { roadmap: 0, learn: 1, flashcards: 2, listening: 3, shadowing: 4, speaking: 5 };
       const idx = navMap[screenId];
       if (idx !== undefined) {
         const btns = document.querySelectorAll('.bottom-nav-btn');
@@ -1568,6 +1842,7 @@
       if (screenId === 'roadmap') renderNodeMap();
       if (screenId === 'speaking') startSpeechPractice();
       if (screenId === 'listening') showListeningScreen();
+      if (screenId === 'shadowing') startShadowing();
       if (screenId === 'wordbank') { if (wbCurrentSentence) renderWordBank(); else startWordBank(); }
     }
 
@@ -1580,7 +1855,8 @@
       const dayData = window.DAY_MAP || [];
       let html = '<div class="map-svg-line"></div>';
       for (let d = 1; d <= 28; d++) {
-        const info = dayData[d - 1] || { week: Math.ceil(d / 7), day: ((d - 1) % 7) + 1, title: 'วันที่ ' + d, grammar: '' };
+        const info = dayData[d - 1] || { week: Math.ceil(d / 7), day: ((d - 1) % 7) + 1, title: 'วันที่ ' + d, grammar: '' 
+        };
         const isCompleted = progress.completedDays && progress.completedDays.includes(d);
         const isCurrent = d === currentDay;
         const isLocked = d > (progress.completedDays ? progress.completedDays.length + 1 : 1) + 3;
@@ -1749,6 +2025,12 @@
     // TTS / SPEECH
     // ================================================================
     function speak(text, speed) {
+      var savedSpeed = localStorage.getItem('ttsSpeed');
+      if (savedSpeed && !speed) speed = parseFloat(savedSpeed);
+      if (window.ttsSpeed && !speed) speed = window.ttsSpeed;
+
+      
+
       const spd = speed || 0.85;
       if (ttsEngine === 'google') { speakGoogleTTS(text, spd); return; }
       if ('speechSynthesis' in window) {
@@ -1851,7 +2133,7 @@
             '<div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-lg shrink-0 border border-emerald-500/20">' + (i + 1) + '</div>' +
             '<div class="flex-1 min-w-0">' +
               '<div class="text-white font-bold text-sm flex items-center gap-2">' + w.word +
-                '<button class="btn btn-ghost btn-xs btn-circle text-emerald-400 hover:text-emerald-300" onclick="speak(\'' + w.word.replace(/'/g, "\\'") + '\')">🔊</button>' +
+                '<button aria-label="ฟังเสียง" class="btn btn-ghost btn-xs btn-circle text-emerald-400 hover:text-emerald-300" onclick="speak(\'' + w.word.replace(/'/g, "\\'") + '\')">🔊</button>' +
               '</div>' +
               '<div class="text-gray-500 text-xs">' + (w.thai || w.meaning || '') + '</div>' +
               (w.pronunciation ? '<div class="text-gray-600 text-[0.55rem]">' + w.pronunciation + '</div>' : '') +
@@ -1960,7 +2242,7 @@
       let html = '<div class="rpg-card p-4 animate-fade-in">' +
         '<div class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">แบบทดสอบ</div>' +
         '<div class="flex items-center gap-2 mb-3"><span class="text-white font-bold text-lg">' + word.word + '</span>' +
-        '<button class="btn btn-ghost btn-xs btn-circle text-emerald-400" onclick="speak(\'' + word.word.replace(/'/g, "\\'") + '\')">🔊</button></div>' +
+        '<button aria-label="ฟังเสียง" class="btn btn-ghost btn-xs btn-circle text-emerald-400" onclick="speak(\'' + word.word.replace(/'/g, "\\'") + '\')">🔊</button></div>' +
         '<div class="text-gray-400 text-xs mb-3">เลือกคำแปลที่ถูกต้อง</div><div class="grid-quiz">';
       options.forEach(opt => {
         html += '<button class="quiz-option" onclick="answerQuiz(this, \'' + opt.replace(/'/g, "\\'") + '\', \'' + word.thai.replace(/'/g, "\\'") + '\')">' + opt + '</button>';
@@ -2071,7 +2353,7 @@
         '</div>' +
         '<div class="dialogue-balloon mb-3 bg-gradient-to-b from-slate-900/60 to-slate-950/80">' +
           '<p class="text-emerald-400 text-sm font-extrabold tracking-wide mb-1 flex items-center gap-2">"' + question.dialogue + '"' +
-          '<button class="btn btn-circle btn-ghost btn-xs text-lg text-emerald-400" onclick="speak(\'' + question.dialogue.replace(/'/g, "\\'") + '\')">🔊</button></p>' +
+          '<button aria-label="ฟังเสียง" class="btn btn-circle btn-ghost btn-xs text-lg text-emerald-400" onclick="speak(\'' + question.dialogue.replace(/'/g, "\\'") + '\')">🔊</button></p>' +
           '<p class="text-gray-400 text-xs italic leading-relaxed">' + question.context + '</p>' +
           (question.mnemonic ? '<div class="mt-2 pt-2 border-t border-white/5 flex items-center gap-2"><span class="text-[0.55rem] font-bold text-gray-500">💡 คิวช่วยจำ:</span>' +
             '<span class="badge bg-slate-800 text-gray-300 text-[0.55rem] border-white/5 px-2">' + question.mnemonic + '</span></div>' : '') +
@@ -2526,7 +2808,7 @@
       display.innerHTML = '<div class="flex flex-col items-center py-2"><span class="text-emerald-400 text-lg font-black tracking-wide">' + spellingWord.word + '</span>' +
         '<span class="text-gray-400 text-sm mt-1">' + (spellingWord.thai || spellingWord.meaning) + '</span>' +
         (spellingWord.pronunciation ? '<span class="text-gray-600 text-xs">' + spellingWord.pronunciation + '</span>' : '') +
-        '<button class="btn btn-ghost btn-xs text-emerald-400 mt-1" onclick="speak(\'' + spellingWord.word.replace(/'/g, "\\'") + '\')">🔊</button></div>';
+        '<button aria-label="ฟังเสียง" class="btn btn-ghost btn-xs text-emerald-400 mt-1" onclick="speak(\'' + spellingWord.word.replace(/'/g, "\\'") + '\')">🔊</button></div>';
       options.innerHTML = '<div class="col-span-3 text-center text-emerald-400 text-sm font-bold py-2">✅ สะกดคำสำเร็จ!</div>' +
         '<div class="col-span-3"><button class="btn-vn w-full text-sm" onclick="startSpellingDrill()">🔄 คำต่อไป</button></div>';
       playCorrectSound();
@@ -2550,7 +2832,7 @@
       const toneColors = ['tone-ngang','tone-huyen','tone-sac','tone-hoi','tone-nga','tone-nang'];
       let html = '<div class="text-center mb-3 animate-fade-in"><div class="flex items-center justify-center gap-2 mb-1">' +
         '<span class="text-white text-2xl font-black">' + word.word + '</span>' +
-        '<button class="btn btn-ghost btn-xs btn-circle text-emerald-400" onclick="speak(\'' + word.word.replace(/'/g, "\\'") + '\')">🔊</button></div>' +
+        '<button aria-label="ฟังเสียง" class="btn btn-ghost btn-xs btn-circle text-emerald-400" onclick="speak(\'' + word.word.replace(/'/g, "\\'") + '\')">🔊</button></div>' +
         '<div class="text-gray-500 text-xs mb-3">' + (word.thai || word.meaning) + ' — วรรณยุกต์คือ?</div><div class="grid grid-cols-3 gap-2">';
       tones.forEach((tone, i) => {
         html += '<button class="' + toneColors[i] + ' p-3 rounded-xl border font-bold text-sm cursor-pointer hover:scale-105 transition-transform" onclick="answerTone(this, \'' + tone + '\', \'' + word.tone + '\')">' + tone + '</button>';
@@ -2635,6 +2917,16 @@
     // INITIALIZATION
     // ================================================================
     document.addEventListener('DOMContentLoaded', function() {
+      // Check if first visit - show onboarding
+      if (!localStorage.getItem('onboardingDone')) {
+        switchScreen('onboarding');
+      }
+
+      // Check if first visit - show onboarding
+      if (!localStorage.getItem('onboardingDone')) {
+        switchScreen('onboarding');
+      }
+
       loadState();
       const ttsEl = document.getElementById('tts-engine');
       if (ttsEl) ttsEl.value = ttsEngine;
@@ -2648,12 +2940,13 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && document.getElementById('drawerOverlay').classList.contains('open')) closeDrawer();
       if (e.key === 'd') switchScreen('roadmap');
-      if (e.key === 'l') switchScreen('learn');
+      if (e.key === 'e') switchScreen('learn');
       if (e.key === 'f') switchScreen('flashcards');
       if (e.key === 't') switchScreen('tones');
       if (e.key === 'p') switchScreen('progress');
       if (e.key === 's') switchScreen('speaking');
       if (e.key === 'l') switchScreen('listening');
+      if (e.key === 'h') switchScreen('shadowing');
     });
     updateReviewScheduleUI();
 
@@ -3798,7 +4091,7 @@ function playListeningDialogue() {
     document.getElementById('listening-dialogue-progress').style.width = ((lineIdx+1)/total*100)+'%';
     document.getElementById('listening-dialogue-status').textContent = (lineIdx+1)+'/'+total+' ประโยค';
     var utter = new SpeechSynthesisUtterance(line.text);
-    utter.lang = 'vi-VN'; utter.rate = 0.85; utter.pitch = 1.0;
+    utter.lang = 'vi-VN'; utter.rate = parseFloat(localStorage.getItem('ttsSpeed')) || window.ttsSpeed || 0.85; utter.pitch = 1.0;
     utter.onend = function() { lineIdx++; setTimeout(speakNext, 400); };
     speechSynthesis.speak(utter);
   }
@@ -3868,6 +4161,523 @@ function updateListeningStats() {
   document.getElementById('listening-attempted').textContent = listeningState.attempted;
   document.getElementById('listening-streak').textContent = listeningState.streak;
 }
+
+
+
+
+
+// --- SETTINGS ENGINE ---
+var appLanguage = 'th';
+
+function updateSettingsUI() {
+  var d = document.getElementById('settings-days-count');
+  var w = document.getElementById('settings-words-count');
+  var s = document.getElementById('settings-srs-count');
+  if (d) d.textContent = (progress.completedDays && progress.completedDays.length) || 0;
+  if (w) w.textContent = progress.totalWordsLearned || 0;
+  var srsTotal = 0;
+  if (progress.srsBoxes) { for (var i = 1; i <= 5; i++) { if (progress.srsBoxes[i]) srsTotal += progress.srsBoxes[i].length; } }
+  if (s) s.textContent = srsTotal;
+  checkAPIStatus();
+  var saved = localStorage.getItem('ttsSpeed');
+  if (saved) {
+    document.getElementById('tts-speed-slider').value = saved;
+    document.getElementById('tts-speed-display').textContent = saved;
+  }
+  var lang = localStorage.getItem('appLanguage') || 'th';
+  setAppLanguage(lang);
+}
+
+function updateTTSSpeed(val) {
+  document.getElementById('tts-speed-display').textContent = val;
+  localStorage.setItem('ttsSpeed', val);
+  window.ttsSpeed = parseFloat(val);
+  announceToScreenReader('ความเร็วเสียง: ' + val + 'x');
+}
+
+function setAppLanguage(lang) {
+  appLanguage = lang;
+  localStorage.setItem('appLanguage', lang);
+  document.getElementById('lang-th-btn').className = 'btn-vn text-xs flex-1' + (lang === 'th' ? ' active' : ' !border-gray-600 !text-gray-400');
+  document.getElementById('lang-en-btn').className = 'btn-vn text-xs flex-1' + (lang === 'en' ? ' active' : ' !border-gray-600 !text-gray-400');
+}
+
+async function checkAPIStatus() {
+  var dot = document.getElementById('api-status-dot');
+  var text = document.getElementById('api-status-text');
+  if (!dot || !text) return;
+  dot.className = 'w-2 h-2 rounded-full bg-yellow-500';
+  text.textContent = 'กำลังตรวจสอบ...';
+  try {
+    var res = await fetch('/api/health');
+    if (res.ok) {
+      dot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+      text.textContent = '✅ เชื่อมต่อปกติ';
+    } else {
+      dot.className = 'w-2 h-2 rounded-full bg-red-500';
+      text.textContent = '❌ เซิร์ฟเวอร์มีปัญหา';
+    }
+  } catch(e) {
+    dot.className = 'w-2 h-2 rounded-full bg-gray-500';
+    text.textContent = '⛔ ไม่ได้เชื่อมต่อ (ใช้งานออฟไลน์ได้)';
+  }
+}
+
+function confirmResetProgress() {
+  if (confirm('⚠️ รีเซ็ตข้อมูลทั้งหมด?\n\nการกระทำนี้ไม่สามารถย้อนกลับได้!\n\nข้อมูลการเรียน คำศัพท์ และคะแนนทั้งหมดจะถูกลบ')) {
+    if (confirm('ยืนยันอีกครั้ง: ลบข้อมูลทั้งหมด?')) {
+      resetAllProgress();
+    }
+  }
+}
+
+function resetAllProgress() {
+  progress = {
+    completedDays: [],
+    currentDay: 1,
+    totalWordsLearned: 0,
+    lastActiveDate: null,
+    streak: 0,
+    quizHistory: [],
+    srsBoxes: { 1: [], 2: [], 3: [], 4: [], 5: [] }
+  };
+  saveStateLocal();
+  try { fetch('/api/progress/reset', { method: 'POST' }); } catch(e) {}
+  showToast('🗑️ รีเซ็ตข้อมูลเรียบร้อย', 'info');
+  announceToScreenReader('รีเซ็ตข้อมูลทั้งหมดเรียบร้อย');
+  updateSettingsUI();
+  updateUI();
+}
+
+// --- ONBOARDING ENGINE ---
+var onboardingQuestions = [
+  { q: 'คุณเคยเรียนภาษาเวียดนามมาก่อนไหม?', options: ['ไม่เคยเลย', 'เคยเรียนนิดหน่อย', 'พอสื่อสารได้', 'คล่อง'], scores: [0, 1, 2, 3] },
+  { q: 'คุณรู้จักคําว่า "Xin chào" แปลว่าอะไร?', options: ['ขอบคุณ', 'สวัสดี', 'ลาก่อน', 'ขอโทษ'], scores: [0, 1, 0, 0] },
+  { q: 'ภาษาเวียดนามมีวรรณยุกต์กี่เสียง?', options: ['3 เสียง', '4 เสียง', '5 เสียง', '6 เสียง'], scores: [0, 0, 0, 1] },
+  { q: 'คุณสามารถอ่านออกเสียงภาษาเวียดนามได้หรือไม่?', options: ['อ่านไม่ได้เลย', 'อ่านได้นิดหน่อย', 'อ่านได้พอสมควร', 'อ่านได้คล่อง'], scores: [0, 1, 2, 3] },
+  { q: 'คุณต้องการเรียนภาษาเวียดนามเพื่ออะไร?', options: ['ท่องเที่ยว', 'ทํางาน/ธุรกิจ', 'อยู่เวียดนาม', 'เรียนต่อ/อื่นๆ'], scores: [1, 2, 2, 1] }
+];
+
+var onboardingState = { step: 2, qIdx: 0, score: 0, answers: [] };
+
+function showOnboarding() {
+  onboardingState.step = 2;
+  onboardingState.qIdx = 0;
+  onboardingState.score = 0;
+  onboardingState.answers = [];
+  document.getElementById('onboarding-step-1').style.display = 'none';
+  document.getElementById('onboarding-step-2').style.display = 'flex';
+  document.getElementById('onboarding-step-3').style.display = 'none';
+  loadOnboardingQuestion();
+}
+
+function onboardingNext(step) {
+  if (step === 2) showOnboarding();
+}
+
+function loadOnboardingQuestion() {
+  if (onboardingState.qIdx >= onboardingQuestions.length) {
+    showOnboardingResult();
+    return;
+  }
+  var q = onboardingQuestions[onboardingState.qIdx];
+  document.getElementById('onboarding-q-progress').textContent = 'ข้อที่ ' + (onboardingState.qIdx + 1) + ' / ' + onboardingQuestions.length;
+  document.getElementById('onboarding-question').textContent = q.q;
+  var optsHtml = '';
+  q.options.forEach(function(opt, i) {
+    optsHtml += '<button class="btn-rpg-choice text-xs" onclick="answerOnboardingQuestion(' + i + ')"><span class="text-gray-400 mr-2">' + String.fromCharCode(65+i) + '.</span>' + opt + '</button>';
+  });
+  document.getElementById('onboarding-options').innerHTML = optsHtml;
+  var hints = ['💡 ข้อนี้วัดพื้นฐาน', '💡 ข้อนี้วัดความรู้', '💡 ข้อนี้วัดความเข้าใจ', '💡 ข้อนี้วัดทักษะ', '💡 ข้อนี้วัดเป้าหมาย'];
+  document.getElementById('onboarding-level-hint').textContent = hints[onboardingState.qIdx] || '';
+}
+
+function answerOnboardingQuestion(idx) {
+  var q = onboardingQuestions[onboardingState.qIdx];
+  onboardingState.score += q.scores[idx];
+  onboardingState.answers.push(idx);
+  onboardingState.qIdx++;
+  var btns = document.getElementById('onboarding-options').querySelectorAll('button');
+  btns.forEach(function(b, i) { b.disabled = true; if (i === idx) b.classList.add('ring-2', 'ring-emerald-500'); });
+  setTimeout(loadOnboardingQuestion, 600);
+}
+
+function showOnboardingResult() {
+  document.getElementById('onboarding-step-2').style.display = 'none';
+  document.getElementById('onboarding-step-3').style.display = 'flex';
+  var score = onboardingState.score;
+  var level, desc, detail, emoji;
+  if (score <= 1) { level = 'A0'; desc = 'มือใหม่เริ่มต้น'; detail = 'คุณยังไม่มีพื้นฐานภาษาเวียดนาม ไม่ต้องห่วง! เราจะเริ่มจากศูนย์ไปด้วยกัน'; emoji = '🌱'; }
+  else if (score <= 4) { level = 'A1'; desc = 'ผู้เริ่มต้น'; detail = 'คุณมีพื้นฐานมาบ้างแล้ว เราจะเริ่มจากบทเรียนแรก แต่สามารถข้ามได้'; emoji = '🌟'; }
+  else if (score <= 7) { level = 'A2'; desc = 'ระดับสื่อสารได้'; detail = 'คุณพอสื่อสารได้บ้าง แนะนำให้เริ่มจาก Day 7 เป็นต้นไป'; emoji = '🔥'; }
+  else { level = 'B1'; desc = 'ระดับกลาง'; detail = 'คุณมีพื้นฐานที่ดีแล้ว  แนะนำให้เริ่มจาก Day 14 หรือทําแบบฝึกหัดขั้นสูง'; emoji = '🚀'; }
+  document.getElementById('onboarding-result-emoji').textContent = emoji;
+  document.getElementById('onboarding-level-display').textContent = level;
+  document.getElementById('onboarding-level-desc').textContent = desc;
+  document.getElementById('onboarding-level-detail').innerHTML = detail.replace(/\n/g, '<br>');
+  localStorage.setItem('onboardingLevel', level);
+  localStorage.setItem('onboardingDone', 'true');
+  if (level !== 'A0' && level !== 'A1') {
+    if (confirm('ต้องการข้ามไปวันที่ 7 หรือไม่?')) {
+      progress.currentDay = 7;
+      saveStateLocal();
+    }
+  }
+}
+
+function finishOnboarding() {
+  localStorage.setItem('onboardingDone', 'true');
+  switchScreen('roadmap');
+  announceToScreenReader('ยินดีต้อนรับ! เริ่มเรียนภาษาเวียดนามกันเลย');
+}
+
+function skipOnboarding() {
+  localStorage.setItem('onboardingDone', 'true');
+  localStorage.setItem('onboardingLevel', 'A0');
+  switchScreen('roadmap');
+  announceToScreenReader('ข้ามการตั้งค่า');
+}
+
+
+
+
+
+// --- Accessibility: Create aria-live region for screen readers ---
+var liveRegion = document.createElement("div");
+liveRegion.id = "sr-live-region";
+liveRegion.setAttribute("aria-live", "polite");
+liveRegion.setAttribute("aria-atomic", "true");
+liveRegion.className = "sr-only";
+document.body.appendChild(liveRegion);
+
+function announceToScreenReader(msg) {
+  var r = document.getElementById("sr-live-region");
+  if (r) { r.textContent = ""; setTimeout(function() { r.textContent = msg; }, 100); }
+}
+
+    // ================================================================
+    // SHADOWING ENGINE — Listen → Record → Compare → Feedback
+    // ================================================================
+    let shadSentences = [];
+    let shadIndex = 0;
+    let shadCorrectCount = 0;
+    let shadWrongCount = 0;
+    let shadStreak = 0;
+    let shadRecognition = null;
+    let shadIsRecording = false;
+
+    function startShadowing() {
+      // Load sentences from SHADOWING_DATA or fallback to defaults
+      shadSentences = (typeof SHADOWING_DATA !== 'undefined') ? [...SHADOWING_DATA] : getDefaultShadowingSentences();
+      shadIndex = 0;
+      shadCorrectCount = 0;
+      shadWrongCount = 0;
+      shadStreak = 0;
+      shadSentences.sort(function() { return Math.random() - 0.5; }); // shuffle
+      shadSentences = shadSentences.slice(0, 5); // 5 per session
+      hideShadowingResult();
+      showShadowingSentence();
+      document.getElementById('shad-stats').classList.remove('hidden');
+      updateShadowingStats();
+    }
+
+    function showShadowingSentence() {
+      if (shadIndex >= shadSentences.length) {
+        // Session complete
+        document.getElementById('shad-target-vn').textContent = '🎉 ฝึกเสร็จแล้ว!';
+        document.getElementById('shad-target-ipa').textContent = '';
+        document.getElementById('shad-target-thai').textContent = 'ยอดเยี่ยม! ฝึกอีกครั้งได้เลย';
+        document.getElementById('shad-context').textContent = 'กดปุ่มด้านล่างเพื่อเริ่มฝึกใหม่';
+        document.getElementById('shad-play-btn').style.display = 'none';
+        document.getElementById('shad-play-slow-btn').style.display = 'none';
+        document.getElementById('shad-mic-btn').disabled = true;
+        hideShadowingResult();
+        var nextBtn = document.querySelector('#shad-result .btn-vn');
+        if (nextBtn) {
+          nextBtn.textContent = '🔄 ฝึกอีกครั้ง';
+          nextBtn.setAttribute('onclick', 'startShadowing()');
+        }
+        updateShadowingProgress();
+        return;
+      }
+      var s = shadSentences[shadIndex];
+      document.getElementById('shad-target-vn').textContent = s.vn;
+      document.getElementById('shad-target-ipa').textContent = s.ipa || '';
+      document.getElementById('shad-target-thai').textContent = '🇹🇭 ' + (s.thai || '');
+      document.getElementById('shad-context').textContent = '💬 ' + (s.context || '');
+      document.getElementById('shad-play-btn').style.display = '';
+      document.getElementById('shad-play-slow-btn').style.display = '';
+      document.getElementById('shad-mic-btn').disabled = false;
+      document.getElementById('shad-status-text').textContent = '🎧 ฟังตัวอย่างก่อน แล้วแตะไมค์เพื่อพูดตาม';
+      hideShadowingResult();
+      updateShadowingProgress();
+    }
+
+    function playShadowingAudio(speed) {
+      var s = shadSentences[shadIndex];
+      if (!s) return;
+      var rate = speed || (parseFloat(localStorage.getItem('ttsSpeed')) || window.ttsSpeed || 0.85);
+      // Highlight play button
+      var playBtn = document.getElementById('shad-play-btn');
+      if (!speed) {
+        playBtn.style.background = 'rgba(16, 185, 129, 0.2)';
+        setTimeout(function() { playBtn.style.background = ''; }, 400);
+      }
+      speak(s.vn, rate);
+    }
+
+    function toggleShadowingRec() {
+      if (shadIsRecording) {
+        stopShadowingRec();
+        return;
+      }
+      startShadowingRec();
+    }
+
+    function startShadowingRec() {
+      var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        showToast('เบราว์เซอร์นี้ไม่รองรับ Speech Recognition', 'error');
+        return;
+      }
+      shadRecognition = new SR();
+      shadRecognition.lang = 'vi-VN';
+      shadRecognition.continuous = false;
+      shadRecognition.interimResults = false;
+      shadRecognition.maxAlternatives = 3;
+
+      shadIsRecording = true;
+      var micBtn = document.getElementById('shad-mic-btn');
+      var statusText = document.getElementById('shad-status-text');
+      micBtn.classList.add('listening');
+      micBtn.textContent = '⏹️';
+      statusText.textContent = '🎤 กำลังฟัง... พูดเลย!';
+      activateShadowingWaveform(true);
+
+      shadRecognition.onresult = function(event) {
+        stopShadowingRec();
+        var userText = '';
+        for (var i = event.results.length - 1; i >= 0; i--) {
+          if (event.results[i].isFinal) {
+            userText = event.results[i][0].transcript.toLowerCase().trim();
+            break;
+          }
+        }
+        if (!userText && event.results.length > 0) {
+          userText = event.results[0][0].transcript.toLowerCase().trim();
+        }
+        evaluateShadowing(userText);
+      };
+
+      shadRecognition.onerror = function(event) {
+        console.log('Shadowing SR error:', event.error);
+        stopShadowingRec();
+        if (event.error === 'no-speech') {
+          statusText.textContent = '😅 ไม่ได้ยินเสียง ลองอีกครั้ง';
+        } else if (event.error === 'aborted') {
+          statusText.textContent = '🛑 ยกเลิก';
+        } else {
+          statusText.textContent = '⚠️ เกิดข้อผิดพลาด (' + event.error + ')';
+        }
+        showToast('ลองอีกครั้ง', 'warning');
+      };
+
+      shadRecognition.onend = function() {
+        if (shadIsRecording) {
+          stopShadowingRec();
+        }
+      };
+
+      try {
+        shadRecognition.start();
+      } catch(e) {
+        shadIsRecording = false;
+        micBtn.classList.remove('listening');
+        micBtn.textContent = '🎤';
+        statusText.textContent = '⚠️ ข้อผิดพลาด แตะเพื่อลองใหม่';
+        activateShadowingWaveform(false);
+      }
+    }
+
+    function stopShadowingRec() {
+      shadIsRecording = false;
+      var micBtn = document.getElementById('shad-mic-btn');
+      micBtn.classList.remove('listening', 'processing');
+      micBtn.textContent = '🎤';
+      activateShadowingWaveform(false);
+      if (shadRecognition) {
+        try { shadRecognition.stop(); } catch(e) {}
+        try { shadRecognition.abort(); } catch(e) {}
+      }
+    }
+
+    function activateShadowingWaveform(active) {
+      var bars = document.querySelectorAll('#shad-waveform .waveform-bar');
+      bars.forEach(function(b) {
+        if (active) b.classList.remove('inactive');
+        else b.classList.add('inactive');
+      });
+    }
+
+    function evaluateShadowing(userText) {
+      var s = shadSentences[shadIndex];
+      if (!s) return;
+      var target = s.vn.toLowerCase().trim();
+
+      // Clean both strings — remove punctuation, normalize spaces
+      var cleanTarget = target.replace(/[.,!?;:()"']/g, '').replace(/\s+/g, ' ').trim();
+      var cleanUser = userText.replace(/[.,!?;:()"']/g, '').replace(/\s+/g, ' ').trim();
+
+      // Word-level comparison
+      var targetWords = cleanTarget.split(' ');
+      var userWords = cleanUser.split(' ');
+
+      // Calculate Levenshtein-based similarity
+      var sim = stringSimilarity(cleanTarget, cleanUser);
+      var score = Math.round(sim * 100);
+
+      // Build word-by-word comparison
+      var wordComparisonHTML = '';
+      for (var i = 0; i < targetWords.length; i++) {
+        var tw = targetWords[i];
+        var uw = userWords[i] || '';
+        var matchScore = stringSimilarity(tw, uw);
+        var cls = '';
+        var icon = '';
+        if (matchScore >= 0.85) {
+          cls = 'text-emerald-400';
+          icon = '✅';
+        } else if (matchScore >= 0.5) {
+          cls = 'text-yellow-400';
+          icon = '⚠️';
+        } else {
+          cls = 'text-rose-400';
+          icon = '❌';
+        }
+        wordComparisonHTML += '<span class="bg-white/5 rounded-lg px-2.5 py-1 text-xs ' + cls + ' font-semibold border border-white/5">' +
+          icon + ' ' + tw + (uw ? '<br><span class="text-[0.5rem] opacity-60">→ ' + uw + '</span>' : '<br><span class="text-[0.5rem] opacity-30">→ —</span>') +
+          '</span>';
+      }
+      // Extra words from user
+      if (userWords.length > targetWords.length) {
+        for (var j = targetWords.length; j < userWords.length; j++) {
+          wordComparisonHTML += '<span class="bg-white/5 rounded-lg px-2.5 py-1 text-xs text-amber-400 font-semibold border border-white/5">' +
+            '➕ ' + userWords[j] + '</span>';
+        }
+      }
+
+      // Determine result level
+      var label, detail, cls2;
+      if (score >= 85) {
+        label = '👏 พูดเก่งมาก!';
+        detail = 'ออกเสียงใกล้เคียงต้นฉบับมาก';
+        cls2 = 'excellent';
+        shadCorrectCount++;
+        shadStreak++;
+        playCorrectSound();
+        spawnConfetti();
+      } else if (score >= 60) {
+        label = '👍 ใช้ได้!';
+        detail = 'พอเข้าใจได้ แต่ยังต้องฝึกเพิ่ม';
+        cls2 = 'good';
+        shadCorrectCount++;
+        shadStreak = 0;
+        playChime(440, 'triangle', 0.2);
+      } else {
+        label = '😅 ต้องฝึกอีกนิด';
+        detail = 'ฟังตัวอย่างอีกครั้ง แล้วลองพูดใหม่';
+        cls2 = 'needs-work';
+        shadWrongCount++;
+        shadStreak = 0;
+        playWrongSound();
+      }
+
+      // Show result card
+      var resultDiv = document.getElementById('shad-result');
+      resultDiv.classList.remove('hidden');
+      resultDiv.className = 'speech-result ' + cls2;
+
+      document.getElementById('shad-score-ring').textContent = score;
+      document.getElementById('shad-score-ring').style.borderColor = 
+        score >= 85 ? '#22c55e' : (score >= 60 ? '#eab308' : '#f43f5e');
+      document.getElementById('shad-result-label').textContent = label;
+      document.getElementById('shad-result-detail').textContent = detail;
+      document.getElementById('shad-word-comparison').innerHTML = wordComparisonHTML;
+
+      document.getElementById('shad-status-text').textContent = 'พูดว่า: "' + userText + '"';
+      updateShadowingStats();
+    }
+
+    function hideShadowingResult() {
+      document.getElementById('shad-result').classList.add('hidden');
+    }
+
+    function nextShadowingSentence() {
+      shadIndex++;
+      showShadowingSentence();
+    }
+
+    function retryShadowingSentence() {
+      hideShadowingResult();
+      document.getElementById('shad-status-text').textContent = '🎧 ฟังตัวอย่างอีกครั้ง แล้วแตะไมค์';
+      activateShadowingWaveform(false);
+    }
+
+    function updateShadowingProgress() {
+      var total = shadSentences.length;
+      var done = Math.min(shadIndex, total);
+      document.getElementById('shad-progress-text').textContent = (done + 1) + '/' + total;
+      document.getElementById('shad-progress-bar').style.width = ((done + 1) / total * 100) + '%';
+      var avgScore = (shadCorrectCount + shadWrongCount) > 0 
+        ? Math.round(shadCorrectCount / (shadCorrectCount + shadWrongCount) * 100) 
+        : 0;
+      document.getElementById('shad-score-text').textContent = avgScore > 0 ? avgScore + '%' : '—';
+    }
+
+    function updateShadowingStats() {
+      document.getElementById('shad-correct-count').textContent = shadCorrectCount;
+      document.getElementById('shad-wrong-count').textContent = shadWrongCount;
+      document.getElementById('shad-streak-count').textContent = shadStreak;
+      updateShadowingProgress();
+    }
+
+    function stringSimilarity(a, b) {
+      if (!a || !b) return a === b ? 1 : 0;
+      a = a.toLowerCase().replace(/[^a-z0-9]/g, '');
+      b = b.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (a === b) return 1;
+      if (a.length === 0 || b.length === 0) return 0;
+
+      // Levenshtein distance
+      var an = a.length;
+      var bn = b.length;
+      var matrix = [];
+      for (var i = 0; i <= bn; i++) matrix[i] = [i];
+      for (var j = 0; j <= an; j++) matrix[0][j] = j;
+
+      for (var i = 1; i <= bn; i++) {
+        for (var j = 1; j <= an; j++) {
+          var cost = a[j - 1] === b[i - 1] ? 0 : 1;
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j - 1] + cost
+          );
+        }
+      }
+      var dist = matrix[bn][an];
+      return 1 - (dist / Math.max(an, bn));
+    }
+
+    function getDefaultShadowingSentences() {
+      return [
+        { vn: 'Xin chào, tôi là người Thái Lan', ipa: '/ʃin tʃao toj la ŋɨːj tʰaj laːn/', thai: 'สวัสดี ฉันเป็นคนไทย', context: 'แนะนำตัวกับคนท้องถิ่น', difficulty: 'ง่าย' },
+        { vn: 'Cảm ơn bạn rất nhiều', ipa: '/kam əːn ɓan ɗət ɲiəw/', thai: 'ขอบคุณมากๆ', context: 'ขอบคุณเพื่อนใหม่', difficulty: 'ง่าย' },
+        { vn: 'Chúc bạn một ngày tốt lành', ipa: '/tʃup ɓan mot ŋaj tot laɲ/', thai: 'ขอให้คุณเป็นวันที่ดี', context: 'กล่าวลาเพื่อน', difficulty: 'ง่าย' },
+        { vn: 'Tôi muốn học tiếng Việt', ipa: '/toj muən hok tiəŋ viət/', thai: 'ฉันอยากเรียนภาษาเวียดนาม', context: 'บอกความตั้งใจในการเรียน', difficulty: 'ง่าย' },
+        { vn: 'Bạn có thể nói tiếng Anh không?', ipa: '/ɓan kɔ tʰe nɔj tiəŋ ʔajŋ xəŋ/', thai: 'คุณพูดภาษาอังกฤษได้ไหม?', context: 'ถามใครสักคนว่าพูดอังกฤษได้ไหม', difficulty: 'ปานกลาง' }
+      ];
+    }
 
 </script>
 </body>

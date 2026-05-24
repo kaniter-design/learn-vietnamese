@@ -67,6 +67,12 @@ learn_vietnamese/
 | Smart Fail Diagnostics | ✅ Done | Calls `/api/quiz/diagnose` for dynamic explanation of incorrect tone contours / vowels in Thai, and auto-queues failed words in SRS |
 | local TTS Proxy | ✅ Done | Routes speech synthesizer requests through `/api/tts` to bypass browser CORS blocks |
 | SQLite Sync | ✅ Done | Streaks, unlocked days, Leitner box levels, tone stats are persisted in SQLite |
+| Keyboard Shortcuts | ✅ Done | 'e'→Learn, 'l'→Listening, 's'→Speaking, 'p'→Progress, 'd'→Dashboard, 'w'→Word Bank |
+| ARIA Accessibility | ✅ Done | sr-only CSS, aria-live polite region, announceToScreenReader(), labels on icon buttons |
+| Settings Screen | ✅ Done | TTS Speed slider (localStorage), API health status, Reset Progress (double confirm), Language config TH/EN, bottom nav button |
+| Onboarding Wizard | ✅ Done | Welcome step, 5-question placement test (A0/A1/A2/B1), first-visit detection via localStorage |
+| TTS Speed Control | ✅ Done | Applied to speak() and playListeningDialogue() via localStorage ttsSpeed |
+| Shadowing (พูดตาม) | ✅ Done | 🎭 Listen → Speak → Compare with Levenshtein similarity, 10 sentences with IPA/context, mic + waveform + word-by-word feedback, bottom nav + keyboard 'h' + roadmap button |
 
 ---
 
