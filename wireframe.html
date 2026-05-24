@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframe — Vietnamese Learning Bot UX</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    body { background: #1a1a2e; }
+    .telegram-bg { background: #17212b; }
+    .msg-bot { background: #182533; }
+    .msg-user { background: #2b5278; }
+    .chat-area { height: 520px; overflow-y: auto; scroll-behavior: smooth; }
+    .chat-area::-webkit-scrollbar { width: 4px; }
+    .chat-area::-webkit-scrollbar-thumb { background: #3a4a5c; border-radius: 2px; }
+    .btn-ghost { transition: all 0.15s; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.08); }
+    .btn-primary { transition: all 0.15s; }
+    .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+    .keyboard-btn { transition: all 0.12s; }
+    .keyboard-btn:hover { background: #3a5a7a; transform: scale(0.97); }
+    .slide-in { animation: slideIn 0.25s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .screen-tab { cursor: pointer; transition: all 0.2s; }
+    .screen-tab:hover { background: rgba(255,255,255,0.05); }
+    .screen-tab.active { border-bottom: 2px solid #5d9bff; color: #5d9bff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .typing-dot { animation: bounce 1.4s infinite; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+    .audio-btn { display: inline-flex; align-items: center; gap: 4px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+  <div class="w-full max-w-4xl">
+    <!-- Header -->
+    <div class="text-center mb-6">
+      <span class="text-xs uppercase tracking-widest text-gray-500 font-semibold">Phase 3: UX Design — Wireframe</span>
+      <h1 class="text-2xl font-bold text-white mt-1">📱 Vietnamese Learning Bot</h1>
+      <p class="text-gray-400 text-sm mt-1">ภาษาเวียดนามสำหรับธุรกิจ — จาก 0 ถึง business</p>
+    </div>
+
+    <!-- Screen Tabs -->
+    <div class="flex flex-wrap gap-1 mb-4 border-b border-gray-700/50 pb-2">
+      <button onclick="switchTab('welcome')" class="screen-tab active px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="welcome">🏠 Welcome</button>
+      <button onclick="switchTab('menu')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="menu">📋 เมนูหลัก</button>
+      <button onclick="switchTab('lesson')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="lesson">📚 เรียน</button>
+      <button onclick="switchTab('flashcards')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="flashcards">🃏 ท่องคำ</button>
+      <button onclick="switchTab('tones')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="tones">📝 วรรณยุกต์</button>
+      <button onclick="switchTab('conversation')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="conversation">💬 สนทนา</button>
+      <button onclick="switchTab('progress')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="progress">📊 ความก้าวหน้า</button>
+      <button onclick="switchTab('settings')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="settings">⚙️ ตั้งค่า</button>
+      <button onclick="switchTab('spelling')" class="screen-tab px-3 py-2 text-sm text-gray-300 rounded-t" data-tab="spelling">✏️ สะกด</button>
+    </div>
+
+    <!-- Phone Mockup -->
+    <div class="max-w-sm mx-auto">
+      <div class="telegram-bg rounded-2xl shadow-2xl border border-gray-700/30 overflow-hidden">
+        <!-- Phone Top Bar -->
+        <div class="bg-[#1f2c38] px-4 py-3 flex items-center gap-3 border-b border-gray-700/30">
+          <div class="w-8 h-8 rounded-full bg-[#2b5278] flex items-center justify-center text-xs font-bold text-white">V</div>
+          <div>
+            <div class="text-white text-sm font-semibold">Vietnamese Tutor Bot</div>
+            <div class="text-gray-400 text-xs">online</div>
+          </div>
+          <div class="ml-auto flex gap-3 text-gray-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area p-3 space-y-3" id="chatArea">
+
+          <!-- ============ WELCOME SCREEN ============ -->
+          <div id="screen-welcome" class="tab-content active">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm leading-relaxed">
+                  Xin chào! 👋 ยินดีต้อนรับสู่ <strong>Vietnamese Tutor Bot</strong>
+                </div>
+                <div class="text-gray-300 text-sm leading-relaxed mt-2">
+                  ผมจะสอนภาษาเวียดนามจาก <strong>0</strong> จนถึง <strong>business</strong>
+                </div>
+                <div class="text-gray-300 text-sm leading-relaxed mt-2">
+                  อธิบายเป็นภาษาไทยทั้งหมด 🇹🇭 → 🇻🇳
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:00</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.1s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">ทดสอบระดับ 🎯</div>
+                <div class="text-gray-300 text-sm mt-1">5 ข้อสั้นๆ — รู้จักภาษาเวียดนามมากแค่ไหน?</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:00</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.2s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5 justify-center">
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-4 py-2 rounded-lg">🚀 ทดสอบระดับ</button>
+                <button class="keyboard-btn bg-transparent text-gray-300 text-xs font-medium px-4 py-2 rounded-lg border border-gray-600">⏭ ข้าม — เริ่มจาก 0</button>
+              </div>
+            </div>
+
+            <!-- Q1 -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.3s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%] border border-[#3a5a7a]">
+                <div class="text-gray-400 text-xs font-medium uppercase tracking-wide">ข้อ 1/5</div>
+                <div class="text-white text-sm mt-1 leading-relaxed">
+                  คำว่า "<strong>xin chào</strong>" แปลว่าอะไร?
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:01</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.35s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5 justify-center max-w-full">
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">A) ขอบคุณ</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">B) สวัสดี</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">C) ลาก่อน</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">D) ขอโทษ</button>
+              </div>
+            </div>
+
+            <!-- Result -->
+            <div class="slide-in flex items-start gap-2 fade-in" style="animation-delay: 0.4s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">🎉</span>
+                  <div>
+                    <div class="text-white text-sm font-semibold">ผล: Level 0 — เริ่มจากระบบเสียง</div>
+                    <div class="text-gray-400 text-xs">ไม่เป็นไร! เราเริ่มจาก 0 กัน</div>
+                  </div>
+                </div>
+                <div class="text-gray-300 text-sm mt-3 leading-relaxed">
+                  เส้นทางของคุณ:<br>
+                  🔤 ระบบเสียง → 💬 Survival → 🏢 Business Basics → 📊 Advanced
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:03</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ MAIN MENU ============ -->
+          <div id="screen-menu" class="tab-content">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">📋 เมนูหลัก</div>
+                <div class="text-gray-400 text-xs mt-1">Level 0 · 🔥 วันที่ 1</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:04</div>
+              </div>
+            </div>
+
+            <div class="slide-in" style="animation-delay: 0.1s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2.5 space-y-1.5">
+                <div class="flex gap-1.5">
+                  <button class="keyboard-btn flex-1 bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-center gap-2">
+                    <span>📚</span> <span>เรียน</span>
+                  </button>
+                  <button class="keyboard-btn flex-1 bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-center gap-2">
+                    <span>🃏</span> <span>ท่องคำ</span>
+                  </button>
+                </div>
+                <div class="flex gap-1.5">
+                  <button class="keyboard-btn flex-1 bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-center gap-2">
+                    <span>💬</span> <span>สนทนา</span>
+                  </button>
+                  <button class="keyboard-btn flex-1 bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-center gap-2">
+                    <span>📊</span> <span>ความก้าวหน้า</span>
+                  </button>
+                </div>
+                <div class="flex gap-1.5">
+                  <button class="keyboard-btn flex-1 bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-center gap-2">
+                    <span>📝</span> <span>วรรณยุกต์</span>
+                  </button>
+                  <button class="keyboard-btn flex-1 bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-center gap-2">
+                    <span>⚙️</span> <span>ตั้งค่า</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ LESSON SCREEN ============ -->
+          <div id="screen-lesson" class="tab-content">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">📚 Level 0: ระบบเสียง</div>
+                <div class="text-gray-300 text-sm mt-1">เลือกหัวข้อ:</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:05</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.1s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5 justify-center">
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-3 py-2 rounded-lg">0.1 ตัวอักษร</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">0.2 สระ</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">0.3 พยัญชนะ</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">0.4 วรรณยุกต์</button>
+              </div>
+            </div>
+
+            <!-- Lesson content: Tones -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.2s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">0.4 วรรณยุกต์ — 6 เสียง</div>
+                <div class="text-gray-300 text-sm mt-2 leading-relaxed">
+                  เวียดนามมี <strong>6 เสียง</strong> (ไทยมี 5):<br><br>
+                  1. <strong>Ngang</strong> (ราบ) — ma (ผี)<br>
+                  2. <strong>Huyền</strong> (เอก) — mà (แม่)<br>
+                  3. <strong>Sắc</strong> (จัตวา) — má (แม่)<br>
+                  4. <strong>Hỏi</strong> (ถาม) — mả (หลุม)<br>
+                  5. <strong>Ngã</strong> (น้ำ) — mã (ม้า) <span class="text-yellow-400">← ไม่มีในไทย</span><br>
+                  6. <strong>Nặng</strong> (กลั้น) — mạ (ข้าวสาร) <span class="text-yellow-400">← ไม่มีในไทย</span>
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:05</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.3s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5 justify-center">
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-3 py-2 rounded-lg audio-btn">🔊 ฟังตัวอย่าง</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">▶ ฝึกแยกเสียง</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">↩ กลับ</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ FLASHCARDS SCREEN ============ -->
+          <div id="screen-flashcards" class="tab-content">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">🃏 ท่องคำศัพท์</div>
+                <div class="text-gray-300 text-sm mt-1">วันนี้มี <strong class="text-[#5d9bff]">12 คำ</strong> ที่ต้องทบทวน</div>
+                <div class="text-gray-400 text-xs mt-1">คำที่เรียนแล้ว: 47 คำ</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:06</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.1s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5">
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-3 py-2 rounded-lg">▶ เริ่มทบทวน</button>
+                <button class="keyboard-btn bg-transparent text-gray-300 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">📚 ดูทั้งหมด</button>
+                <button class="keyboard-btn bg-transparent text-gray-300 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">↩ กลับ</button>
+              </div>
+            </div>
+
+            <!-- Card -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.15s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%] border border-[#3a5a7a]">
+                <div class="text-gray-400 text-[10px] font-medium uppercase tracking-wide">คำที่ 1/12 · Level 1</div>
+                <div class="text-xl font-bold text-white mt-1 flex items-center gap-2">
+                  xin chào
+                  <button class="text-sm bg-[#2b5278] px-2 py-1 rounded text-xs audio-btn">🔊</button>
+                </div>
+                <div class="text-gray-400 text-xs">/ʃin tʃao/</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:06</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.2s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex gap-1.5">
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-4 py-2 rounded-lg">👀 ดูคำแปล</button>
+              </div>
+            </div>
+
+            <!-- Answer revealed -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.25s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">xin chào</div>
+                <div class="text-gray-300 text-sm mt-1">→ สวัสดี (ทักทาย)</div>
+                <div class="text-gray-400 text-xs mt-2 italic">"Xin chào, bạn khỏe không?"</div>
+                <div class="text-gray-400 text-xs italic">→ สวัสดี คุณสบายดีไหม?</div>
+                <div class="border-t border-gray-700 mt-2 pt-2">
+                  <div class="text-gray-300 text-sm">คุณจำได้แค่ไหน?</div>
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:06</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.3s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex gap-1.5">
+                <button class="keyboard-btn bg-green-700/40 text-green-300 text-xs font-medium px-3 py-2 rounded-lg">🟢 ง่าย</button>
+                <button class="keyboard-btn bg-yellow-700/40 text-yellow-300 text-xs font-medium px-3 py-2 rounded-lg">🟡 ปานกลาง</button>
+                <button class="keyboard-btn bg-red-700/40 text-red-300 text-xs font-medium px-3 py-2 rounded-lg">🔴 ยาก</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ TONE PRACTICE SCREEN ============ -->
+          <div id="screen-tones" class="tab-content">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">📝 ฝึกแยกเสียงวรรณยุกต์</div>
+                <div class="text-gray-300 text-sm mt-1">คะแนนเสียง: <strong class="text-[#5d9bff]">72%</strong> (เพิ่มขึ้นจาก 58%)</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:07</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.1s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex gap-1.5">
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-4 py-2 rounded-lg">▶ เริ่มฝึก</button>
+                <button class="keyboard-btn bg-transparent text-gray-300 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">📊 ดูคะแนน</button>
+                <button class="keyboard-btn bg-transparent text-gray-300 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">↩ กลับ</button>
+              </div>
+            </div>
+
+            <!-- Tone question -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.2s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%] border border-[#3a5a7a]">
+                <div class="text-gray-400 text-[10px] font-medium uppercase tracking-wide">ข้อ 1/10</div>
+                <div class="text-white text-sm mt-2">ฟังแล้วเลือกเสียง:</div>
+                <button class="keyboard-btn bg-[#2b5278] text-white text-sm font-medium px-4 py-2 rounded-lg mt-2 audio-btn">🔊 ฟัง</button>
+                <div class="text-gray-500 text-[11px] mt-2">09:07</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.25s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5 justify-center">
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">1. Ngang</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">2. Huyền</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">3. Sắc</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">4. Hỏi</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">5. Ngã</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">6. Nặng</button>
+              </div>
+            </div>
+
+            <!-- Correct answer feedback -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.3s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%] border-l-4 border-green-500">
+                <div class="flex items-center gap-1.5">
+                  <span>✅</span>
+                  <span class="text-green-400 text-sm font-medium">ถูกต้อง!</span>
+                </div>
+                <div class="text-white text-sm mt-1">"<strong>má</strong>" = เสียง Sắc (จัตวา)</div>
+                <div class="text-gray-400 text-xs mt-1">แปล: แม่</div>
+                <div class="text-gray-400 text-xs mt-1">💡 เปรียบเทียบไทย: เหมือนเสียงจัตวาไทย</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:07</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ CONVERSATION SCREEN ============ -->
+          <div id="screen-conversation" class="tab-content">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">💬 ฝึกสนทนา (Level: Survival)</div>
+                <div class="text-gray-300 text-sm mt-1">เลือกสถานการณ์:</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:08</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.1s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5">
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-3 py-2 rounded-lg">☕ สั่งกาแฟ</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">✈️ เดินทาง</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">🏪 ช้อปปิ้ง</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">🏢 แนะนำบริษัท</button>
+              </div>
+            </div>
+
+            <!-- Scenario start -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.15s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-gray-400 text-[10px] font-medium uppercase">สถานการณ์: ☕ สั่งกาแฟ</div>
+                <div class="text-white text-sm mt-1 leading-relaxed">
+                  ผมเป็นพนักงานร้าน คุณเป็นลูกค้า<br>
+                  เริ่มเลย! ☕
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:08</div>
+              </div>
+            </div>
+
+            <!-- User message -->
+            <div class="slide-in flex justify-end" style="animation-delay: 0.2s;">
+              <div class="msg-user rounded-2xl rounded-tr-sm p-3 max-w-[80%]">
+                <div class="text-white text-sm">Xin chào, cho tôi cà phê</div>
+                <div class="text-gray-300 text-[11px] mt-1.5 text-right">09:08</div>
+              </div>
+            </div>
+
+            <!-- Typing indicator -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.25s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="flex items-center gap-1">
+                  <div class="typing-dot w-2 h-2 bg-gray-400 rounded-full"></div>
+                  <div class="typing-dot w-2 h-2 bg-gray-400 rounded-full"></div>
+                  <div class="typing-dot w-2 h-2 bg-gray-400 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI response -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.35s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-green-400 text-xs font-medium">✅ ดีมาก! ถูกต้องแล้ว</div>
+                <div class="text-white text-sm mt-2 leading-relaxed">
+                  <em>พนักงาน:</em> Cà phê đen hay sữa ạ?<br>
+                  <span class="text-gray-400 text-xs">(ดำ หรือ นม?)</span>
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:09</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.4s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex gap-1.5">
+                <button class="keyboard-btn bg-transparent text-gray-300 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">⏹ จบ</button>
+                <button class="keyboard-btn bg-transparent text-gray-300 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">↩ กลับ</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ PROGRESS SCREEN ============ -->
+          <div id="screen-progress" class="tab-content">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">📊 ความก้าวหน้าของคุณ</div>
+                <div class="grid grid-cols-2 gap-2 mt-3">
+                  <div class="bg-[#0f1a24] rounded-lg p-2.5 text-center">
+                    <div class="text-2xl font-bold text-[#ffd700]">7</div>
+                    <div class="text-gray-400 text-[10px]">🔥 Streak</div>
+                  </div>
+                  <div class="bg-[#0f1a24] rounded-lg p-2.5 text-center">
+                    <div class="text-2xl font-bold text-[#5d9bff]">47</div>
+                    <div class="text-gray-400 text-[10px]">📚 คำที่จำได้</div>
+                  </div>
+                  <div class="bg-[#0f1a24] rounded-lg p-2.5 text-center">
+                    <div class="text-2xl font-bold text-[#4caf50]">12</div>
+                    <div class="text-gray-400 text-[10px]">📝 บทเรียน</div>
+                  </div>
+                  <div class="bg-[#0f1a24] rounded-lg p-2.5 text-center">
+                    <div class="text-2xl font-bold text-[#ff9800]">5</div>
+                    <div class="text-gray-400 text-[10px]">💬 สนทนา</div>
+                  </div>
+                </div>
+
+                <!-- Tone score -->
+                <div class="mt-3 bg-[#0f1a24] rounded-lg p-2.5">
+                  <div class="flex justify-between text-xs">
+                    <span class="text-gray-300 font-medium">📝 คะแนนวรรณยุกต์</span>
+                    <span class="text-[#5d9bff]">72%</span>
+                  </div>
+                  <div class="w-full h-2 bg-gray-700 rounded-full mt-1.5 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-[#5d9bff] to-[#4caf50] rounded-full" style="width: 72%;"></div>
+                  </div>
+                  <div class="text-gray-400 text-[10px] mt-1">เพิ่มขึ้นจาก 58% 🎉</div>
+                </div>
+
+                <!-- Level progress -->
+                <div class="mt-2 bg-[#0f1a24] rounded-lg p-2.5">
+                  <div class="flex justify-between text-xs">
+                    <span class="text-gray-300 font-medium">Level 0 → Level 1</span>
+                    <span class="text-gray-400">40%</span>
+                  </div>
+                  <div class="w-full h-2 bg-gray-700 rounded-full mt-1.5 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-[#5d9bff] to-[#4caf50] rounded-full" style="width: 40%;"></div>
+                  </div>
+                </div>
+
+                <div class="mt-2 flex gap-2">
+                  <button class="text-xs text-[#5d9bff] font-medium">📈 รายงานรายสัปดาห์</button>
+                  <button class="text-xs text-gray-400">↩ กลับ</button>
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:10</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ SETTINGS SCREEN ============ -->
+          <div id="screen-settings" class="tab-content">
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">⚙️ ตั้งค่า</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:11</div>
+              </div>
+            </div>
+
+            <div class="slide-in" style="animation-delay: 0.1s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2.5 space-y-1.5">
+                <button class="keyboard-btn w-full bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-between px-3">
+                  <span class="flex items-center gap-2"><span>🌐</span> ภาษา</span>
+                  <span class="text-gray-400 text-xs">ไทย + เวียดนาม</span>
+                </button>
+                <button class="keyboard-btn w-full bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-between px-3">
+                  <span class="flex items-center gap-2"><span>🎯</span> Level</span>
+                  <span class="text-gray-400 text-xs">Level 0 (ระบบเสียง)</span>
+                </button>
+                <button class="keyboard-btn w-full bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-between px-3">
+                  <span class="flex items-center gap-2"><span>⏱️</span> เป้าหมายวัน</span>
+                  <span class="text-gray-400 text-xs">10 นาที</span>
+                </button>
+                <button class="keyboard-btn w-full bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-between px-3">
+                  <span class="flex items-center gap-2"><span>🔔</span> แจ้งเตือน</span>
+                  <span class="text-xs text-green-400">เปิด</span>
+                </button>
+                <button class="keyboard-btn w-full bg-transparent text-gray-200 text-sm py-3 rounded-lg border border-gray-600 hover:border-[#5d9bff] flex items-center justify-between px-3">
+                  <span class="flex items-center gap-2"><span>🔊</span> เสียง</span>
+                  <span class="text-xs text-green-400">เปิด</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="slide-in" style="animation-delay: 0.2s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2.5 space-y-1.5 mt-2">
+                <button class="keyboard-btn w-full bg-transparent text-gray-300 text-sm py-2.5 rounded-lg border border-gray-700 hover:border-yellow-600 flex items-center gap-2 px-3">
+                  <span>📤</span> Export ข้อมูล
+                </button>
+                <button class="keyboard-btn w-full bg-transparent text-gray-300 text-sm py-2.5 rounded-lg border border-gray-700 hover:border-red-600 flex items-center gap-2 px-3">
+                  <span>🗑️</span> รีเซ็ตความก้าวหน้า
+                </button>
+                <button class="keyboard-btn w-full bg-transparent text-gray-300 text-sm py-2.5 rounded-lg border border-gray-700 hover:border-[#5d9bff] flex items-center gap-2 px-3">
+                  <span>↩</span> กลับ
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ SPELLING DRILL SCREEN ============ -->
+          <div id="screen-spelling" class="tab-content">
+            <!-- Step 1: Choose initial consonant -->
+            <div class="slide-in flex items-start gap-2">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%]">
+                <div class="text-white text-sm font-medium">✏️ สะกดคำ: "mẹ" ⬇️</div>
+                <div class="text-gray-300 text-sm mt-1">ขั้นที่ 1/3: เลือกพยัญชนะต้น</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:12</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.1s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5">
+                <button class="keyboard-btn bg-transparent text-gray-200 text-sm font-medium px-4 py-2 rounded-lg border border-gray-600 hover:border-[#5d9bff]">m</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-sm font-medium px-4 py-2 rounded-lg border border-gray-600 hover:border-[#5d9bff]">n</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-sm font-medium px-4 py-2 rounded-lg border border-gray-600 hover:border-[#5d9bff]">b</button>
+              </div>
+            </div>
+
+            <!-- Step 2: Choose vowel (after correct consonant) -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.2s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%] border-l-4 border-green-500">
+                <div class="flex items-center gap-1.5">
+                  <span>✅</span>
+                  <span class="text-green-400 text-sm font-medium">ถูกต้อง!</span>
+                </div>
+                <div class="text-white text-sm mt-1">ขั้นที่ 2/3: เลือกสระ</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:12</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.3s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex flex-wrap gap-1.5">
+                <button class="keyboard-btn bg-transparent text-gray-200 text-sm font-medium px-4 py-2 rounded-lg border border-gray-600">a</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-sm font-medium px-4 py-2 rounded-lg border border-gray-600">e</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-sm font-medium px-4 py-2 rounded-lg border border-gray-600">i</button>
+              </div>
+            </div>
+
+            <!-- Step 3: Choose tone (after correct vowel) -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.4s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%] border-l-4 border-green-500">
+                <div class="flex items-center gap-1.5">
+                  <span>✅</span>
+                  <span class="text-green-400 text-sm font-medium">ถูก!</span>
+                </div>
+                <div class="text-white text-sm mt-1">ขั้นที่ 3/3: เลือกวรรณยุกต์ให้เป็นเสียงสั้นกระแทก</div>
+                <div class="text-gray-500 text-[11px] mt-2">09:12</div>
+              </div>
+            </div>
+
+            <div class="slide-in flex justify-center" style="animation-delay: 0.5s;">
+              <div class="bg-[#1f2c38] rounded-xl p-2 inline-flex gap-1.5">
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">➡️ Ngang</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">↗️ Sắc</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">⬇️ Nặng</button>
+                <button class="keyboard-btn bg-transparent text-gray-200 text-xs font-medium px-3 py-2 rounded-lg border border-gray-600">❓ Hỏi</button>
+              </div>
+            </div>
+
+            <!-- Result: Word complete -->
+            <div class="slide-in flex items-start gap-2" style="animation-delay: 0.6s;">
+              <div class="w-7 h-7 rounded-full bg-[#2b5278] flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white mt-1">V</div>
+              <div class="msg-bot rounded-2xl rounded-tl-sm p-3 max-w-[85%] border border-green-500/50">
+                <div class="flex items-center gap-2">
+                  <span class="text-2xl">🎉</span>
+                  <div>
+                    <div class="text-green-400 text-sm font-semibold">สะกดถูกต้อง!</div>
+                    <div class="text-white text-xl font-bold mt-1">mẹ ⬇️</div>
+                    <div class="text-gray-400 text-xs">/mɛ/ แม่</div>
+                  </div>
+                </div>
+                <button class="keyboard-btn bg-[#2b5278] text-white text-xs font-medium px-3 py-2 rounded-lg mt-2 audio-btn">🔊 ฟังคำอ่าน</button>
+                <div class="mt-2 flex gap-2">
+                  <button class="text-xs text-[#5d9bff] font-medium">▶ คำถัดไป</button>
+                  <button class="text-xs text-gray-400">✏️ สะกดอีกครั้ง</button>
+                  <button class="text-xs text-gray-400">↩ กลับ</button>
+                </div>
+                <div class="text-gray-500 text-[11px] mt-2">09:13</div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /chat-area -->
+
+        <!-- Chat Input Bar -->
+        <div class="bg-[#1f2c38] p-2.5 border-t border-gray-700/30 flex items-center gap-2">
+          <div class="flex-1 bg-[#182533] rounded-xl px-4 py-2.5 text-gray-400 text-sm flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>พิมพ์ข้อความ...</span>
+          </div>
+          <div class="w-9 h-9 rounded-full bg-[#2b5278] flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+          </div>
+        </div>
+      </div><!-- /phone mockup -->
+
+      <!-- Screen Labels -->
+      <div class="flex justify-center gap-2 mt-4 flex-wrap">
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">1. Welcome + ทดสอบระดับ</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">2. เมนูหลัก</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">3. เรียน (Lesson)</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">4. ท่องคำ (Flashcards)</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">5. วรรณยุกต์ (Tones)</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">6. สนทนา (Conversation)</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">7. ความก้าวหน้า</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">8. ตั้งค่า</span>
+        <span class="text-[10px] text-gray-500 bg-gray-800/50 px-2 py-1 rounded">9. สะกด (Spelling Drill)</span>
+      </div>
+
+      <!-- Audio Note -->
+      <div class="text-center mt-4">
+        <span class="text-[10px] text-yellow-500 bg-yellow-900/20 px-3 py-1 rounded border border-yellow-700/30">🔊 ทุกหน้าที่มีเสียงจะมีปุ่ม "ฟัง" — สำคัญมากสำหรับการเรียนภาษาเวียดนาม</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('screen-' + tabId).classList.add('active');
+      document.querySelectorAll('.screen-tab').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.screen-tab[data-tab="${tabId}"]`)?.classList.add('active');
+      document.getElementById('chatArea').scrollTop = 0;
+    }
+  </script>
+</body>
+</html>

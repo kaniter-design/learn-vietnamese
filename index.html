@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>สอนภาษาเวียดนาม — Learn Vietnamese</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="data.js"></script>
+
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --vn-green: #059669;
+      --vn-green-light: #10b981;
+      --vn-green-dark: #047857;
+      --vn-red: #dc2626;
+      --vn-red-light: #f87171;
+      --vn-yellow: #fbbf24;
+
+      --bg-base: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --bg-elevated: #334155;
+
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --tone-ngang: #9ca3af;
+      --tone-huyen: #60a5fa;
+      --tone-sac: #f87171;
+      --tone-hoi: #fbbf24;
+      --tone-nga: #a78bfa;
+      --tone-nang: #e5e7eb;
+
+      --font-sans: 'Noto Sans Thai', 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+      --font-viet: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji';
+    }
+
+    * { font-family: var(--font-sans); }
+    body { background: var(--bg-base); min-height: 100dvh; }
+
+    /* ===== TONE BADGES ===== */
+    .tone-ngang { color: var(--tone-ngang); }
+    .tone-huyen { color: var(--tone-huyen); }
+    .tone-sac   { color: var(--tone-sac); }
+    .tone-hoi   { color: var(--tone-hoi); }
+    .tone-nga   { color: var(--tone-nga); }
+    .tone-nang  { color: var(--tone-nang); }
+
+    .tone-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* ===== VIETNAMESE WORD ===== */
+    .vi-word {
+      font-family: var(--font-viet);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    /* ===== CARDS ===== */
+    .card-vn {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      transition: all 0.2s ease;
+    }
+    .card-vn:hover {
+      border-color: rgba(255,255,255,0.12);
+      background: var(--bg-card-hover);
+    }
+
+    .card-hover {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px -8px rgba(0,0,0,0.3);
+    }
+    .card-hover:active {
+      transform: translateY(0);
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, var(--vn-green), var(--vn-green-light));
+      transition: width 0.6s ease;
+    }
+
+    /* ===== CONFETTI ===== */
+    .confetti-piece {
+      position: fixed;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 100;
+      animation: confettiPop 0.8s ease-out forwards;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-vn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.375rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+    .btn-vn:active { transform: scale(0.97); }
+    .btn-vn-primary {
+      background: var(--vn-green);
+      color: white;
+    }
+    .btn-vn-primary:hover {
+      background: var(--vn-green-dark);
+    }
+    .btn-vn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .btn-vn-ghost:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.2);
+      color: var(--text-primary);
+    }
+    .btn-vn-correct {
+      background: rgba(5, 150, 105, 0.15);
+      border-color: var(--vn-green);
+      color: var(--vn-green-light);
+    }
+    .btn-vn-wrong {
+      background: rgba(220, 38, 38, 0.15);
+      border-color: var(--vn-red);
+      color: var(--vn-red-light);
+    }
+
+    /* ===== QUIZ FEEDBACK ===== */
+    .quiz-feedback {
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      font-size: 0.85rem;
+      animation: slideIn 0.3s ease-out;
+    }
+    .quiz-feedback.correct {
+      background: rgba(5, 150, 105, 0.1);
+      border-left: 3px solid var(--vn-green);
+    }
+    .quiz-feedback.wrong {
+      background: rgba(220, 38, 38, 0.1);
+      border-left: 3px solid var(--vn-red);
+    }
+
+    /* ===== SCREEN MANAGEMENT ===== */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(0.75rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes confettiPop {
+      0%   { transform: scale(0) rotate(0deg); opacity: 1; }
+      100% { transform: scale(1.2) rotate(180deg); opacity: 0; }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      50%      { box-shadow: 0 0 0 1rem rgba(16, 185, 129, 0); }
+    }
+    .animate-fade-in  { animation: fadeIn 0.4s ease-out; }
+    .animate-slide-in { animation: slideIn 0.35s ease-out; }
+    .animate-pulse-glow { animation: pulseGlow 2s infinite; }
+
+    /* ===== RESPONSIVE NAV ===== */
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      white-space: nowrap;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.04);
+    }
+    .nav-link.active {
+      color: var(--vn-green-light);
+      background: rgba(5, 150, 105, 0.08);
+    }
+
+    /* ===== MOBILE NAV OVERLAY ===== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .nav-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      background: var(--bg-surface);
+      z-index: 50;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      overflow-y: auto;
+    }
+    .nav-drawer.open {
+      transform: translateX(0);
+    }
+
+    /* ===== QUIZ OPTION BUTTONS ===== */
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      min-height: 2.75rem;
+      text-align: center;
+    }
+    .quiz-option:hover {
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.04);
+    }
+    .quiz-option:active { transform: scale(0.97); }
+    .quiz-option.correct {
+      border-color: var(--vn-green);
+      background: rgba(5, 150, 105, 0.12);
+      color: var(--vn-green-light);
+    }
+    .quiz-option.wrong {
+      border-color: var(--vn-red);
+      background: rgba(220, 38, 38, 0.12);
+      color: var(--vn-red-light);
+    }
+    .quiz-option.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* ===== STEP INDICATOR ===== */
+    .step-dot {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .step-dot.active {
+      background: var(--vn-green);
+      color: white;
+    }
+    .step-dot.done {
+      background: rgba(5, 150, 105, 0.2);
+      color: var(--vn-green-light);
+    }
+    .step-dot.pending {
+      background: rgba(255,255,255,0.06);
+      color: var(--text-muted);
+    }
+
+    /* ===== STAT VALUE ===== */
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* ===== RESPONSIVE GRID HELPERS ===== */
+    .grid-lessons {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .grid-lessons { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+    }
+    @media (min-width: 1024px) {
+      .grid-lessons { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    }
+
+    .grid-quiz {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .grid-quiz { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ===== STREAK FIRE ===== */
+    .streak-fire {
+      animation: streakFire 1.5s ease-in-out infinite;
+    }
+    @keyframes streakFire {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.08); }
+    }
+
+    /* ===== SKIP LINK ===== */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0;
+      z-index: 1000;
+      padding: 0.5rem 1rem;
+      background: var(--vn-green);
+      color: #fff;
+      font-size: 0.875rem;
+      border-radius: 0 0 0.5rem 0;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 0; }
+
+    @media (max-width: 639px) {
+      .hide-mobile { display: none !important; }
+    }
+    @media (min-width: 640px) {
+      .show-mobile { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip link -->
+  <a href="#main-content" class="skip-link">ข้ามไปที่เนื้อหา</a>
+
+  <!-- ===== MOBILE NAV DRAWER ===== -->
+  <div id="navOverlay" class="nav-overlay" onclick="closeNav()" aria-hidden="true"></div>
+  <nav id="navDrawer" class="nav-drawer" role="navigation" aria-label="เมนูหลัก">
+    <div class="p-4 border-b border-[rgba(255,255,255,0.06)] flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center font-bold text-white text-xs">VN</div>
+      <div>
+        <div class="text-white text-sm font-semibold">สอนภาษาเวียดนาม</div>
+        <div class="text-gray-500 text-[0.65rem]">🇹🇭 → 🇻🇳</div>
+      </div>
+    </div>
+    <div class="p-3 space-y-1">
+      <button class="nav-link active" data-screen="dashboard" onclick="switchScreen('dashboard'); closeNav();">
+        <span>🏠</span> หน้าแรก
+      </button>
+      <button class="nav-link" data-screen="learn" onclick="switchScreen('learn'); closeNav();">
+        <span>📚</span> เรียน
+      </button>
+      <button class="nav-link" data-screen="tones" onclick="switchScreen('tones'); closeNav();">
+        <span>🎵</span> วรรณยุกต์
+      </button>
+      <button class="nav-link" data-screen="spelling" onclick="switchScreen('spelling'); closeNav();">
+        <span>✏️</span> สะกดคำ
+      </button>
+      <button class="nav-link" data-screen="progress" onclick="switchScreen('progress'); closeNav();">
+        <span>📊</span> ความก้าวหน้า
+      </button>
+      <button class="nav-link" data-screen="grammar" onclick="switchScreen('grammar'); closeNav();">
+        <span>📖</span> ไวยากรณ์
+      </button>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-[rgba(255,255,255,0.06)]">
+      <div class="text-gray-600 text-[0.65rem] text-center">🇻🇳 v0.2 · Web App</div>
+    </div>
+  </nav>
+
+  <!-- ===== TOP HEADER ===== -->
+  <header class="sticky top-0 z-30 bg-[rgba(15,23,42,0.95)] backdrop-blur-md border-b border-[rgba(255,255,255,0.06)]">
+    <div class="max-w-6xl mx-auto px-3 sm:px-6">
+      <div class="flex items-center h-14 gap-3">
+        <!-- Hamburger (mobile) -->
+        <button class="show-mobile w-9 h-9 rounded-lg flex items-center justify-center hover:bg-white/5 transition-colors" onclick="toggleNav()" aria-label="เปิดเมนู">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+        <!-- Logo -->
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center font-bold text-white text-[0.6rem]">VN</div>
+          <div class="hide-mobile">
+            <div class="text-white text-sm font-semibold">สอนภาษาเวียดนาม</div>
+            <div class="text-gray-500 text-[0.6rem]">🇹🇭 จาก 0 สู่ Business</div>
+          </div>
+        </div>
+
+        <!-- Desktop Nav -->
+        <nav class="hide-mobile flex items-center gap-1 ml-auto" role="navigation" aria-label="เมนูหลัก">
+          <button class="nav-link active" data-screen="dashboard" onclick="switchScreen('dashboard')">🏠 หน้าแรก</button>
+          <button class="nav-link" data-screen="learn" onclick="switchScreen('learn')">📚 เรียน</button>
+          <button class="nav-link" data-screen="tones" onclick="switchScreen('tones')">🎵 วรรณยุกต์</button>
+          <button class="nav-link" data-screen="spelling" onclick="switchScreen('spelling')">✏️ สะกดคำ</button>
+          <button class="nav-link" data-screen="progress" onclick="switchScreen('progress')">📊 ความก้าวหน้า</button>
+          <button class="nav-link" data-screen="grammar" onclick="switchScreen('grammar')">📖 ไวยากรณ์</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="main-content" class="max-w-6xl mx-auto px-3 sm:px-6 py-4 sm:py-6">
+    <div class="min-h-[calc(100dvh-8rem)]">
+
+      <!-- ================================================================ -->
+      <!-- SCREEN 1: DASHBOARD (Home)                                       -->
+      <!-- ================================================================ -->
+      <div class="screen active animate-fade-in" id="screen-dashboard" tabindex="-1">
+        <!-- Hero -->
+        <div class="mb-6 animate-slide-in">
+          <h1 class="text-xl sm:text-2xl font-bold text-white">
+            Xin chào! 👋
+          </h1>
+          <p class="text-gray-400 text-sm sm:text-base mt-1">
+            ยินดีต้อนรับสู่ <strong class="text-emerald-400">สอนภาษาเวียดนาม</strong>
+          </p>
+          <p class="text-gray-500 text-xs sm:text-sm mt-0.5">
+            จาก 0 สู่ Business — อธิบายเป็นภาษาไทยทั้งหมด
+          </p>
+        </div>
+
+        <!-- Learning Path -->
+        <div class="mb-6 animate-slide-in">
+          <div class="card-vn border-emerald-500/30 bg-emerald-500/[0.03] !p-5">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-full bg-emerald-600/20 flex items-center justify-center text-2xl">🇻🇳</div>
+              <div class="flex-1 min-w-0">
+                <h2 class="text-white font-semibold text-base">เริ่มเรียนภาษาเวียดนาม</h2>
+                <p class="text-gray-400 text-xs mt-0.5">จาก 0 สู่ Business — 28 วัน เรียนวันละ 3-5 นาที</p>
+              </div>
+            </div>
+            <button class="btn-vn btn-vn-primary w-full mt-4 text-sm font-semibold py-3" onclick="startToday()">
+              ▶️ เริ่มเรียนวันนี้ — <span id="dashboard-start-label">Week 1 · Day 1</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Path Visualization -->
+        <div class="card-vn mb-6 animate-slide-in">
+          <h3 class="text-white text-sm font-semibold mb-3">เส้นทางการเรียน</h3>
+          <div class="space-y-3" id="dashboard-path">
+            <div class="path-week">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-emerald-400 font-medium text-xs">สัปดาห์ 1</span>
+                <span class="text-gray-500 text-[0.65rem]">ทักทาย + ระบบเสียง</span>
+              </div>
+              <div class="flex gap-1 flex-wrap" id="week-dots-1">
+                <!-- JS fills these -->
+              </div>
+            </div>
+            <div class="path-week">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-gray-400 font-medium text-xs">สัปดาห์ 2</span>
+                <span class="text-gray-500 text-[0.65rem]">ตัวเลข + ซื้อของ</span>
+              </div>
+              <div class="flex gap-1 flex-wrap" id="week-dots-2"></div>
+            </div>
+            <div class="path-week">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-gray-400 font-medium text-xs">สัปดาห์ 3</span>
+                <span class="text-gray-500 text-[0.65rem]">อาหาร + สั่งเฝอ</span>
+              </div>
+              <div class="flex gap-1 flex-wrap" id="week-dots-3"></div>
+            </div>
+            <div class="path-week">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-gray-400 font-medium text-xs">สัปดาห์ 4</span>
+                <span class="text-gray-500 text-[0.65rem]">เดินทาง + ทิศทาง</span>
+              </div>
+              <div class="flex gap-1 flex-wrap" id="week-dots-4"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="flex flex-col sm:flex-row gap-2 animate-slide-in">
+          <button class="btn-vn btn-vn-ghost flex-1" onclick="switchScreen('tones')">🎵 ฝึกวรรณยุกต์</button>
+          <button class="btn-vn btn-vn-ghost flex-1" onclick="switchScreen('grammar')">📖 ไวยากรณ์</button>
+          <button class="btn-vn btn-vn-ghost flex-1" onclick="switchScreen('progress')">📊 ความก้าวหน้า</button>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SCREEN 2: LEARN MODULE                                           -->
+      <!-- ================================================================ -->
+      <div class="screen animate-fade-in" id="screen-learn" tabindex="-1">
+        <!-- Day Navigation -->
+        <div class="flex items-center justify-between mb-4 animate-slide-in">
+          <button class="btn-vn btn-vn-ghost text-sm !px-3" onclick="prevDay()" id="prev-day-btn" aria-label="วันก่อนหน้า">
+            ◀
+          </button>
+          <div class="text-center min-w-0 flex-1 mx-2">
+            <div class="text-white text-sm font-semibold" id="day-header">Week 1 · Day 1</div>
+            <div class="text-gray-500 text-[0.65rem]" id="day-subtitle">ทักทายพื้นฐาน</div>
+          </div>
+          <button class="btn-vn btn-vn-ghost text-sm !px-3" onclick="nextDay()" id="next-day-btn" aria-label="วันถัดไป">
+            ▶
+          </button>
+        </div>
+
+        <!-- Progress indicator -->
+        <div class="flex items-center gap-2 mb-4 animate-slide-in">
+          <div class="flex-1 h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-500 rounded-full" id="day-progress" style="width: 3.5%;"></div>
+          </div>
+          <span class="text-gray-500 text-[0.6rem] whitespace-nowrap" id="day-counter">Day 1/28</span>
+        </div>
+
+        <!-- Grammar Tip of the Day -->
+        <div id="day-grammar" class="hidden card-vn mb-3 animate-slide-in border-l-[3px] border-purple-500/40 !py-2 !px-3">
+          <div class="flex items-center gap-1.5">
+            <span class="text-purple-400 text-xs">📖</span>
+            <span class="text-gray-400 text-xs" id="day-grammar-text"></span>
+          </div>
+        </div>
+
+        <!-- Word Cards Grid -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-white text-sm font-semibold">📖 คำศัพท์วันนี้</h3>
+            <button class="btn-vn btn-vn-ghost text-xs" onclick="playAllDayAudio()">🔊 ฟังทั้งหมด</button>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2" id="word-cards-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Quest Section -->
+        <div id="day-quest-section" class="hidden mb-4">
+          <div class="card-vn border-l-[3px] border-orange-500/40 !p-4 animate-slide-in">
+            <!-- NPC Header -->
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-xl" id="quest-npc-emoji">👮</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-white text-sm font-medium" id="quest-title">ด่านตรวจคนเข้าเมือง</div>
+                <div class="text-gray-500 text-[0.65rem]" id="quest-npc-name">NPC: เจ้าหน้าที่ตม.</div>
+              </div>
+              <!-- HP Bar -->
+              <div class="text-right">
+                <div class="text-yellow-400 text-xs font-semibold" id="quest-hp-label">💰 100,000</div>
+                <div class="w-24 h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden mt-0.5">
+                  <div class="h-full bg-yellow-500 rounded-full" id="quest-hp-bar" style="width:100%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Context -->
+            <p class="text-gray-400 text-xs mb-3 italic" id="quest-context"></p>
+
+            <!-- Conversation -->
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-3 mb-3">
+              <div class="flex items-start gap-2">
+                <span class="text-lg shrink-0" id="quest-speech-emoji">👮</span>
+                <div>
+                  <p class="text-emerald-400 font-medium text-sm" id="quest-npc-line">Xin chào! Hộ chiếu của bạn?</p>
+                  <p class="text-gray-500 text-[0.65rem] mt-0.5" id="quest-npc-line-thai">สวัสดีครับ! พาสปอร์ตของคุณครับ</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prompt -->
+            <p class="text-white text-sm font-medium mb-2" id="quest-prompt">คุณจะตอบยังไง?</p>
+            <div class="space-y-2" id="quest-choices">
+              <!-- Populated by JS -->
+            </div>
+
+            <!-- Step counter -->
+            <div class="text-center mt-3">
+              <span class="text-gray-600 text-[0.6rem]" id="quest-step-counter">Step 1/3</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-2 animate-slide-in">
+          <button class="btn-vn btn-vn-primary flex-1" onclick="startDayQuiz()">▶️ Quiz วันนี้</button>
+          <button class="btn-vn btn-vn-ghost flex-1" onclick="startDaySpelling()" id="day-spelling-btn">✏️ สะกดคำ</button>
+          <button class="btn-vn btn-vn-ghost flex-1 hidden" onclick="startDayQuest()" id="day-quest-btn">🎭 Roleplay</button>
+        </div>
+
+        <!-- Quiz section (hidden) -->
+        <div id="day-quiz-section" class="hidden mt-4 space-y-3">
+          <div class="card-vn border-l-[3px] border-blue-500/40">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide" id="day-quiz-num">ข้อ 1/5</span>
+              <button class="btn-vn btn-vn-ghost text-xs" onclick="playQuizAudio()">🔊 ฟังเสียง</button>
+            </div>
+            <p class="text-white text-sm mb-3" id="day-quiz-prompt">เลือกความหมายของคำนี้</p>
+            <div class="grid-quiz" id="day-quiz-options">
+              <!-- Populated by JS -->
+            </div>
+            <div id="day-quiz-feedback" class="hidden quiz-feedback correct mt-3 animate-slide-in">
+              <div class="flex items-center gap-1.5">
+                <span>✅</span>
+                <span class="font-medium text-white">ถูกต้อง!</span>
+                <span class="text-gray-400 text-xs ml-auto answer-hint"></span>
+              </div>
+              <p class="text-gray-400 text-xs mt-1 extra-info"></p>
+              <button class="btn-vn btn-vn-primary text-xs mt-2 next-btn" onclick="nextDayQuiz()">▶️ ข้อต่อไป</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spelling section (hidden) -->
+        <div id="day-spelling-section" class="hidden mt-4 animate-slide-in space-y-3">
+          <div class="flex items-center justify-center gap-3">
+            <div class="step-dot active" id="s-step-1">1</div>
+            <div class="w-8 h-px bg-[rgba(255,255,255,0.1)]"></div>
+            <div class="step-dot pending" id="s-step-2">2</div>
+            <div class="w-8 h-px bg-[rgba(255,255,255,0.1)]"></div>
+            <div class="step-dot pending" id="s-step-3">3</div>
+          </div>
+          <div id="s-step1" class="card-vn border-l-[3px] border-blue-500/40">
+            <div class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide mb-2">ขั้นที่ 1/3: พยัญชนะต้น</div>
+            <p class="text-white text-sm" id="s-prompt-1"></p>
+            <div class="grid grid-cols-3 gap-2 mt-3" id="s-options-1"></div>
+          </div>
+          <div id="s-step2" class="hidden card-vn border-l-[3px] border-blue-500/40">
+            <div class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide mb-2">ขั้นที่ 2/3: สระ</div>
+            <p class="text-white text-sm" id="s-prompt-2"></p>
+            <div class="grid grid-cols-3 gap-2 mt-3" id="s-options-2"></div>
+          </div>
+          <div id="s-step3" class="hidden card-vn border-l-[3px] border-blue-500/40">
+            <div class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide mb-2">ขั้นที่ 3/3: วรรณยุกต์</div>
+            <p class="text-white text-sm" id="s-prompt-3"></p>
+            <div class="grid grid-cols-2 gap-2 mt-3" id="s-options-3"></div>
+          </div>
+          <div id="s-feedback" class="hidden quiz-feedback correct animate-slide-in"></div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SCREEN 3: TONE PRACTICE                                          -->
+      <!-- ================================================================ -->
+      <div class="screen animate-fade-in" id="screen-tones" tabindex="-1">
+        <div class="mb-4 animate-slide-in">
+          <h2 class="text-xl font-bold text-white">🎵 ฝึกแยกเสียงวรรณยุกต์</h2>
+          <p class="text-gray-400 text-sm mt-0.5">คะแนนรวม: <span class="text-green-400 font-semibold">72%</span> <span class="text-gray-500 text-xs">(เพิ่มจาก 58%)</span></p>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-2 mb-6 animate-slide-in">
+          <button class="btn-vn btn-vn-primary" onclick="startTonePractice()">▶️ เริ่มฝึก</button>
+          <button class="btn-vn btn-vn-ghost" onclick="showToneBreakdown()">📊 ดูคะแนนแยก</button>
+        </div>
+
+        <!-- 6-Tone Reference Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-6 animate-slide-in">
+          <div class="card-vn text-center border-l-[3px] border-[#9ca3af]">
+            <div class="text-lg">➡️</div>
+            <div class="text-white text-sm font-medium">Ngang</div>
+            <div class="text-gray-500 text-[0.6rem]">ราบ</div>
+          </div>
+          <div class="card-vn text-center border-l-[3px] border-[#60a5fa]">
+            <div class="text-lg">↘️</div>
+            <div class="text-white text-sm font-medium">Huyền</div>
+            <div class="text-gray-500 text-[0.6rem]">ต่ำ</div>
+          </div>
+          <div class="card-vn text-center border-l-[3px] border-[#f87171]">
+            <div class="text-lg">↗️</div>
+            <div class="text-white text-sm font-medium">Sắc</div>
+            <div class="text-gray-500 text-[0.6rem]">สูง</div>
+          </div>
+          <div class="card-vn text-center border-l-[3px] border-[#fbbf24]">
+            <div class="text-lg">❓</div>
+            <div class="text-white text-sm font-medium">Hỏi</div>
+            <div class="text-gray-500 text-[0.6rem]">ถาม</div>
+          </div>
+          <div class="card-vn text-center border-l-[3px] border-[#a78bfa]">
+            <div class="text-lg">〰️</div>
+            <div class="text-white text-sm font-medium">Ngã</div>
+            <div class="text-gray-500 text-[0.6rem]">น้ำ</div>
+          </div>
+          <div class="card-vn text-center border-l-[3px] border-[#e5e7eb]">
+            <div class="text-lg">⬇️</div>
+            <div class="text-white text-sm font-medium">Nặng</div>
+            <div class="text-gray-500 text-[0.6rem]">กลั้น</div>
+          </div>
+        </div>
+
+        <!-- Practice Area -->
+        <div id="tone-practice-area" class="hidden space-y-3">
+          <div class="card-vn animate-slide-in border-l-[3px] border-blue-500/40">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide" id="tone-question-num">ข้อ 1/10</span>
+              <button class="btn-vn btn-vn-ghost text-xs animate-pulse-glow" onclick="playTonePracticeAudio()">🔊 ฟังเสียง</button>
+            </div>
+            <p class="text-white text-sm">ฟังแล้วเลือกเสียงที่ได้ยิน:</p>
+          </div>
+
+          <!-- 6-tone answer grid -->
+          <div class="grid-quiz animate-slide-in">
+            <button class="quiz-option tone-ngang" onclick="answerTone(this, 'ngang')">➡️ Ngang</button>
+            <button class="quiz-option tone-huyen" onclick="answerTone(this, 'huyen')">↘️ Huyền</button>
+            <button class="quiz-option tone-sac" onclick="answerTone(this, 'sac')">↗️ Sắc</button>
+            <button class="quiz-option tone-hoi" onclick="answerTone(this, 'hoi')">❓ Hỏi</button>
+            <button class="quiz-option tone-nga" onclick="answerTone(this, 'nga')">〰️ Ngã</button>
+            <button class="quiz-option tone-nang" onclick="answerTone(this, 'nang')">⬇️ Nặng</button>
+          </div>
+
+          <!-- Tone Feedback -->
+          <div id="tone-feedback" class="hidden quiz-feedback correct animate-slide-in">
+            <div class="flex items-center gap-1.5">
+              <span>✅</span>
+              <span class="font-medium text-white">ถูกต้อง!</span>
+            </div>
+            <p class="text-gray-400 text-xs mt-1">"má" = เสียง Sắc ↗️ — แปลว่า แม่ 💡 เหมือนเสียงจัตวาไทย</p>
+            <div class="flex gap-2 mt-2">
+              <button class="btn-vn btn-vn-primary text-xs" onclick="nextTonePractice()">▶️ ข้อต่อไป</button>
+              <button class="btn-vn btn-vn-ghost text-xs" onclick="playTonePracticeAudio()">🔊 ฟังซ้ำ</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tone Breakdown -->
+        <div id="tone-breakdown" class="hidden animate-slide-in">
+          <div class="card-vn">
+            <h3 class="text-white text-sm font-semibold mb-3">📊 คะแนนแยกแต่ละเสียง</h3>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="tone-ngang text-sm">➡️ Ngang</span>
+                <span class="text-green-400 text-sm font-medium">✅ 15/15</span>
+              </div>
+              <div class="h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 rounded-full" style="width:100%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="tone-huyen text-sm">↘️ Huyền</span>
+                <span class="text-green-400 text-sm font-medium">✅ 12/12</span>
+              </div>
+              <div class="h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 rounded-full" style="width:100%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="tone-sac text-sm">↗️ Sắc</span>
+                <span class="text-green-400 text-sm font-medium">✅ 10/10</span>
+              </div>
+              <div class="h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 rounded-full" style="width:100%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="tone-hoi text-sm">❓ Hỏi</span>
+                <span class="text-yellow-400 text-sm font-medium">⚠️ 6/10</span>
+              </div>
+              <div class="h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div class="h-full bg-yellow-500 rounded-full" style="width:60%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="tone-nga text-sm">〰️ Ngã</span>
+                <span class="text-red-400 text-sm font-medium">❌ 4/10</span>
+              </div>
+              <div class="h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div class="h-full bg-red-500 rounded-full" style="width:40%"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="tone-nang text-sm">⬇️ Nặng</span>
+                <span class="text-green-400 text-sm font-medium">✅ 8/10</span>
+              </div>
+              <div class="h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 rounded-full" style="width:80%"></div>
+              </div>
+            </div>
+            <div class="text-gray-500 text-xs mt-3 pt-2 border-t border-[rgba(255,255,255,0.06)]">
+              💡 Focus: <span class="tone-hoi">Hỏi ❓</span> (ขึ้นแล้วลง) vs <span class="tone-nga">Ngã 〰️</span> (สะดุด) — สองเสียงนี้สับสนบ่อย!
+            </div>
+            <div class="flex gap-2 mt-3">
+              <button class="btn-vn btn-vn-primary text-xs" onclick="startTonePractice()">🎯 ฝึก Hỏi/Ngã</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SCREEN 4: SPELLING DRILL                                         -->
+      <!-- ================================================================ -->
+      <div class="screen animate-fade-in" id="screen-spelling" tabindex="-1">
+        <div class="mb-4 animate-slide-in">
+          <h2 class="text-xl font-bold text-white">✏️ สะกดคำศัพท์</h2>
+          <p class="text-gray-400 text-sm mt-0.5">สะกดคำทีละขั้นตอน: พยัญชนะ → สระ → วรรณยุกต์</p>
+        </div>
+
+        <div class="flex gap-2 mb-6 animate-slide-in">
+          <button class="btn-vn btn-vn-primary" onclick="startSpellingDrill()">✏️ เริ่มสะกดคำ</button>
+        </div>
+
+        <!-- Spelling Content -->
+        <div id="spelling-content" class="hidden space-y-4">
+
+          <!-- Target word header -->
+          <div class="card-vn border-emerald-500/20 animate-slide-in">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎯</span>
+              <span class="text-white text-sm">สะกดคำว่า</span>
+              <span class="vi-word text-xl text-white">mẹ</span>
+              <span class="tone-badge tone-nang">⬇️ Nặng</span>
+              <span class="text-gray-500 text-xs">(แม่)</span>
+            </div>
+          </div>
+
+          <!-- Stepper Dots -->
+          <div class="flex items-center justify-center gap-3 animate-slide-in">
+            <div class="step-dot active" id="step-dot-1">1</div>
+            <div class="w-8 h-px bg-[rgba(255,255,255,0.1)]"></div>
+            <div class="step-dot pending" id="step-dot-2">2</div>
+            <div class="w-8 h-px bg-[rgba(255,255,255,0.1)]"></div>
+            <div class="step-dot pending" id="step-dot-3">3</div>
+          </div>
+
+          <!-- Step 1: Consonant -->
+          <div id="spelling-step1" class="card-vn animate-slide-in border-l-[3px] border-blue-500/40">
+            <div class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide mb-2">ขั้นที่ 1/3: พยัญชนะต้น</div>
+            <p class="text-white text-sm">คำว่า <strong>mẹ</strong> ⬇️ (แม่) เริ่มด้วยตัวอะไร?</p>
+            <div class="grid grid-cols-3 gap-2 mt-3">
+              <button class="quiz-option vi-word text-lg" onclick="spellingStep(1, 'm', true, this)">m</button>
+              <button class="quiz-option vi-word text-lg" onclick="spellingStep(1, 'n', false, this)">n</button>
+              <button class="quiz-option vi-word text-lg" onclick="spellingStep(1, 'b', false, this)">b</button>
+            </div>
+          </div>
+          <div id="spelling-feedback1" class="hidden quiz-feedback correct animate-slide-in">
+            ✅ ถูกต้อง! <strong>m</strong> — พยัญชนะต้น
+          </div>
+
+          <!-- Step 2: Vowel -->
+          <div id="spelling-step2" class="hidden card-vn animate-slide-in border-l-[3px] border-blue-500/40">
+            <div class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide mb-2">ขั้นที่ 2/3: สระ</div>
+            <p class="text-white text-sm"><strong>m</strong> ต้องใส่สระอะไรถึงจะเป็น <strong>mẹ</strong>?</p>
+            <div class="grid grid-cols-3 gap-2 mt-3">
+              <button class="quiz-option vi-word text-lg" onclick="spellingStep(2, 'a', false, this)">a</button>
+              <button class="quiz-option vi-word text-lg" onclick="spellingStep(2, 'e', true, this)">e</button>
+              <button class="quiz-option vi-word text-lg" onclick="spellingStep(2, 'i', false, this)">i</button>
+            </div>
+          </div>
+          <div id="spelling-feedback2" class="hidden quiz-feedback correct animate-slide-in">
+            ✅ ถูก! m + e = me &nbsp;·&nbsp; 💡 e = เหมือน "e" ใน "bed"
+          </div>
+
+          <!-- Step 3: Tone -->
+          <div id="spelling-step3" class="hidden card-vn animate-slide-in border-l-[3px] border-blue-500/40">
+            <div class="text-gray-400 text-[0.65rem] font-semibold uppercase tracking-wide mb-2">ขั้นที่ 3/3: วรรณยุกต์</div>
+            <p class="text-white text-sm"><strong>me</strong> + เสียงอะไร = <strong>mẹ</strong> ⬇️?</p>
+            <div class="grid grid-cols-2 gap-2 mt-3">
+              <button class="quiz-option text-sm" onclick="spellingStep(3, 'ngang', false, this)">➡️ Ngang</button>
+              <button class="quiz-option text-sm" onclick="spellingStep(3, 'sac', false, this)">↗️ Sắc</button>
+              <button class="quiz-option text-sm" onclick="spellingStep(3, 'nang', true, this)">⬇️ Nặng</button>
+              <button class="quiz-option text-sm" onclick="spellingStep(3, 'hoi', false, this)">❓ Hỏi</button>
+            </div>
+          </div>
+          <div id="spelling-feedback3" class="hidden quiz-feedback correct animate-slide-in">
+            ✅ ถูก! Nặng ⬇️ — เสียงสั้นกระแทก!
+          </div>
+
+          <!-- Result -->
+          <div id="spelling-result" class="hidden animate-slide-in">
+            <div class="card-vn border-emerald-500/40 bg-emerald-500/5">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">🎉</span>
+                <div>
+                  <p class="text-green-400 font-semibold text-sm">สะกดถูกต้อง!</p>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="vi-word text-2xl text-white">mẹ</span>
+                    <span class="tone-nang text-lg">⬇️</span>
+                  </div>
+                  <p class="text-gray-500 text-xs">/mɛ/ = แม่</p>
+                </div>
+              </div>
+              <div class="flex gap-2 mt-4">
+                <button class="btn-vn btn-vn-ghost text-xs" onclick="playSpellingAudio()">🔊 ฟังคำอ่าน</button>
+                <button class="btn-vn btn-vn-primary text-xs" onclick="startSpellingDrill()">▶️ คำถัดไป</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SCREEN 5: PROGRESS DASHBOARD                                     -->
+      <!-- ================================================================ -->
+      <div class="screen animate-fade-in" id="screen-progress" tabindex="-1">
+        <div class="mb-4 animate-slide-in">
+          <h2 class="text-xl font-bold text-white">📊 ความก้าวหน้า</h2>
+        </div>
+
+        <!-- Stats row — shown after learning -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-6 animate-slide-in" id="progress-stats">
+          <div class="card-vn text-center opacity-40">
+            <div class="stat-value text-yellow-400">0</div>
+            <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">🔥 Streak</div>
+          </div>
+          <div class="card-vn text-center opacity-40">
+            <div class="stat-value text-blue-400">0</div>
+            <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">📚 คำที่จำได้</div>
+          </div>
+          <div class="card-vn text-center opacity-40">
+            <div class="stat-value text-green-400">0%</div>
+            <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">🎵 วรรณยุกต์</div>
+          </div>
+          <div class="card-vn text-center opacity-40">
+            <div class="stat-value text-orange-400">0</div>
+            <div class="text-gray-500 text-[0.65rem] sm:text-xs mt-0.5">💬 สนทนา</div>
+          </div>
+        </div>
+
+        <!-- Path Progress -->
+        <div class="card-vn mb-4 animate-slide-in">
+          <h3 class="text-white text-sm font-semibold mb-3">เส้นทางการเรียน</h3>
+          <div class="space-y-2" id="progress-path">
+            <!-- JS fills this with week-by-week progress -->
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="card-vn animate-slide-in text-center">
+          <p class="text-gray-400 text-sm">เริ่มเรียนเพื่อดูความก้าวหน้าของคุณ</p>
+          <button class="btn-vn btn-vn-primary mt-3" onclick="startToday()">▶️ เริ่มเรียนวันนี้</button>
+        </div>
+      </div>
+
+      <!-- ================================================================ -->
+      <!-- SCREEN 6: GRAMMAR (ไวยากรณ์)                                    -->
+      <!-- ================================================================ -->
+      <div class="screen animate-fade-in" id="screen-grammar" tabindex="-1">
+        <div class="mb-4 animate-slide-in">
+          <h2 class="text-xl font-bold text-white">📖 ไวยากรณ์เวียดนาม</h2>
+          <p class="text-gray-400 text-sm mt-0.5">โครงสร้างประโยค — อธิบายเทียบภาษาไทย</p>
+        </div>
+
+        <!-- Lesson 1: SVO Structure -->
+        <div class="card-vn mb-3 animate-slide-in border-l-[3px] border-emerald-500/40">
+          <h3 class="text-white font-semibold text-sm mb-2">1. โครงสร้างประโยคพื้นฐาน (SVO)</h3>
+          <p class="text-gray-400 text-xs mb-2">เวียดนาม = <strong class="text-emerald-400">ประธาน + กริยา + กรรม</strong> — เหมือนไทยและอังกฤษ</p>
+          <div class="space-y-2">
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">Tôi là nhà thiết kế.</div>
+              <div class="text-gray-500 text-xs">/toj la ɲa tʰiət kɛ/</div>
+              <div class="text-gray-400 text-xs mt-0.5">ผม + เป็น + นักออกแบบ → <strong>ผมเป็นนักออกแบบ</strong></div>
+              <div class="text-gray-600 text-[0.65rem] mt-1">S: tôi → V: là → O: nhà thiết kế</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">Tôi đi Bangkok.</div>
+              <div class="text-gray-500 text-xs">/toj di baːŋ kok/</div>
+              <div class="text-gray-400 text-xs mt-0.5">ผม + ไป + กรุงเทพ → <strong>ผมไปกรุงเทพ</strong></div>
+              <div class="text-gray-600 text-[0.65rem] mt-1">S: tôi → V: đi → O: Bangkok</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lesson 2: Noun + Adjective -->
+        <div class="card-vn mb-3 animate-slide-in border-l-[3px] border-yellow-500/40">
+          <h3 class="text-white font-semibold text-sm mb-2">2. คำคุณศัพท์ — นาม + คุณศัพท์ ⚠️ ต่างจากไทย!</h3>
+          <div class="bg-yellow-500/10 rounded-lg p-2.5 text-sm mb-2">
+            <span class="text-yellow-400 font-medium">สำคัญ:</span>
+            <span class="text-gray-400"> เวียดนามวาง</span>
+            <strong class="text-emerald-400">นามไว้หน้าคุณศัพท์</strong>
+            <span class="text-gray-400"> — ตรงข้ามกับไทยที่วางคุณศัพท์หน้านาม</span>
+          </div>
+          <div class="space-y-2">
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">cà phê đen</div>
+              <div class="text-gray-400 text-xs">กาแฟ + ดำ → <strong>กาแฟดำ</strong> (เหมือนไทย)</div>
+              <div class="text-gray-500 text-[0.65rem]">นาม: cà phê | คุณศัพท์: đen</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">người Thái</div>
+              <div class="text-gray-400 text-xs">คน + ไทย → <strong>คนไทย</strong> (เหมือนไทย)</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">cà phê nóng</div>
+              <div class="text-gray-400 text-xs">กาแฟ + ร้อน → <strong>กาแฟร้อน</strong></div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">xe máy</div>
+              <div class="text-gray-400 text-xs">รถ + จักร(ร) → <strong>รถจักรยานยนต์</strong></div>
+            </div>
+          </div>
+          <div class="text-gray-500 text-xs mt-2">💡 จำง่าย: <strong class="text-emerald-400">สิ่งของ</strong> + <strong class="text-yellow-400">ลักษณะ</strong> — ตรงข้ามกับภาษาอังกฤษ (adjective + noun)</div>
+        </div>
+
+        <!-- Lesson 3: Question Formation -->
+        <div class="card-vn mb-3 animate-slide-in border-l-[3px] border-blue-500/40">
+          <h3 class="text-white font-semibold text-sm mb-2">3. การถามคำถาม</h3>
+          <div class="space-y-2">
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-medium">Có... không?</span>
+                <span class="text-gray-500 text-xs">(มี...ไหม)</span>
+              </div>
+              <div class="text-gray-400 text-xs mt-0.5">Có cà phê không? = มีกาแฟไหม</div>
+              <div class="text-gray-600 text-[0.6rem]">มี(หรือ)ไม่ → ใช่/ไม่ใช่ ใช้ตอบสั้นได้: Có (มี) / Không (ไม่มี)</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-medium">... ở đâu?</span>
+                <span class="text-gray-500 text-xs">(...อยู่ที่ไหน)</span>
+              </div>
+              <div class="text-gray-400 text-xs mt-0.5">Bạn ở đâu? = คุณอยู่ที่ไหน</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-medium">Bao nhiêu?</span>
+                <span class="text-gray-500 text-xs">(เท่าไหร่)</span>
+              </div>
+              <div class="text-gray-400 text-xs mt-0.5">Cái này bao nhiêu? = อันนี้เท่าไหร่</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-emerald-400 font-medium">Gì?</span>
+                <span class="text-gray-500 text-xs">(อะไร)</span>
+              </div>
+              <div class="text-gray-400 text-xs mt-0.5">Đây là gì? = นี่คืออะไร</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lesson 4: Negation -->
+        <div class="card-vn mb-3 animate-slide-in border-l-[3px] border-red-500/40">
+          <h3 class="text-white font-semibold text-sm mb-2">4. การปฏิเสธ</h3>
+          <div class="space-y-2">
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">Không + กริยา</div>
+              <div class="text-gray-400 text-xs">ไม่ + กริยา — วาง <strong class="text-red-400">không</strong> หน้ากริยา</div>
+              <div class="mt-1 space-y-0.5">
+                <div class="text-gray-300">Tôi <span class="text-red-400">không</span> đi. = ผมไม่ไป</div>
+                <div class="text-gray-300">Tôi <span class="text-red-400">không</span> muốn. = ผมไม่ต้องการ</div>
+              </div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm">
+              <div class="text-emerald-400 font-medium">Chưa + กริยา</div>
+              <div class="text-gray-400 text-xs">ยังไม่ + กริยา — กำลังจะทำแต่ยังไม่ทำ</div>
+              <div class="mt-1">
+                <div class="text-gray-300">Tôi <span class="text-yellow-400">chưa</span> ăn. = ผมยังไม่กิน</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lesson 5: Tense Markers -->
+        <div class="card-vn mb-3 animate-slide-in border-l-[3px] border-purple-500/40">
+          <h3 class="text-white font-semibold text-sm mb-2">5. การบอกเวลา (Tense)</h3>
+          <p class="text-gray-400 text-xs mb-2">เวียดนาม <strong class="text-emerald-400">ไม่มีการผันกริยา</strong> — ใช้คำบอกเวลาเหมือนไทย!</p>
+          <div class="space-y-2">
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm flex items-center gap-3">
+              <span class="text-gray-500 text-xs w-12 shrink-0">อดีต</span>
+              <div>
+                <div class="text-emerald-400 font-medium">đã + กริยา</div>
+                <div class="text-gray-400 text-xs">Tôi <span class="text-purple-400">đã</span> ăn. = ผมกินแล้ว</div>
+              </div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm flex items-center gap-3">
+              <span class="text-gray-500 text-xs w-12 shrink-0">กำลัง</span>
+              <div>
+                <div class="text-emerald-400 font-medium">đang + กริยา</div>
+                <div class="text-gray-400 text-xs">Tôi <span class="text-purple-400">đang</span> đi. = ผมกำลังไป</div>
+              </div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5 text-sm flex items-center gap-3">
+              <span class="text-gray-500 text-xs w-12 shrink-0">อนาคต</span>
+              <div>
+                <div class="text-emerald-400 font-medium">sẽ + กริยา</div>
+                <div class="text-gray-400 text-xs">Tôi <span class="text-purple-400">sẽ</span> đi. = ผมจะไป</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-gray-500 text-xs mt-2">💡 เหมือนไทย: ใช้คำหน้า กริยาไม่เปลี่ยนรูป — ง่ายมาก!</div>
+        </div>
+
+        <!-- Lesson 6: Classifiers -->
+        <div class="card-vn mb-3 animate-slide-in border-l-[3px] border-pink-500/40">
+          <h3 class="text-white font-semibold text-sm mb-2">6. ลักษณนาม (Classifier)</h3>
+          <p class="text-gray-400 text-xs mb-2">ต้องใช้ <strong class="text-emerald-400">คำนำหน้านาม</strong> เวลานับสิ่งของ — คล้ายภาษาไทย</p>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5">
+              <div class="text-emerald-400 font-medium">cái</div>
+              <div class="text-gray-400 text-xs">ของทั่วไป, สิ่งของ</div>
+              <div class="text-gray-500 text-[0.65rem]">cái bàn = โต๊ะ</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5">
+              <div class="text-emerald-400 font-medium">con</div>
+              <div class="text-gray-400 text-xs">สัตว์, คน</div>
+              <div class="text-gray-500 text-[0.65rem]">con cá = ปลา</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5">
+              <div class="text-emerald-400 font-medium">cây</div>
+              <div class="text-gray-400 text-xs">ต้นไม้, สิ่งที่เป็นแท่ง</div>
+              <div class="text-gray-500 text-[0.65rem]">cây bút = ปากกา</div>
+            </div>
+            <div class="bg-[rgba(255,255,255,0.04)] rounded-lg p-2.5">
+              <div class="text-emerald-400 font-medium">quả/trái</div>
+              <div class="text-gray-400 text-xs">ผลไม้</div>
+              <div class="text-gray-500 text-[0.65rem]">quả táo = แอปเปิ้ล</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-sm px-4 py-2.5 rounded-xl shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50 max-w-[90%] text-center" role="status" aria-live="polite"></div>
+
+  <script>
+    // ================================================================
+    // GLOBALS
+    // ================================================================
+    let allWords = getAllWords();
+    let currentDay = 1;
+    let currentDayWords = [];
+    let quizQueue = [];
+    let quizIdx = 0;
+    let quizActive = false;
+    let tonePracticeActive = false;
+    let spellingStepNum = 0;
+    let spellingWord = null;
+    let toastTimeout = null;
+
+    // ================================================================
+    // NAVIGATION
+    // ================================================================
+    function toggleNav() {
+      document.getElementById('navDrawer').classList.toggle('open');
+      document.getElementById('navOverlay').classList.toggle('open');
+    }
+    function closeNav() {
+      document.getElementById('navDrawer').classList.remove('open');
+      document.getElementById('navOverlay').classList.remove('open');
+    }
+
+    function switchScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      const activeScreen = document.getElementById('screen-' + screenId);
+      if (activeScreen) activeScreen.classList.add('active');
+      document.querySelectorAll('.nav-link').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-screen') === screenId);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ================================================================
+    // TOAST + CONFETTI + AUDIO
+    // ================================================================
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      toastTimeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toastTimeout = null;
+      }, 2000);
+    }
+
+    function showConfetti() {
+      const colors = ['#10b981', '#fbbf24', '#f87171', '#60a5fa', '#a78bfa', '#34d399'];
+      for (let i = 0; i < 30; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.top = Math.random() * 40 + 20 + 'vh';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width = (Math.random() * 6 + 4) + 'px';
+        piece.style.height = (Math.random() * 6 + 4) + 'px';
+        piece.style.animationDuration = (Math.random() * 0.5 + 0.6) + 's';
+        piece.style.animationDelay = Math.random() * 0.3 + 's';
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 1500);
+      }
+    }
+
+    // ================================================================
+    // TTS — Edge Web Speech API (vi-VN)
+    // ================================================================
+    let ttsVoices = [];
+    let ttsReady = false;
+
+    // Load voices
+    if ('speechSynthesis' in window) {
+      speechSynthesis.getVoices(); // prime the pump
+      speechSynthesis.onvoiceschanged = () => {
+        ttsVoices = speechSynthesis.getVoices();
+        ttsReady = ttsVoices.some(v => v.lang.startsWith('vi'));
+      };
+      // Also try immediately
+      setTimeout(() => {
+        ttsVoices = speechSynthesis.getVoices();
+        ttsReady = ttsVoices.some(v => v.lang.startsWith('vi'));
+      }, 500);
+    }
+
+    function speak(text, speed = 0.85) {
+      if (!('speechSynthesis' in window)) {
+        showToast('⚠️ เบราว์เซอร์นี้ไม่รองรับ TTS');
+        return;
+      }
+      if (speechSynthesis.speaking) speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'vi-VN';
+      utterance.rate = speed;
+
+      // Try to find a Vietnamese voice
+      const viVoice = ttsVoices.find(v => v.lang.startsWith('vi'));
+      if (viVoice) utterance.voice = viVoice;
+
+      utterance.onstart = () => showToast('🔊 กำลังเล่นเสียง...');
+      utterance.onend = () => showToast('✅ เล่นเสียงแล้ว');
+      utterance.onerror = () => showToast('⚠️ ไม่สามารถเล่นเสียงได้');
+
+      speechSynthesis.speak(utterance);
+    }
+
+    // Context-aware TTS helpers
+    let currentAudioWord = '';
+
+    function playAudio(text) {
+      if (text) speak(text);
+      else speak('xin chào');
+    }
+
+    function playAudioWord() {
+      if (currentAudioWord) speak(currentAudioWord);
+      else showToast('⚠️ ไม่มีคำศัพท์');
+    }
+
+    function playToneDemo() {
+      speak('ma, mà, má, mả, mã, mạ', 0.7);
+    }
+
+    function playQuizAudio() {
+      if (currentQuizQueue.length > 0 && quizAnswerIdx < currentQuizQueue.length) {
+        speak(currentQuizQueue[quizAnswerIdx].word);
+      } else if (currentLessonWords.length > 0) {
+        speak(currentLessonWords[0].word);
+      } else {
+        speak('xin chào');
+      }
+    }
+
+    function playTonePracticeAudio() {
+      if (currentToneWord) speak(currentToneWord.word);
+      else speak('ma, mà, má', 0.7);
+    }
+
+    function playSpellingAudio() {
+      if (spellingWord) speak(spellingWord.word);
+      else speak('mẹ');
+    }
+
+    // ================================================================
+    // SCREEN 1: DASHBOARD
+    // ================================================================
+    function selectGoal(goal) {
+      const labels = { travel: '🏖️ ท่องเที่ยว', business: '💼 ทำงาน/ธุรกิจ', general: '🗣️ สนทนาทั่วไป' };
+      showToast('✅ ตั้งเป้าหมาย: ' + (labels[goal] || goal));
+    }
+
+    // ================================================================
+    // SCREEN 1: DASHBOARD — Learning Path
+    // ================================================================
+
+    function startToday() {
+      switchScreen('learn');
+      renderDay(currentDay);
+    }
+
+    function renderPathDots() {
+      for (let w = 1; w <= 4; w++) {
+        const container = document.getElementById('week-dots-' + w);
+        if (!container) continue;
+        container.innerHTML = '';
+        for (let d = 1; d <= 7; d++) {
+          const dayNum = (w - 1) * 7 + d;
+          const dot = document.createElement('span');
+          dot.className = 'w-5 h-5 rounded-full flex items-center justify-center text-[0.55rem] font-bold ' +
+            (dayNum < currentDay ? 'bg-emerald-600/30 text-emerald-400' :
+             dayNum === currentDay ? 'bg-emerald-500 text-white' :
+             'bg-[rgba(255,255,255,0.06)] text-gray-600');
+          dot.textContent = d;
+          dot.title = 'Day ' + dayNum;
+          container.appendChild(dot);
+        }
+      }
+      // Update start label
+      const info = getDayInfo(currentDay);
+      if (info) document.getElementById('dashboard-start-label').textContent = 'Week ' + info.week + ' · Day ' + info.day;
+    }
+
+    // ================================================================
+    // SCREEN 2: LEARN — Guided Day View
+    // ================================================================
+
+    function renderDay(dayNum) {
+      const info = getDayInfo(dayNum);
+      if (!info) { showToast('⚠️ No lesson data for day ' + dayNum); return; }
+
+      currentDay = dayNum;
+      currentDayWords = info.words;
+
+      // Header
+      document.getElementById('day-header').textContent = 'Week ' + info.week + ' · Day ' + info.day;
+      document.getElementById('day-subtitle').textContent = info.title;
+
+      // Progress
+      const pct = (dayNum / 28 * 100).toFixed(1);
+      document.getElementById('day-progress').style.width = pct + '%';
+      document.getElementById('day-counter').textContent = 'Day ' + dayNum + '/28';
+
+      // Grammar tip
+      const grammarEl = document.getElementById('day-grammar');
+      if (info.grammar) {
+        grammarEl.classList.remove('hidden');
+        document.getElementById('day-grammar-text').textContent = info.grammar;
+      } else {
+        grammarEl.classList.add('hidden');
+      }
+
+      // Words grid
+      renderWordCards(info.words);
+
+      // Nav buttons
+      document.getElementById('prev-day-btn').style.opacity = dayNum <= 1 ? '0.3' : '1';
+      document.getElementById('next-day-btn').style.opacity = dayNum >= 28 ? '0.3' : '1';
+
+      // Hide quiz/spelling
+      document.getElementById('day-quiz-section').classList.add('hidden');
+      document.getElementById('day-spelling-section').classList.add('hidden');
+
+      // Update spelling button
+      const spellBtn = document.getElementById('day-spelling-btn');
+      const spellable = getSpellableWords(info.words);
+      spellBtn.style.opacity = spellable.length > 0 ? '1' : '0.3';
+
+      // Quest button
+      const quest = getQuestForDay(dayNum);
+      const questBtn = document.getElementById('day-quest-btn');
+      if (quest) {
+        questBtn.classList.remove('hidden');
+        questBtn.textContent = '🎭 ' + quest.title;
+      } else {
+        questBtn.classList.add('hidden');
+      }
+
+      // Hide quest section when navigating
+      document.getElementById('day-quest-section').classList.add('hidden');
+
+      renderPathDots();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderWordCards(words) {
+      const grid = document.getElementById('word-cards-grid');
+      grid.innerHTML = '';
+      if (!words || words.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-gray-500 text-sm text-center py-4">📝 วันนี้เป็นวัน Review — ไม่มีคำศัพท์ใหม่</div>';
+        return;
+      }
+      words.forEach(w => {
+        const card = document.createElement('div');
+        card.className = 'card-vn card-hover !p-3';
+        card.innerHTML =
+          '<div class="flex items-start justify-between">' +
+            '<span class="vi-word text-base sm:text-lg text-white font-semibold break-all">' + w.word + '</span>' +
+            '<button class="btn-vn btn-vn-ghost !p-1 !min-h-0 text-xs shrink-0 ml-1" onclick="speak(\'' + w.word.replace(/'/g, "\\'") + '\')">🔊</button>' +
+          '</div>' +
+          '<div class="flex items-center gap-1 mt-1">' +
+            '<span class="tone-badge text-[0.6rem]">' + w.tones + '</span>' +
+          '</div>' +
+          '<div class="hidden mt-2 pt-2 border-t border-[rgba(255,255,255,0.06)] word-details" data-word="' + w.word + '">' +
+            '<p class="text-gray-500 text-xs">' + w.ipa + '</p>' +
+            '<p class="text-gray-300 text-sm mt-1">→ ' + w.meaning + ' ' + (w.emoji || '') + '</p>' +
+            (w.tips ? '<p class="text-gray-500 text-[0.65rem] mt-1 italic">' + w.tips + '</p>' : '') +
+          '</div>';
+        card.addEventListener('click', () => {
+          const details = card.querySelector('.word-details');
+          const isHidden = details.classList.contains('hidden');
+          // Close all other open cards
+          document.querySelectorAll('.word-details').forEach(d => d.classList.add('hidden'));
+          if (isHidden) details.classList.remove('hidden');
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    function prevDay() {
+      if (currentDay <= 1) return;
+      renderDay(currentDay - 1);
+    }
+
+    function nextDay() {
+      if (currentDay >= 28) return;
+      renderDay(currentDay + 1);
+    }
+
+    // ================================================================
+    // DAY QUIZ — Uses only current day's words
+    // ================================================================
+
+    function startDayQuiz() {
+      if (currentDayWords.length === 0) {
+        showToast('📝 วันนี้เป็น Review — เปิด grammar screen ทบทวน');
+        return;
+      }
+      quizQueue = shuffle([...currentDayWords]); // all words
+      quizIdx = 0;
+      showDayQuizQuestion();
+    }
+
+    function showDayQuizQuestion() {
+      const section = document.getElementById('day-quiz-section');
+      section.classList.remove('hidden');
+      document.getElementById('day-quiz-feedback').classList.add('hidden');
+
+      if (quizIdx >= quizQueue.length) {
+        // Done
+        document.getElementById('day-quiz-num').textContent = '🎉 เสร็จแล้ว!';
+        document.getElementById('day-quiz-prompt').textContent = 'เก่งมาก! ' + quizQueue.length + '/' + quizQueue.length + ' ข้อถูก';
+        document.getElementById('day-quiz-options').innerHTML =
+          '<button class="btn-vn btn-vn-primary col-span-2" onclick="startDayQuiz()">🔄 ฝึกใหม่</button>' +
+          '<button class="btn-vn btn-vn-ghost col-span-2" onclick="nextDay()">📖 วันถัดไป</button>';
+        showConfetti();
+        return;
+      }
+
+      const word = quizQueue[quizIdx];
+      document.getElementById('day-quiz-num').textContent = 'ข้อ ' + (quizIdx + 1) + '/' + quizQueue.length;
+      document.getElementById('day-quiz-prompt').textContent = 'เลือกความหมายของ "' + word.word + '" ' + word.tones;
+
+      const choices = generateChoices(word, allWords, 3);
+      const grid = document.getElementById('day-quiz-options');
+      grid.innerHTML = choices.map(c =>
+        '<button class="quiz-option" onclick="answerDayQuiz(this, ' + c.isCorrect + ', \'' + c.text.replace(/'/g, "\\'") + '\')">' + c.text + '</button>'
+      ).join('');
+      quizActive = true;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function answerDayQuiz(btn, isCorrect) {
+      if (!quizActive) return;
+      quizActive = false;
+
+      btn.classList.add(isCorrect ? 'correct' : 'wrong');
+      btn.closest('.grid-quiz').querySelectorAll('.quiz-option').forEach(b => b.classList.add('disabled'));
+
+      const fb = document.getElementById('day-quiz-feedback');
+      fb.classList.remove('hidden', 'correct', 'wrong');
+      if (isCorrect) {
+        fb.classList.add('correct');
+        fb.querySelector('.flex span:first-child').textContent = '✅';
+        fb.querySelector('.font-medium').textContent = 'ถูกต้อง!';
+        showConfetti();
+      } else {
+        fb.classList.add('wrong');
+        fb.querySelector('.flex span:first-child').textContent = '❌';
+        fb.querySelector('.font-medium').textContent = 'ผิด!';
+        const word = quizQueue[quizIdx];
+        fb.querySelector('.answer-hint').textContent = '💡 ' + word.word + ' = ' + word.meaning;
+        setTimeout(() => { quizActive = true; }, 1500);
+      }
+    }
+
+    function nextDayQuiz() {
+      quizIdx++;
+      showDayQuizQuestion();
+    }
+
+    // ================================================================
+    // DAY SPELLING — Uses words from current day
+    // ================================================================
+
+    const SPELLING_POOL = [
+      { word: 'mẹ', parts: ['m', 'e', 'nang'], meaning: 'แม่' },
+      { word: 'có', parts: ['c', 'o', 'sac'], meaning: 'มี' },
+      { word: 'đi', parts: ['đ', 'i', 'ngang'], meaning: 'ไป' },
+      { word: 'sữa', parts: ['s', 'ư', 'hoi'], meaning: 'นม' },
+      { word: 'bé', parts: ['b', 'e', 'sac'], meaning: 'เล็ก' },
+      { word: 'vở', parts: ['v', 'ơ', 'hoi'], meaning: 'สมุด' },
+      { word: 'ba', parts: ['b', 'a', 'ngang'], meaning: 'สาม' },
+      { word: 'má', parts: ['m', 'a', 'sac'], meaning: 'แม่/แก้ม' },
+      { word: 'cá', parts: ['c', 'a', 'sac'], meaning: 'ปลา' },
+      { word: 'mà', parts: ['m', 'a', 'huyen'], meaning: 'แม่' },
+      { word: 'bò', parts: ['b', 'o', 'huyen'], meaning: 'วัว' },
+      { word: 'cà', parts: ['c', 'a', 'huyen'], meaning: 'มะเขือ' }
+    ];
+
+    function getSpellableWords(words) {
+      const wordSet = new Set(words.map(w => w.word));
+      return SPELLING_POOL.filter(s => wordSet.has(s.word));
+    }
+
+    function startDaySpelling() {
+      if (currentDayWords.length === 0) {
+        showToast('📝 ไม่มีคำศัพท์สำหรับสะกดวันนี้');
+        return;
+      }
+      const pool = getSpellableWords(currentDayWords);
+      if (pool.length === 0) {
+        showToast('✏️ ใช้ Spelling จากคำที่เรียนมาแล้ว');
+        spellingWord = pickRandom(SPELLING_POOL, 1)[0];
+      } else {
+        spellingWord = pickRandom(pool, 1)[0];
+      }
+
+      const section = document.getElementById('day-spelling-section');
+      section.classList.remove('hidden');
+      document.getElementById('day-quiz-section').classList.add('hidden');
+      spellingStepNum = 1;
+
+      // Reset steps
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById('s-step-' + i).className = 'step-dot ' + (i === 1 ? 'active' : 'pending');
+        document.getElementById('s-step' + i).classList.add('hidden');
+      }
+      document.getElementById('s-feedback').classList.add('hidden');
+      document.getElementById('s-step1').classList.remove('hidden');
+
+      // Step 1: consonant
+      const parts = spellingWord.parts;
+      document.getElementById('s-prompt-1').textContent = 'คำว่า "' + spellingWord.word + '" (' + spellingWord.meaning + ') เริ่มด้วยตัวอะไร?';
+      const consonants = [parts[0], getDistractors(parts[0], 2)].flat();
+      document.getElementById('s-options-1').innerHTML = shuffle(consonants).map(ch =>
+        '<button class="quiz-option vi-word text-lg" onclick="daySpellingStep(1, \'' + ch + '\', \'' + (ch === parts[0]) + '\', this)">' + ch + '</button>'
+      ).join('');
+
+      // Step 2: vowel
+      const vowels = [parts[1], getDistractors(parts[1], 2)].flat();
+      document.getElementById('s-prompt-2').textContent = 'หลังจาก "' + parts[0] + '" ต้องใส่สระอะไรถึงเป็น "' + spellingWord.word + '"?';
+      document.getElementById('s-options-2').innerHTML = shuffle(vowels).map(v =>
+        '<button class="quiz-option vi-word text-lg" onclick="daySpellingStep(2, \'' + v + '\', \'' + (v === parts[1]) + '\', this)">' + v + '</button>'
+      ).join('');
+
+      // Step 3: tone
+      const toneNames = ['ngang', 'huyen', 'sac', 'hoi', 'nga', 'nang'];
+      const toneEmojis = { ngang: '➡️', huyen: '↘️', sac: '↗️', hoi: '❓', nga: '〰️', nang: '⬇️' };
+      const correctTone = parts[2];
+      const wrongTones = toneNames.filter(t => t !== correctTone).slice(0, 3);
+      const toneOptions = shuffle([correctTone, ...wrongTones]);
+      document.getElementById('s-prompt-3').textContent = '"' + parts[0] + parts[1] + '" + เสียงอะไร = "' + spellingWord.word + '"?';
+      document.getElementById('s-options-3').innerHTML = toneOptions.map(t =>
+        '<button class="quiz-option text-sm" onclick="daySpellingStep(3, \'' + t + '\', \'' + (t === correctTone) + '\', this)">' + toneEmojis[t] + ' ' + t.charAt(0).toUpperCase() + t.slice(1) + '</button>'
+      ).join('');
+
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function getDistractors(value, count) {
+      const pool = ['a', 'ă', 'â', 'e', 'ê', 'i', 'o', 'ô', 'ơ', 'u', 'ư', 'b', 'c', 'd', 'đ', 'g', 'h', 'k', 'l', 'm', 'n', 'p', 'r', 's', 't', 'v', 'x'];
+      return shuffle(pool.filter(p => p !== value)).slice(0, count);
+    }
+
+    function daySpellingStep(step, value, isCorrectStr, btn) {
+      const isCorrect = isCorrectStr === 'true';
+      if (step !== spellingStepNum) return;
+
+      btn.classList.add(isCorrect ? 'correct' : 'wrong');
+      if (!isCorrect) {
+        showToast('❌ ผิด! ลองอีกครั้ง');
+        setTimeout(() => btn.classList.remove('wrong'), 800);
+        return;
+      }
+
+      // Disable other buttons
+      btn.closest('.grid').querySelectorAll('.quiz-option').forEach(b => {
+        if (!b.classList.contains('correct')) b.classList.add('disabled');
+      });
+
+      document.getElementById('s-step-' + step).className = 'step-dot done';
+
+      if (step < 3) {
+        // Show next step
+        setTimeout(() => {
+          document.getElementById('s-step' + (step + 1)).classList.remove('hidden');
+          document.getElementById('s-step-' + (step + 1)).className = 'step-dot active';
+          spellingStepNum = step + 1;
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, 500);
+      } else {
+        // All done
+        setTimeout(() => {
+          document.getElementById('s-step-3').className = 'step-dot done';
+          const fb = document.getElementById('s-feedback');
+          fb.classList.remove('hidden', 'correct', 'wrong');
+          fb.classList.add('correct');
+          fb.innerHTML = '<div class="flex items-center gap-2">🎉 <span class="font-medium text-white">สะกดถูกต้อง! <span class="vi-word text-emerald-400">' + spellingWord.word + '</span></span></div>' +
+            '<div class="flex gap-2 mt-2"><button class="btn-vn btn-vn-primary text-xs" onclick="playSpellingAudio()">🔊 ฟัง</button><button class="btn-vn btn-vn-ghost text-xs" onclick="startDaySpelling()">▶️ คำถัดไป</button></div>';
+          showConfetti();
+          spellingStepNum = 0;
+          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, 500);
+      }
+    }
+
+    // ================================================================
+    // TEXT-RPG QUEST ENGINE
+    // ================================================================
+
+    let currentQuest = null;
+    let questStepIdx = 0;
+    let questHP = 0;
+
+    function startDayQuest() {
+      const quest = getQuestForDay(currentDay);
+      if (!quest) { showToast('⚠️ ไม่มี Roleplay สำหรับวันนี้'); return; }
+
+      currentQuest = JSON.parse(JSON.stringify(quest));
+      questStepIdx = 0;
+      questHP = currentQuest.hp;
+
+      document.getElementById('day-quiz-section').classList.add('hidden');
+      document.getElementById('day-spelling-section').classList.add('hidden');
+
+      showQuestStep();
+    }
+
+    function showQuestStep() {
+      if (!currentQuest) return;
+      const section = document.getElementById('day-quest-section');
+      section.classList.remove('hidden');
+
+      const step = currentQuest.steps[questStepIdx];
+      const totalSteps = currentQuest.steps.length;
+
+      document.getElementById('quest-npc-emoji').textContent = currentQuest.npcEmoji;
+      document.getElementById('quest-title').textContent = currentQuest.icon + ' ' + currentQuest.title;
+      document.getElementById('quest-npc-name').textContent = 'NPC: ' + currentQuest.npc;
+      document.getElementById('quest-context').textContent = questStepIdx === 0 ? currentQuest.context : '';
+
+      document.getElementById('quest-hp-label').textContent = '💰 ' + numberWithCommas(questHP) + ' VND';
+      const hpPct = Math.max(0, Math.min(100, (questHP / currentQuest.hp) * 100));
+      document.getElementById('quest-hp-bar').style.width = hpPct + '%';
+      document.getElementById('quest-hp-bar').className = 'h-full rounded-full ' +
+        (hpPct > 60 ? 'bg-yellow-500' : hpPct > 30 ? 'bg-orange-500' : 'bg-red-500');
+
+      document.getElementById('quest-speech-emoji').textContent = currentQuest.npcEmoji;
+      document.getElementById('quest-npc-line').textContent = step.npcLine;
+      document.getElementById('quest-npc-line-thai').textContent = step.npcLineThai;
+      document.getElementById('quest-prompt').textContent = step.prompt;
+
+      const choicesEl = document.getElementById('quest-choices');
+      choicesEl.innerHTML = '';
+      step.choices.forEach((c, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-vn btn-vn-ghost w-full text-left !justify-start !px-3 text-sm';
+        btn.textContent = c.text;
+        btn.onclick = () => answerQuest(i);
+        choicesEl.appendChild(btn);
+      });
+
+      document.getElementById('quest-step-counter').textContent = 'Step ' + (questStepIdx + 1) + '/' + totalSteps;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function answerQuest(choiceIdx) {
+      if (!currentQuest) return;
+      const step = currentQuest.steps[questStepIdx];
+      const choice = step.choices[choiceIdx];
+      if (!choice) return;
+
+      questHP += choice.hpChange;
+
+      const choicesEl = document.getElementById('quest-choices');
+      choicesEl.querySelectorAll('button').forEach((btn, i) => {
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+        if (i === choiceIdx) {
+          btn.className = 'btn-vn w-full text-left !justify-start !px-3 text-sm ' +
+            (choice.correct ? 'btn-vn-correct' : 'btn-vn-wrong');
+        }
+      });
+
+      setTimeout(() => {
+        questStepIdx++;
+        if (questStepIdx >= currentQuest.steps.length || questHP <= 0) {
+          endQuest();
+        } else {
+          showQuestStep();
+        }
+      }, 1200);
+    }
+
+    function endQuest() {
+      const section = document.getElementById('day-quest-section');
+      const success = questHP > 0;
+      const hpStr = numberWithCommas(questHP);
+
+      section.querySelector('.card-vn').innerHTML = '' +
+        '<div class="text-center py-3">' +
+          '<div class="text-4xl mb-2">' + (success ? '🎉' : '💸') + '</div>' +
+          '<h3 class="text-white font-semibold text-sm mb-1">' + (success ? 'ผ่านภารกิจ!' : 'ภารกิจล้มเหลว') + '</h3>' +
+          '<p class="text-gray-400 text-xs mb-1">' + (success ?
+            currentQuest.success.replace('{hp}', hpStr) :
+            currentQuest.fail.replace('{hp}', hpStr)) + '</p>' +
+          '<p class="text-yellow-400 text-xs font-semibold mb-3">💰 คงเหลือ: ' + hpStr + ' VND</p>' +
+          '<button class="btn-vn btn-vn-primary text-xs" onclick="closeQuest()">ปิด</button>' +
+          (success ? '<button class="btn-vn btn-vn-ghost text-xs ml-2" onclick="startDayQuest()">🔄 เล่นใหม่</button>' : '') +
+        '</div>';
+
+      if (success) showConfetti();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeQuest() {
+      document.getElementById('day-quest-section').classList.add('hidden');
+      currentQuest = null;
+    }
+
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    // ================================================================
+    // SCREEN 3: TONE PRACTICE — REAL DATA
+    // ================================================================
+
+    function getToneWords() {
+      return allWords.filter(w => w.tones && w.tones.length > 0);
+    }
+
+    const TONE_EMOJI_MAP = {
+      '➡️': 'ngang',
+      '↘️': 'huyen',
+      '↗️': 'sac',
+      '❓': 'hoi',
+      '〰️': 'nga',
+      '⬇️': 'nang'
+    };
+
+    let currentToneWord = null;
+    let toneScore = { total: 0, correct: 0 };
+
+    function startTonePractice() {
+      toneScore = { total: 0, correct: 0 };
+      document.getElementById('tone-practice-area').classList.remove('hidden');
+      document.getElementById('tone-breakdown').classList.add('hidden');
+      document.getElementById('tone-feedback').classList.add('hidden');
+      tonePracticeActive = true;
+      nextToneQuestion();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function nextToneQuestion() {
+      if (!tonePracticeActive) return;
+      document.getElementById('tone-feedback').classList.add('hidden');
+      document.querySelectorAll('#tone-practice-area .quiz-option').forEach(b => b.classList.remove('correct', 'wrong', 'disabled'));
+
+      const toneWords = getToneWords();
+      currentToneWord = pickRandom(toneWords, 1)[0];
+      toneScore.total++;
+      document.getElementById('tone-question-num').textContent = 'ข้อ ' + toneScore.total + '/10';
+      document.querySelector('#tone-practice-area p.text-white').textContent =
+        'ฟังแล้วเลือกเสียงของ: ' + currentToneWord.word + ' ' + currentToneWord.meaning;
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function answerTone(btn, selectedToneId) {
+      if (!tonePracticeActive) return;
+      tonePracticeActive = false;
+
+      const firstTone = currentToneWord.tones.charAt(0);
+      const correctToneId = TONE_EMOJI_MAP[firstTone] || 'ngang';
+      const isCorrect = selectedToneId === correctToneId;
+
+      btn.classList.add(isCorrect ? 'correct' : 'wrong');
+      btn.closest('.grid-quiz').querySelectorAll('.quiz-option').forEach(b => b.classList.add('disabled'));
+      if (isCorrect) toneScore.correct++;
+
+      const feedback = document.getElementById('tone-feedback');
+      feedback.classList.remove('hidden', 'correct', 'wrong');
+      if (isCorrect) {
+        feedback.classList.add('correct');
+        feedback.querySelector('.flex span:first-child').textContent = '✅';
+        feedback.querySelector('.font-medium').textContent = 'ถูกต้อง!';
+        feedback.querySelector('p.text-gray-400').textContent = currentToneWord.word + ' = เสียง ' + currentToneWord.tones + ' — ' + currentToneWord.meaning;
+        showConfetti();
+      } else {
+        feedback.classList.add('wrong');
+        feedback.querySelector('.flex span:first-child').textContent = '❌';
+        feedback.querySelector('.font-medium').textContent = 'ผิด!';
+        feedback.querySelector('p.text-gray-400').textContent = currentToneWord.word + ' = เสียง ' + currentToneWord.tones + ' ไม่ใช่เสียงที่คุณเลือก';
+        setTimeout(() => { tonePracticeActive = true; }, 1500);
+      }
+
+      if (toneScore.total >= 10) {
+        setTimeout(() => {
+          showToast('🎉 ฝึกเสร็จ! คะแนน: ' + toneScore.correct + '/' + toneScore.total);
+          showConfetti();
+          document.getElementById('tone-practice-area').classList.add('hidden');
+        }, isCorrect ? 500 : 1500);
+      }
+    }
+
+    function nextTonePractice() {
+      if (toneScore.total >= 10) { showToast('🎉 ฝึกเสร็จ!'); return; }
+      nextToneQuestion();
+    }
+
+    function showToneBreakdown() {
+      document.getElementById('tone-breakdown').classList.remove('hidden');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeNav();
+        switchScreen('dashboard');
+      }
+      const screenMap = ['dashboard', 'learn', 'tones', 'spelling', 'progress', 'grammar'];
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= 6) {
+        switchScreen(screenMap[num - 1]);
+      }
+    });
+
+    // Init on load
+    renderPathDots();
+  </script>
+</body>
+</html>

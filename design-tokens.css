@@ -1,0 +1,467 @@
+/* ==========================================================================
+   DESIGN TOKENS — Learn Vietnamese Telegram Bot
+   
+   Version:  1.0.0 (P4)
+   Status:   Draft
+   Source:   Aligned with MASTER-SYSTEM-PROMPT.md v2.0
+   Use:      HTML prototype (P5), component reference, dev handoff (P7)
+   ========================================================================== */
+
+/* ==========================================================================
+   1. BASE PALETTE
+   Core brand colors. All other color tokens reference these.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand / Primary ---- */
+  --color-primary-50:   #ecfdf5;
+  --color-primary-100:  #d1fae5;
+  --color-primary-200:  #a7f3d0;
+  --color-primary-300:  #6ee7b7;
+  --color-primary-400:  #34d399;
+  --color-primary-500:  #10b981;   /* Brand accent — fresh, Vietnamese feel */
+  --color-primary-600:  #059669;
+  --color-primary-700:  #047857;
+  --color-primary-800:  #065f46;
+  --color-primary-900:  #064e3b;
+
+  /* ---- Neutral (Message backgrounds, text) ---- */
+  --color-neutral-50:   #f9fafb;
+  --color-neutral-100:  #f3f4f6;
+  --color-neutral-200:  #e5e7eb;
+  --color-neutral-300:  #d1d5db;
+  --color-neutral-400:  #9ca3af;
+  --color-neutral-500:  #6b7280;
+  --color-neutral-600:  #4b5563;
+  --color-neutral-700:  #374151;
+  --color-neutral-800:  #1f2937;
+  --color-neutral-900:  #111827;
+
+  /* ---- Semantic ---- */
+  --color-success:      #22c55e;
+  --color-success-bg:   #f0fdf4;
+  --color-error:        #ef4444;
+  --color-error-bg:     #fef2f2;
+  --color-warning:      #f59e0b;
+  --color-warning-bg:   #fffbeb;
+  --color-info:         #3b82f6;
+  --color-info-bg:      #eff6ff;
+  --color-perfect:      #fbbf24;   /* ⭐ gold for perfect scores */
+
+  /* ---- Surface / Message backgrounds ---- */
+  --color-surface-bot:    #ffffff;        /* Bot message bubble */
+  --color-surface-user:   #e8f5e9;        /* User message bubble — light green tint */
+  --color-surface-system: #f3f4f6;        /* System messages (progress, notifications) */
+  --color-surface-keyboard: #f9fafb;      /* Inline keyboard background */
+  --color-surface-quiz:    #fffbeb;       /* Quiz card background — warm tint */
+
+  /* ---- Text ---- */
+  --color-text-primary:   var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-muted:     var(--color-neutral-400);
+  --color-text-inverse:   #ffffff;
+  --color-text-link:      var(--color-primary-600);
+  --color-text-success:   var(--color-success);
+  --color-text-error:     var(--color-error);
+
+  /* ---- Telegram-specific ---- */
+  --color-telegram-blue:  #2aabee;   /* Default Telegram UI blue */
+  --color-telegram-bg:    #eef3f7;   /* Telegram chat background */
+  --color-telegram-dark-bg: #17212b; /* Telegram dark theme bg */
+}
+
+/* ==========================================================================
+   2. TONE MARKER COLORS
+   Each Vietnamese tone gets a unique color for visual distinction.
+   Maps 1:1 to MASTER-SYSTEM-PROMPT.md §3 Tone Table.
+   ========================================================================== */
+
+:root {
+  --tone-ngang:     #6b7280;   /* ➡️ Flat, neutral — Gray */
+  --tone-huyen:     #3b82f6;   /* ↘️ Falling, calm — Blue */
+  --tone-sac:       #ef4444;   /* ↗️ Rising, sharp — Red */
+  --tone-hoi:       #f59e0b;   /* ❓ Question, dipping — Amber */
+  --tone-nga:       #8b5cf6;   /* 〰️ Wavy, complex — Purple */
+  --tone-nang:      #1f2937;   /* ⬇️ Heavy, abrupt — Dark / Slate */
+}
+
+/* Tone emoji — used in ::before pseudo-elements for tone-labeled spans */
+[data-tone="ngang"] { color: var(--tone-ngang); }
+[data-tone="huyen"] { color: var(--tone-huyen); }
+[data-tone="sac"]   { color: var(--tone-sac); }
+[data-tone="hoi"]   { color: var(--tone-hoi); }
+[data-tone="nga"]   { color: var(--tone-nga); }
+[data-tone="nang"]  { color: var(--tone-nang); }
+
+/* ==========================================================================
+   3. TYPOGRAPHY
+   Telegram uses system fonts. These tokens define the prototype type scale.
+   ========================================================================== */
+
+:root {
+  /* ---- Font families ---- */
+  --font-sans:    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                  'Helvetica Neue', Arial, 'Noto Sans', 'Noto Sans Thai',
+                  'IBM Plex Sans Thai', sans-serif;
+  --font-mono:    'SF Mono', SFMono-Regular, 'Cascadia Code', Consolas,
+                  'Noto Sans Mono', monospace;
+  --font-viet:    'Noto Sans', 'Source Sans 3', system-ui, sans-serif;
+  /* ↑ Fonts that render Vietnamese diacritics + tone marks well */
+
+  /* ---- Type scale (major second 1.125) ---- */
+  --text-xs:      0.75rem;   /* 12px — timestamps, metadata */
+  --text-sm:      0.875rem;  /* 14px — secondary text, keyboard labels */
+  --text-base:    1rem;      /* 16px — body, bot messages (default Telegram size) */
+  --text-lg:      1.125rem;  /* 18px — important notices */
+  --text-xl:      1.25rem;   /* 20px — headings */
+  --text-2xl:     1.5rem;    /* 24px — Vietnamese word display (large) */
+  --text-3xl:     1.875rem;  /* 30px — hero / streak number */
+
+  /* ---- Line heights ---- */
+  --leading-tight:   1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose:   2;
+
+  /* ---- Font weights ---- */
+  --weight-normal:   400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight:  -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.02em;
+  --tracking-viet:   0.01em;   /* Slight spacing for Vietnamese diacritics legibility */
+}
+
+/* ==========================================================================
+   4. SPACING SCALE (4px grid)
+   ========================================================================== */
+
+:root {
+  --space-0:   0;
+  --space-1:   0.25rem;  /* 4px */
+  --space-2:   0.5rem;   /* 8px */
+  --space-3:   0.75rem;  /* 12px */
+  --space-4:   1rem;     /* 16px */
+  --space-5:   1.25rem;  /* 20px */
+  --space-6:   1.5rem;   /* 24px */
+  --space-8:   2rem;     /* 32px */
+  --space-10:  2.5rem;   /* 40px */
+  --space-12:  3rem;     /* 48px */
+  --space-16:  4rem;     /* 64px */
+
+  /* ---- Telegram-specific spacing ---- */
+  --message-padding:    var(--space-3) var(--space-4);
+  --keyboard-gap:       var(--space-1);    /* Gap between inline keyboard rows */
+  --button-padding:     var(--space-2) var(--space-4);
+  --button-min-height:  2.5rem;            /* 40px — minimum tappable area */
+  --section-gap:        var(--space-6);
+}
+
+/* ==========================================================================
+   5. BORDER RADIUS
+   ========================================================================== */
+
+:root {
+  --radius-none:    0;
+  --radius-sm:      0.25rem;   /* 4px */
+  --radius-md:      0.5rem;    /* 8px */
+  --radius-lg:      0.75rem;   /* 12px */
+  --radius-xl:      1rem;      /* 16px */
+  --radius-full:    9999px;
+
+  /* ---- Telegram bubble radius ---- */
+  --radius-bubble:          var(--radius-xl);
+  --radius-bubble-user:     var(--radius-xl) var(--radius-xl) var(--radius-sm) var(--radius-xl);
+  --radius-bubble-bot:      var(--radius-xl) var(--radius-xl) var(--radius-xl) var(--radius-sm);
+  --radius-keyboard-btn:    var(--radius-md);
+  --radius-card:            var(--radius-lg);
+  --radius-progress-bar:    var(--radius-full);
+}
+
+/* ==========================================================================
+   6. SHADOWS & ELEVATION
+   ========================================================================== */
+
+:root {
+  --shadow-none:   none;
+  --shadow-sm:     0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md:     0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg:     0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl:     0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  /* ---- Telegram button shadow ---- */
+  --shadow-keyboard-btn:    var(--shadow-sm);
+  --shadow-keyboard-btn-active: var(--shadow-none);
+  --shadow-bubble:          var(--shadow-sm);
+}
+
+/* ==========================================================================
+   7. ANIMATIONS & TRANSITIONS
+   ========================================================================== */
+
+:root {
+  --duration-fast:    150ms;
+  --duration-normal:  250ms;
+  --duration-slow:    400ms;
+  --ease-default:     cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:      cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---- Keyframes ---- */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.7; }
+}
+
+@keyframes slide-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progress-fill {
+  from { width: 0%; }
+}
+
+@keyframes streak-fire {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.15); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ==========================================================================
+   8. COMPONENT TOKENS
+   Design tokens mapped to specific Telegram UI components.
+   Aligned with MASTER-SYSTEM-PROMPT.md §5 Feature Implementations.
+   ========================================================================== */
+
+/* ---- Bot Message Card ---- */
+:root {
+  --bot-message-bg:          var(--color-surface-bot);
+  --bot-message-text:        var(--color-text-primary);
+  --bot-message-padding:     var(--message-padding);
+  --bot-message-radius:      var(--radius-bubble-bot);
+
+  /* ---- User Message Card ---- */
+  --user-message-bg:         var(--color-surface-user);
+  --user-message-text:       var(--color-text-primary);
+  --user-message-padding:    var(--message-padding);
+  --user-message-radius:     var(--radius-bubble-user);
+
+  /* ---- System Message (Progress, Notifications) ---- */
+  --system-message-bg:       var(--color-surface-system);
+  --system-message-text:     var(--color-text-secondary);
+  --system-message-padding:  var(--space-2) var(--space-4);
+  --system-message-radius:   var(--radius-md);
+
+  /* ---- Inline Keyboard Button ---- */
+  --keyboard-btn-bg:          var(--color-surface-keyboard);
+  --keyboard-btn-text:        var(--color-text-primary);
+  --keyboard-btn-border:      1px solid var(--color-neutral-200);
+  --keyboard-btn-radius:      var(--radius-keyboard-btn);
+  --keyboard-btn-padding:     var(--button-padding);
+  --keyboard-btn-min-height:  var(--button-min-height);
+  --keyboard-btn-active-bg:   var(--color-primary-100);
+  --keyboard-btn-active-border: 1px solid var(--color-primary-300);
+  --keyboard-btn-disabled-opacity: 0.4;
+
+  /* ---- Quiz / Selection Button ---- */
+  --quiz-btn-bg:              var(--color-surface-keyboard);
+  --quiz-btn-correct-bg:      var(--color-success-bg);
+  --quiz-btn-correct-border:  2px solid var(--color-success);
+  --quiz-btn-wrong-bg:        var(--color-error-bg);
+  --quiz-btn-wrong-border:    2px solid var(--color-error);
+  --quiz-btn-hover-bg:        var(--color-primary-50);
+
+  /* ---- Progress Bar ---- */
+  --progress-height:      8px;
+  --progress-radius:      var(--radius-progress-bar);
+  --progress-bg:          var(--color-neutral-200);
+  --progress-fill-bg:     var(--color-primary-500);
+  --progress-fill-srs:    var(--color-warning);    /* SRS review marker */
+  --progress-label-size:  var(--text-sm);
+
+  /* ---- Spelling Drill ---- */
+  --drill-current-color:    var(--color-primary-600);
+  --drill-correct-color:    var(--color-success);
+  --drill-wrong-color:      var(--color-error);
+  --drill-step-gap:         var(--space-3);
+  --drill-step-radius:      var(--radius-md);
+  --drill-step-min-height:  3rem;                   /* 48px — comfortable tap target */
+
+  /* ---- Tone Display ---- */
+  --tone-label-font:        var(--font-sans);
+  --tone-label-size:        var(--text-sm);
+  --tone-label-weight:      var(--weight-semibold);
+  --tone-emoji-size:        1.2em;                   /* Make tone emojis slightly larger */
+  --tone-display-bg:        var(--color-surface-system);
+  --tone-display-radius:    var(--radius-md);
+
+  /* ---- Audio Button ---- */
+  --audio-btn-size:         2.25rem;                 /* 36px — circular button */
+  --audio-btn-bg:           var(--color-primary-500);
+  --audio-btn-color:        var(--color-text-inverse);
+  --audio-btn-hover-bg:     var(--color-primary-600);
+  --audio-btn-pulse-duration: 2s;
+
+  /* ---- Progress Dashboard ---- */
+  --dashboard-stat-size:    var(--text-xl);
+  --dashboard-label-size:   var(--text-xs);
+  --dashboard-card-bg:      var(--color-surface-bot);
+  --dashboard-card-radius:  var(--radius-lg);
+  --dashboard-card-shadow:  var(--shadow-sm);
+}
+
+/* ==========================================================================
+   9. DARK THEME OVERRIDES
+   Telegram supports dark mode. These overrides adapt the prototype.
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-surface-bot:       #1e293b;
+    --color-surface-user:      #1a3a2a;
+    --color-surface-system:    #1e293b;
+    --color-surface-keyboard:  #334155;
+    --color-surface-quiz:      #292524;
+
+    --color-text-primary:      #f1f5f9;
+    --color-text-secondary:    #94a3b8;
+    --color-text-muted:        #64748b;
+
+    --color-telegram-bg:       #0f172a;
+    --color-telegram-dark-bg:  #0b131f;
+
+    --keyboard-btn-border:     1px solid #475569;
+    --keyboard-btn-bg:         #334155;
+    --keyboard-btn-active-bg:  #065f46;
+
+    --shadow-keyboard-btn:     none;
+    --shadow-bubble:           0 1px 2px rgba(0, 0, 0, 0.3);
+
+    --progress-bg:             #475569;
+
+    --color-success-bg:        #052e16;
+    --color-error-bg:          #450a0a;
+    --color-warning-bg:        #451a03;
+    --color-info-bg:           #172554;
+
+    --tone-ngang:              #9ca3af;
+    --tone-nang:               #e5e7eb;
+  }
+}
+
+/* ==========================================================================
+   10. UTILITY CLASSES
+   Convenience classes for common patterns in the prototype.
+   ========================================================================== */
+
+.tone-label::before {
+  content: attr(data-tone-emoji);
+  margin-right: var(--space-1);
+}
+
+.tone-label[data-tone="ngang"]::before { content: "➡️"; }
+.tone-label[data-tone="huyen"]::before { content: "↘️"; }
+.tone-label[data-tone="sac"]::before   { content: "↗️"; }
+.tone-label[data-tone="hoi"]::before   { content: "❓"; }
+.tone-label[data-tone="nga"]::before   { content: "〰️"; }
+.tone-label[data-tone="nang"]::before  { content: "⬇️"; }
+
+.progress-bar {
+  height: var(--progress-height);
+  background: var(--progress-bg);
+  border-radius: var(--progress-radius);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--progress-fill-bg);
+  border-radius: var(--progress-radius);
+  transition: width var(--duration-normal) var(--ease-default);
+}
+
+.audio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--audio-btn-size);
+  height: var(--audio-btn-size);
+  background: var(--audio-btn-bg);
+  color: var(--audio-btn-color);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-default);
+}
+
+.audio-btn:hover {
+  background: var(--audio-btn-hover-bg);
+}
+
+.audio-btn:active {
+  transform: scale(0.92);
+}
+
+.message-bot {
+  background: var(--bot-message-bg);
+  color: var(--bot-message-text);
+  padding: var(--bot-message-padding);
+  border-radius: var(--bot-message-radius);
+  animation: slide-in-up var(--duration-normal) var(--ease-default);
+}
+
+.message-user {
+  background: var(--user-message-bg);
+  color: var(--user-message-text);
+  padding: var(--user-message-padding);
+  border-radius: var(--user-message-radius);
+}
+
+.message-system {
+  background: var(--system-message-bg);
+  color: var(--system-message-text);
+  padding: var(--system-message-padding);
+  border-radius: var(--system-message-radius);
+  text-align: center;
+  font-size: var(--text-sm);
+}
+
+.keyboard-row {
+  display: flex;
+  gap: var(--keyboard-gap);
+  margin-top: var(--space-1);
+}
+
+.keyboard-btn {
+  flex: 1;
+  padding: var(--keyboard-btn-padding);
+  min-height: var(--keyboard-btn-min-height);
+  background: var(--keyboard-btn-bg);
+  border: var(--keyboard-btn-border);
+  border-radius: var(--keyboard-btn-radius);
+  text-align: center;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-default);
+}
+
+.keyboard-btn:hover {
+  background: var(--quiz-btn-hover-bg);
+}
+
+.keyboard-btn:active {
+  background: var(--keyboard-btn-active-bg);
+  border-color: var(--color-primary-300);
+}
+
+/* ==========================================================================
+   End of Design Tokens
+   ========================================================================== */
